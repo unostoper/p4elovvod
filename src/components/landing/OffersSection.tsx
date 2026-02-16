@@ -33,7 +33,9 @@ const OffersSection = () => {
               ))}
             </ul>
             <a
-              href="#cta"
+              href="https://t.me/unostoper"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               Выбрать
@@ -65,7 +67,9 @@ const OffersSection = () => {
             </ul>
             <p className="text-muted-foreground text-sm mb-8">Форматы: VLESS и Outline</p>
             <a
-              href="#cta"
+              href="https://t.me/unostoper"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block w-full text-center px-6 py-3 bg-primary text-primary-foreground font-display font-semibold rounded-lg hover:opacity-90 transition-opacity"
             >
               Выбрать
