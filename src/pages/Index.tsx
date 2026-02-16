@@ -1,13 +1,32 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Shield, Zap, Wifi, Cat } from "lucide-react";
+import { useState } from "react";
+import HeroSection from "@/components/landing/HeroSection";
+import OffersSection from "@/components/landing/OffersSection";
+import AdvantagesSection from "@/components/landing/AdvantagesSection";
+import HowItWorksSection from "@/components/landing/HowItWorksSection";
+import ReviewsSection from "@/components/landing/ReviewsSection";
+import CtaSection from "@/components/landing/CtaSection";
+import SeoSection from "@/components/landing/SeoSection";
+import FooterSection from "@/components/landing/FooterSection";
+import TrialModal from "@/components/landing/TrialModal";
 
 const Index = () => {
+  const [trialOpen, setTrialOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <main className="min-h-screen bg-background">
+        <HeroSection onTrialClick={() => setTrialOpen(true)} />
+        <OffersSection />
+        <AdvantagesSection />
+        <HowItWorksSection />
+        <ReviewsSection />
+        <CtaSection onTrialClick={() => setTrialOpen(true)} />
+        <SeoSection />
+        <FooterSection />
+      </main>
+      <TrialModal open={trialOpen} onOpenChange={setTrialOpen} />
+    </>
   );
 };
 
