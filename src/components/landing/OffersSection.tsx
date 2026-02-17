@@ -22,22 +22,22 @@ const OffersSection = () => {
             </div>
             <ul className="space-y-3 mb-8">
               {[
-                "Работает без рекламы",
-                "Максимальная скорость вашего провайдера",
-                "Стабильный доступ без танцев с серверами",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3 text-secondary-foreground">
+              "Работает без рекламы",
+              "Максимальная скорость вашего провайдера",
+              "Стабильный доступ без танцев с серверами"].
+              map((item) =>
+              <li key={item} className="flex items-start gap-3 text-secondary-foreground">
                   <Check className="w-5 h-5 text-gold mt-0.5 shrink-0" />
                   <span>{item}</span>
                 </li>
-              ))}
+              )}
             </ul>
             <a
               href="https://t.me/unostoper"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
+              className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors">
+
               Выбрать
             </a>
           </div>
@@ -55,30 +55,30 @@ const OffersSection = () => {
             </div>
             <ul className="space-y-3 mb-4">
               {[
-                "Ограниченный трафик защищает скорость",
-                "Канал не забивается «халявщиками»",
-                "Стабильная высокая скорость",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3 text-secondary-foreground">
+              "Ограниченный трафик защищает скорость",
+              "Канал не забивается «халявщиками»",
+              "Стабильная высокая скорость"].
+              map((item) =>
+              <li key={item} className="flex items-start gap-3 text-secondary-foreground">
                   <Check className="w-5 h-5 text-gold mt-0.5 shrink-0" />
                   <span>{item}</span>
                 </li>
-              ))}
+              )}
             </ul>
-            <p className="text-muted-foreground text-sm mb-8">Форматы: VLESS и Outline</p>
+            
             <a
               href="https://t.me/unostoper"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block w-full text-center px-6 py-3 bg-primary text-primary-foreground font-display font-semibold rounded-lg hover:opacity-90 transition-opacity"
-            >
+              className="inline-block w-full text-center px-6 py-3 bg-primary text-primary-foreground font-display font-semibold rounded-lg hover:opacity-90 transition-opacity">
+
               Выбрать
             </a>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default OffersSection;

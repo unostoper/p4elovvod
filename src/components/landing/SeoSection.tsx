@@ -28,7 +28,7 @@ const SeoSection = () => {
             одно подключение. Без ограничения количества устройств на аккаунт.
           </p>
           <h3 className="font-display text-lg font-semibold text-foreground mt-6 mb-3">
-            Почему выбирают наши VPN-ключи
+            Почему выбирают эти VPN-ключи
           </h3>
           <ul className="space-y-1 list-disc pl-4">
             <li>Простая активация за 30 секунд без технических знаний</li>
@@ -41,8 +41,8 @@ const SeoSection = () => {
           </ul>
         </article>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default SeoSection;

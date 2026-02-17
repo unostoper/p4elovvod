@@ -7,23 +7,23 @@ const FooterSection = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-center md:text-left">
             <p className="font-display font-bold text-lg text-gold mb-1">VPN без мучений</p>
-            <p className="text-muted-foreground text-sm">Поддержка 24/7 — ну, почти</p>
+            <p className="text-muted-foreground text-sm">Поддержка 24/7 - ну, почти :)</p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 text-sm">
             <a
               href="mailto:support@example.com"
-              className="flex items-center gap-2 text-muted-foreground hover:text-gold transition-colors"
-            >
+              className="flex items-center gap-2 text-muted-foreground hover:text-gold transition-colors">
+
               <Mail className="w-4 h-4" />
               support@example.com
             </a>
             <a
-              href="https://t.me/example"
+
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-muted-foreground hover:text-gold transition-colors"
-            >
+              className="flex items-center gap-2 text-muted-foreground hover:text-gold transition-colors" href="https://t.me/unostoper">
+
               <Send className="w-4 h-4" />
               Telegram
             </a>
@@ -34,8 +34,8 @@ const FooterSection = () => {
           © {new Date().getFullYear()} VPN без мучений. Все права защищены. Ну или почти все.
         </div>
       </div>
-    </footer>
-  );
+    </footer>);
+
 };
 
 export default FooterSection;
