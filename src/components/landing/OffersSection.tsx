@@ -36,8 +36,7 @@ const OffersSection = () => {
               href="https://t.me/unostoper"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors">
-
+              className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors">
               Выбрать
             </a>
           </div>
@@ -70,8 +69,7 @@ const OffersSection = () => {
               href="https://t.me/unostoper"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block w-full text-center px-6 py-3 bg-primary text-primary-foreground font-display font-semibold rounded-lg hover:opacity-90 transition-opacity">
-
+              className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors">
               Выбрать
             </a>
           </div>
