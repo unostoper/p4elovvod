@@ -1,4 +1,4 @@
-import { Skull } from "lucide-react";
+import { Ambulance } from "lucide-react";
 
 interface HeroSectionProps {
   onTrialClick: () => void;
@@ -15,7 +15,7 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 text-gold mb-8 opacity-60">
-          <Skull className="w-5 h-5" />
+          <Ambulance className="w-5 h-5" />
           <span className="font-display text-sm tracking-widest uppercase">VPN без мучений</span>
         </div>
 
@@ -32,22 +32,22 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
             href="https://t.me/unostoper"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-4 bg-primary text-primary-foreground font-display font-semibold text-lg rounded-lg hover:opacity-90 transition-opacity gold-glow"
-          >
+            className="px-8 py-4 bg-primary text-primary-foreground font-display font-semibold text-lg rounded-lg hover:opacity-90 transition-opacity gold-glow">
+
             Получить пробный ключ
           </a>
           <a
             href="https://t.me/unostoper"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-4 border border-border text-foreground font-display font-semibold text-lg rounded-lg hover:border-gold hover:text-gold transition-colors"
-          >
+            className="px-8 py-4 border border-border text-foreground font-display font-semibold text-lg rounded-lg hover:border-gold hover:text-gold transition-colors">
+
             Купить ключ
           </a>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default HeroSection;
