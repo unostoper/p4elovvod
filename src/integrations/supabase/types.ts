@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      site_content: {
+        Row: {
+          content: Json
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          content?: Json
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       trial_requests: {
         Row: {
           comment: string | null
