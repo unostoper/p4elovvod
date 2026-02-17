@@ -56,7 +56,7 @@ const OffersSection = () => {
             <ul className="space-y-3 mb-4">
               {[
               "Ограниченный трафик защищает скорость",
-              "Канал не забивается «халявщиками»",
+              "Форматы: VLESS и Outline",
               "Стабильная высокая скорость"].
               map((item) =>
               <li key={item} className="flex items-start gap-3 text-secondary-foreground">
