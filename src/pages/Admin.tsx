@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAllSiteContent, useUpdateSiteContent } from "@/hooks/useSiteContent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,10 +17,22 @@ const BLOCK_LABELS: Record<string, string> = {
 };
 
 const Admin = () => {
+  const navigate = useNavigate();
   const { data: blocks, isLoading } = useAllSiteContent();
   const updateMutation = useUpdateSiteContent();
   const [editState, setEditState] = useState<Record<string, any>>({});
   const [activeBlock, setActiveBlock] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!sessionStorage.getItem("admin_token")) {
+      navigate("/captain-hook-panel/login", { replace: true });
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("admin_token");
+    navigate("/captain-hook-panel/login");
+  };
 
   if (isLoading) {
     return (
@@ -68,7 +81,10 @@ const Admin = () => {
           </a>
           <h1 className="font-display text-xl font-bold">Админ-панель</h1>
         </div>
-        <span className="text-muted-foreground text-xs">Редактирование контента сайта</span>
+        <div className="flex items-center gap-3">
+          <span className="text-muted-foreground text-xs">Редактирование контента сайта</span>
+          <Button variant="outline" size="sm" onClick={handleLogout}>Выйти</Button>
+        </div>
       </header>
 
       <div className="flex min-h-[calc(100vh-65px)]">
