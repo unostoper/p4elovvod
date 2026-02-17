@@ -1,4 +1,4 @@
-import { Mail, Send } from "lucide-react";
+import { Send } from "lucide-react";
 
 const FooterSection = () => {
   return (
@@ -12,18 +12,9 @@ const FooterSection = () => {
 
           <div className="flex flex-col sm:flex-row items-center gap-4 text-sm">
             <a
-              href="mailto:support@example.com"
-              className="flex items-center gap-2 text-muted-foreground hover:text-gold transition-colors">
-
-              <Mail className="w-4 h-4" />
-              support@example.com
-            </a>
-            <a
-
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-gold transition-colors" href="https://t.me/unostoper">
-
               <Send className="w-4 h-4" />
               Telegram
             </a>

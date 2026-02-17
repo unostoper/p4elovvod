@@ -9,7 +9,7 @@ import CtaSection from "@/components/landing/CtaSection";
 import SeoSection from "@/components/landing/SeoSection";
 import FooterSection from "@/components/landing/FooterSection";
 import TrialModal from "@/components/landing/TrialModal";
-import SkyAnimation from "@/components/landing/SkyAnimation";
+// SkyAnimation removed
 import PirateReveal from "@/components/landing/PirateReveal";
 
 const Index = () => {
@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <>
       <main className="min-h-screen bg-background">
-        <SkyAnimation />
+        
         <HeroSection onTrialClick={() => setTrialOpen(true)} />
         <PirateReveal animation="sail-in">
           <OffersSection />
