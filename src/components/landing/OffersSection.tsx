@@ -11,16 +11,16 @@ const OffersSection = () => {
           Два типа ключей. Оба работают. Выбирайте тот, что ближе к&nbsp;сердцу.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 items-stretch">
           {/* YouTube Key */}
-          <div className="bg-surface rounded-xl p-8 border border-border hover:border-gold/30 transition-colors group">
+          <div className="bg-surface rounded-xl p-8 border border-border hover:border-gold/30 transition-colors group flex flex-col">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Youtube className="w-6 h-6 text-gold" />
               </div>
               <h3 className="font-display text-2xl font-bold">Ключ для YouTube</h3>
             </div>
-            <ul className="space-y-3 mb-8">
+            <ul className="space-y-3 mb-8 flex-grow">
               {[
               "Работает без рекламы",
               "Максимальная скорость вашего провайдера",
@@ -43,7 +43,7 @@ const OffersSection = () => {
           </div>
 
           {/* VPN Key */}
-          <div className="bg-surface rounded-xl p-8 border border-gold/30 gold-glow group relative">
+          <div className="bg-surface rounded-xl p-8 border border-gold/30 gold-glow group relative flex flex-col">
             <div className="absolute top-4 right-4 bg-primary text-primary-foreground text-xs font-display font-semibold px-3 py-1 rounded-full">
               Популярный
             </div>
@@ -53,7 +53,7 @@ const OffersSection = () => {
               </div>
               <h3 className="font-display text-2xl font-bold">VPN‑ключ</h3>
             </div>
-            <ul className="space-y-3 mb-4">
+            <ul className="space-y-3 mb-8 flex-grow">
               {[
               "Ограниченный трафик защищает скорость",
               "Форматы: VLESS и Outline",

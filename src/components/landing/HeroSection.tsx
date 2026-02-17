@@ -1,4 +1,4 @@
-import { Anchor } from "lucide-react";
+import { Skull } from "lucide-react";
 
 interface HeroSectionProps {
   onTrialClick: () => void;
@@ -15,7 +15,7 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 text-gold mb-8 opacity-60">
-          <Anchor className="w-5 h-5" />
+          <Skull className="w-5 h-5" />
           <span className="font-display text-sm tracking-widest uppercase">VPN без мучений</span>
         </div>
 
