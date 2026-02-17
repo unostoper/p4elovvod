@@ -2,7 +2,7 @@ import { Key, Smartphone, Globe } from "lucide-react";
 
 const steps = [
   { icon: Key, num: "01", title: "Получаете ключ", desc: "Пробный или платный — оба настоящие." },
-  { icon: Smartphone, num: "02", title: "Вставляете в приложение", desc: "Копировать-вставить. Вы это умеете." },
+  { icon: Smartphone, num: "02", title: "Вставляете в приложение", desc: "Копировать - вставить. Вы это умеете." },
   { icon: Globe, num: "03", title: "Интернет работает", desc: "Вот и всё. Серьёзно, всё." },
 ];
 
