@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
 import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
+import { Switch } from "@/components/ui/switch";
+import { useBlockVisibilityAdmin } from "@/hooks/useBlockVisibility";
 
 const BLOCK_LABELS: Record<string, string> = {
   hero: "Главный экран",
@@ -23,6 +25,9 @@ const Admin = () => {
   const updateMutation = useUpdateSiteContent();
   const [editState, setEditState] = useState<Record<string, any>>({});
   const [activeBlock, setActiveBlock] = useState<string | null>(null);
+  const { visibility, toggle: toggleVisibility, saving: visibilitySaving } = useBlockVisibilityAdmin();
+
+  const VISIBILITY_BLOCKS = ["hero", "offers", "pricing", "advantages", "how_it_works", "reviews", "news", "cta", "seo"];
 
   useEffect(() => {
     if (!sessionStorage.getItem("admin_token")) {
@@ -90,19 +95,36 @@ const Admin = () => {
 
       <div className="flex min-h-[calc(100vh-65px)]">
         <nav className="w-56 border-r border-border p-4 space-y-1 shrink-0">
-          {blocks?.map((block) => (
-            <button
-              key={block.id}
-              onClick={() => setActiveBlock(block.id)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeBlock === block.id
-                  ? "bg-primary/10 text-gold font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              } ${isDirty(block.id) ? "border-l-2 border-gold" : ""}`}
-            >
-              {BLOCK_LABELS[block.id] || block.id}
-            </button>
-          ))}
+          <div className="mb-4">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Видимость блоков</h3>
+            {VISIBILITY_BLOCKS.map((id) => (
+              <div key={id} className="flex items-center justify-between px-3 py-1.5">
+                <span className="text-sm text-muted-foreground">{BLOCK_LABELS[id] || id}</span>
+                <Switch
+                  checked={visibility[id] !== false}
+                  onCheckedChange={() => toggleVisibility(id)}
+                  disabled={visibilitySaving}
+                  className="scale-75"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="border-t border-border pt-3">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Редактирование</h3>
+            {blocks?.filter(b => b.id !== "block_visibility").map((block) => (
+              <button
+                key={block.id}
+                onClick={() => setActiveBlock(block.id)}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                  activeBlock === block.id
+                    ? "bg-primary/10 text-gold font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                } ${isDirty(block.id) ? "border-l-2 border-gold" : ""}`}
+              >
+                {BLOCK_LABELS[block.id] || block.id}
+              </button>
+            ))}
+          </div>
         </nav>
 
         <main className="flex-1 p-6 overflow-auto">
