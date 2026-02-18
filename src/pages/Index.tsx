@@ -5,11 +5,11 @@ import AdvantagesSection from "@/components/landing/AdvantagesSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import ReviewsSection from "@/components/landing/ReviewsSection";
 import NewsSection from "@/components/landing/NewsSection";
+import PricingSection from "@/components/landing/PricingSection";
 import CtaSection from "@/components/landing/CtaSection";
 import SeoSection from "@/components/landing/SeoSection";
 import FooterSection from "@/components/landing/FooterSection";
 import TrialModal from "@/components/landing/TrialModal";
-// SkyAnimation removed
 import PirateReveal from "@/components/landing/PirateReveal";
 
 const Index = () => {
@@ -18,15 +18,17 @@ const Index = () => {
   return (
     <>
       <main className="min-h-screen bg-background">
-        
         <HeroSection onTrialClick={() => setTrialOpen(true)} />
         <PirateReveal animation="sail-in">
           <OffersSection />
         </PirateReveal>
         <PirateReveal animation="anchor-drop">
-          <AdvantagesSection />
+          <PricingSection />
         </PirateReveal>
         <PirateReveal animation="wave">
+          <AdvantagesSection />
+        </PirateReveal>
+        <PirateReveal animation="sail-in">
           <HowItWorksSection />
         </PirateReveal>
         <PirateReveal animation="treasure-reveal">
