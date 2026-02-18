@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
+import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
 
 const BLOCK_LABELS: Record<string, string> = {
   hero: "Главный экран",
@@ -88,7 +89,6 @@ const Admin = () => {
       </header>
 
       <div className="flex min-h-[calc(100vh-65px)]">
-        {/* Sidebar */}
         <nav className="w-56 border-r border-border p-4 space-y-1 shrink-0">
           {blocks?.map((block) => (
             <button
@@ -105,12 +105,19 @@ const Admin = () => {
           ))}
         </nav>
 
-        {/* Editor */}
         <main className="flex-1 p-6 overflow-auto">
           {!activeBlock ? (
             <div className="flex items-center justify-center h-full text-muted-foreground">
               Выбери блок для редактирования ←
             </div>
+          ) : activeBlock === "news" ? (
+            <NewsBlockEditor
+              content={getContent("news")}
+              onChange={(c) => setContent("news", c)}
+              onSave={() => handleSave("news")}
+              saving={updateMutation.isPending}
+              dirty={isDirty("news")}
+            />
           ) : (
             <BlockEditor
               id={activeBlock}
@@ -158,11 +165,9 @@ const BlockEditor = ({ id, content, onChange, onSave, saving, dirty }: BlockEdit
     onChange({ ...content, [arrKey]: arr });
   };
 
-  // Determine which array key this block uses
   const arrayKey = content.items ? "items" : content.steps ? "steps" : null;
   const arrayData: any[] = arrayKey ? content[arrayKey] || [] : [];
 
-  // Simple fields (strings)
   const simpleFields = Object.entries(content).filter(
     ([k, v]) => typeof v === "string"
   ) as [string, string][];
@@ -192,7 +197,6 @@ const BlockEditor = ({ id, content, onChange, onSave, saving, dirty }: BlockEdit
         </Button>
       </div>
 
-      {/* Simple string fields */}
       <div className="space-y-4 mb-8">
         {simpleFields.map(([key, val]) => (
           <div key={key}>
@@ -215,7 +219,6 @@ const BlockEditor = ({ id, content, onChange, onSave, saving, dirty }: BlockEdit
         ))}
       </div>
 
-      {/* Array items */}
       {arrayKey && (
         <div>
           <div className="flex items-center justify-between mb-4">
