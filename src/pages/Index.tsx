@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useBlockVisibility } from "@/hooks/useBlockVisibility";
 import HeroSection from "@/components/landing/HeroSection";
 import OffersSection from "@/components/landing/OffersSection";
 import AdvantagesSection from "@/components/landing/AdvantagesSection";
@@ -14,33 +15,35 @@ import PirateReveal from "@/components/landing/PirateReveal";
 
 const Index = () => {
   const [trialOpen, setTrialOpen] = useState(false);
+  const { visibility } = useBlockVisibility();
+  const v = (id: string) => visibility[id] !== false;
 
   return (
     <>
       <main className="min-h-screen bg-background">
-        <HeroSection onTrialClick={() => setTrialOpen(true)} />
-        <PirateReveal animation="sail-in">
-          <OffersSection />
-        </PirateReveal>
-        <PirateReveal animation="anchor-drop">
-          <PricingSection />
-        </PirateReveal>
-        <PirateReveal animation="wave">
-          <AdvantagesSection />
-        </PirateReveal>
-        <PirateReveal animation="sail-in">
-          <HowItWorksSection />
-        </PirateReveal>
-        <PirateReveal animation="treasure-reveal">
-          <ReviewsSection />
-        </PirateReveal>
-        <PirateReveal animation="flag-unfurl">
-          <NewsSection />
-        </PirateReveal>
-        <PirateReveal animation="wave">
-          <CtaSection onTrialClick={() => setTrialOpen(true)} />
-        </PirateReveal>
-        <SeoSection />
+        {v("hero") && <HeroSection onTrialClick={() => setTrialOpen(true)} />}
+        {v("offers") && (
+          <PirateReveal animation="sail-in"><OffersSection /></PirateReveal>
+        )}
+        {v("pricing") && (
+          <PirateReveal animation="anchor-drop"><PricingSection /></PirateReveal>
+        )}
+        {v("advantages") && (
+          <PirateReveal animation="wave"><AdvantagesSection /></PirateReveal>
+        )}
+        {v("how_it_works") && (
+          <PirateReveal animation="sail-in"><HowItWorksSection /></PirateReveal>
+        )}
+        {v("reviews") && (
+          <PirateReveal animation="treasure-reveal"><ReviewsSection /></PirateReveal>
+        )}
+        {v("news") && (
+          <PirateReveal animation="flag-unfurl"><NewsSection /></PirateReveal>
+        )}
+        {v("cta") && (
+          <PirateReveal animation="wave"><CtaSection onTrialClick={() => setTrialOpen(true)} /></PirateReveal>
+        )}
+        {v("seo") && <SeoSection />}
         <FooterSection />
       </main>
       <TrialModal open={trialOpen} onOpenChange={setTrialOpen} />
