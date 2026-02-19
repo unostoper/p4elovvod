@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useBlockVisibility } from "@/hooks/useBlockVisibility";
+import Navbar from "@/components/landing/Navbar";
 import HeroSection from "@/components/landing/HeroSection";
 import OffersSection from "@/components/landing/OffersSection";
 import AdvantagesSection from "@/components/landing/AdvantagesSection";
@@ -20,6 +21,7 @@ const Index = () => {
 
   return (
     <>
+      <Navbar onTrialClick={() => setTrialOpen(true)} />
       <main className="min-h-screen bg-background">
         {v("hero") && <HeroSection onTrialClick={() => setTrialOpen(true)} />}
         {v("offers") && (
