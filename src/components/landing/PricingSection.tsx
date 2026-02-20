@@ -1,19 +1,20 @@
 import { Youtube, Globe, Plus } from "lucide-react";
-import SectionTitle from "./SectionTitle";
 
 const PricingSection = () => {
   return (
     <section id="pricing" className="py-20 px-4">
       <div className="max-w-5xl mx-auto">
-        <SectionTitle>Тарифы</SectionTitle>
-        <p className="text-muted-foreground text-center -mt-8 mb-12 max-w-lg mx-auto">
+        <h2 className="font-display text-3xl sm:text-4xl font-bold text-center mb-4">
+          Тарифы
+        </h2>
+        <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">
           Прозрачные цены. Без скрытых платежей.
         </p>
 
         {/* YouTube tariffs */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
               <Youtube className="w-5 h-5 text-gold" />
             </div>
             <h3 className="font-display text-xl font-bold">Ключ для YouTube</h3>
@@ -27,7 +28,7 @@ const PricingSection = () => {
         {/* VPN tariffs */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
               <Globe className="w-5 h-5 text-gold" />
             </div>
             <h3 className="font-display text-xl font-bold">VPN‑ключ</h3>
@@ -39,7 +40,7 @@ const PricingSection = () => {
         </div>
 
         {/* Extra traffic */}
-        <div className="border border-border/50 rounded-xl p-6 flex items-center justify-between flex-wrap gap-4 bg-background/40 backdrop-blur-sm">
+        <div className="bg-surface border border-border rounded-xl p-6 flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3">
             <Plus className="w-5 h-5 text-gold" />
             <span className="font-display font-semibold">Дополнительный трафик</span>
@@ -63,17 +64,23 @@ const PricingSection = () => {
 };
 
 const PriceCard = ({
-  days, traffic, price, popular,
+  days,
+  traffic,
+  price,
+  popular,
 }: {
-  days: number; traffic: string; price: number; popular?: boolean;
+  days: number;
+  traffic: string;
+  price: number;
+  popular?: boolean;
 }) => (
   <div
-    className={`rounded-xl p-6 border bg-background/40 backdrop-blur-sm ${
-      popular ? "border-gold/30 gold-glow" : "border-border/50"
-    } relative hover:border-gold/30 transition-colors`}
+    className={`bg-surface rounded-xl p-6 border ${
+      popular ? "border-gold/30 gold-glow" : "border-border"
+    } relative hover:border-gold/20 transition-colors`}
   >
     {popular && (
-      <div className="absolute top-3 right-3 bg-gold text-background text-xs font-display font-semibold px-3 py-1 rounded-full">
+      <div className="absolute top-3 right-3 bg-primary text-primary-foreground text-xs font-display font-semibold px-3 py-1 rounded-full">
         Выгодно
       </div>
     )}

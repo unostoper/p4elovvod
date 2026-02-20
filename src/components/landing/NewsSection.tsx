@@ -1,7 +1,6 @@
-import { Calendar, ArrowRight } from "lucide-react";
+import { Newspaper, Calendar, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSiteContent } from "@/hooks/useSiteContent";
-import SectionTitle from "./SectionTitle";
 
 interface NewsItem {
   date: string;
@@ -33,11 +32,14 @@ const NewsSection = () => {
   return (
     <section className="py-20 px-4">
       <div className="max-w-4xl mx-auto">
-        <SectionTitle>{title}</SectionTitle>
+        <div className="flex items-center gap-3 justify-center mb-12">
+          <Newspaper className="w-7 h-7 text-gold" />
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-center">{title}</h2>
+        </div>
 
         <div className="space-y-6">
           {items.map((item, i) => (
-            <article key={i} className="border border-border/50 rounded-xl p-6 hover:border-gold/30 transition-colors bg-background/40 backdrop-blur-sm">
+            <article key={i} className="bg-surface border border-border rounded-xl p-6 hover:border-gold/20 transition-colors">
               <div className="flex gap-5">
                 {item.image && (
                   <div className="shrink-0 hidden sm:block">
