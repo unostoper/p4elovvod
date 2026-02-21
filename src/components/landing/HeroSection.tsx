@@ -44,10 +44,10 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="https://t.me/unostoper" target="_blank" rel="noopener noreferrer"
+          <button onClick={onTrialClick}
           className="px-8 py-4 bg-primary text-primary-foreground font-display font-semibold text-lg rounded-lg hover:opacity-90 transition-opacity gold-glow">
             {ctaPrimary}
-          </a>
+          </button>
           <a href="https://t.me/unostoper" target="_blank" rel="noopener noreferrer"
           className="px-8 py-4 border border-border text-foreground font-display font-semibold text-lg rounded-lg hover:border-gold hover:text-gold transition-colors">
             {ctaSecondary}
