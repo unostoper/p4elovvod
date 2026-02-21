@@ -32,6 +32,30 @@ export type Database = {
         }
         Relationships: []
       }
+      trial_keys: {
+        Row: {
+          assigned_at: string | null
+          assigned_ip: string | null
+          created_at: string
+          id: string
+          key: string
+        }
+        Insert: {
+          assigned_at?: string | null
+          assigned_ip?: string | null
+          created_at?: string
+          id?: string
+          key: string
+        }
+        Update: {
+          assigned_at?: string | null
+          assigned_ip?: string | null
+          created_at?: string
+          id?: string
+          key?: string
+        }
+        Relationships: []
+      }
       trial_requests: {
         Row: {
           comment: string | null

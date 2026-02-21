@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { z } from "zod";
+import { Copy, Check, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
@@ -10,123 +10,109 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 
-const trialSchema = z.object({
-  name: z.string().trim().min(1, "Введите имя").max(100, "Слишком длинное имя"),
-  email: z.string().trim().email("Введите корректный email").max(255),
-  comment: z.string().trim().max(500, "Слишком длинный комментарий").optional(),
-});
-
 interface TrialModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [trialKey, setTrialKey] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-
-    const result = trialSchema.safeParse({ name, email, comment: comment || undefined });
-    if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
-      result.error.errors.forEach((err) => {
-        if (err.path[0]) fieldErrors[err.path[0] as string] = err.message;
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
+  const fetchKey = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const { error } = await supabase.from("trial_requests").insert({
-        name: result.data.name,
-        email: result.data.email,
-        comment: result.data.comment || null,
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Заявка отправлена!",
-        description: "Скоро вы получите пробный ключ на почту.",
-      });
-      setName("");
-      setEmail("");
-      setComment("");
-      onOpenChange(false);
+      const { data, error: fnError } = await supabase.functions.invoke("get-trial-key");
+      if (fnError) throw fnError;
+      if (data?.error) {
+        setError(data.message || "Ключи закончились");
+        return;
+      }
+      setTrialKey(data.key);
     } catch {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось отправить заявку. Попробуйте позже.",
-        variant: "destructive",
-      });
+      setError("Не удалось получить ключ. Попробуйте позже.");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleOpen = (isOpen: boolean) => {
+    if (isOpen && !trialKey && !loading) {
+      fetchKey();
+    }
+    if (!isOpen) {
+      setTrialKey(null);
+      setError(null);
+      setCopied(false);
+    }
+    onOpenChange(isOpen);
+  };
+
+  const handleCopy = async () => {
+    if (!trialKey) return;
+    await navigator.clipboard.writeText(trialKey);
+    setCopied(true);
+    toast({ title: "Скопировано!" });
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpen}>
       <DialogContent className="bg-surface border-border sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-display text-2xl">Получить пробный ключ</DialogTitle>
+          <DialogTitle className="font-display text-2xl">Ваш пробный ключ</DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Оставьте контакт — пришлём ключ и короткую инструкцию.
+            Один ключ выдаётся на один IP-адрес.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
-          <div>
-            <input
-              type="text"
-              placeholder="Ваше имя"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors"
-              maxLength={100}
-            />
-            {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
-          </div>
+        <div className="mt-4">
+          {loading && (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-6 h-6 animate-spin text-gold" />
+            </div>
+          )}
 
-          <div>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors"
-              maxLength={255}
-            />
-            {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
-          </div>
+          {error && (
+            <div className="text-center py-6">
+              <p className="text-destructive mb-4">{error}</p>
+              <button
+                onClick={fetchKey}
+                className="px-6 py-2 border border-border rounded-lg text-sm hover:border-gold transition-colors"
+              >
+                Попробовать снова
+              </button>
+            </div>
+          )}
 
-          <div>
-            <textarea
-              placeholder="Комментарий (необязательно)"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              rows={3}
-              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors resize-none"
-              maxLength={500}
-            />
-            {errors.comment && <p className="text-destructive text-xs mt-1">{errors.comment}</p>}
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full px-6 py-3 bg-primary text-primary-foreground font-display font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-          >
-            {loading ? "Отправка..." : "Отправить заявку"}
-          </button>
-        </form>
+          {trialKey && !loading && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 bg-background border border-border rounded-lg p-4">
+                <code className="flex-1 text-foreground font-mono text-sm break-all select-all">
+                  {trialKey}
+                </code>
+                <button
+                  onClick={handleCopy}
+                  className="shrink-0 p-2 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                  title="Копировать"
+                >
+                  {copied ? (
+                    <Check className="w-5 h-5 text-green-500" />
+                  ) : (
+                    <Copy className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground text-center">
+                Скопируйте ключ и используйте его для подключения.
+              </p>
+            </div>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

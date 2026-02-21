@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
 import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
+import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
 import { Switch } from "@/components/ui/switch";
 import { useBlockVisibilityAdmin } from "@/hooks/useBlockVisibility";
 
@@ -110,6 +111,19 @@ const Admin = () => {
             ))}
           </div>
           <div className="border-t border-border pt-3">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Управление</h3>
+            <button
+              onClick={() => setActiveBlock("trial_keys")}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                activeBlock === "trial_keys"
+                  ? "bg-primary/10 text-gold font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              Пробные ключи
+            </button>
+          </div>
+          <div className="border-t border-border pt-3">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Редактирование</h3>
             {blocks?.filter(b => b.id !== "block_visibility").map((block) => (
               <button
@@ -132,6 +146,8 @@ const Admin = () => {
             <div className="flex items-center justify-center h-full text-muted-foreground">
               Выбери блок для редактирования ←
             </div>
+          ) : activeBlock === "trial_keys" ? (
+            <TrialKeysEditor />
           ) : activeBlock === "news" ? (
             <NewsBlockEditor
               content={getContent("news")}
