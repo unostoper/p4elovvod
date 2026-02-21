@@ -1,1 +1,4 @@
 project_id = "mnixswaiifzqjydhxhuk"
+
+[functions.get-trial-key]
+verify_jwt = false
