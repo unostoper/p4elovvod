@@ -28,12 +28,21 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
     try {
       const { data, error: fnError } = await supabase.functions.invoke("get-trial-key");
       if (fnError) throw fnError;
-      if (data?.error) {
-        setError(data.message || "Ключи закончились");
+
+      // Handle various response formats
+      const parsed = typeof data === "string" ? JSON.parse(data) : data;
+
+      if (parsed?.error) {
+        setError(parsed.message || "Ключи закончились");
         return;
       }
-      setTrialKey(data.key);
-    } catch {
+      if (!parsed?.key) {
+        setError("Не удалось получить ключ. Попробуйте позже.");
+        return;
+      }
+      setTrialKey(parsed.key);
+    } catch (e) {
+      console.error("Trial key fetch error:", e);
       setError("Не удалось получить ключ. Попробуйте позже.");
     } finally {
       setLoading(false);
