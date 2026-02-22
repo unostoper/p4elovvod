@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Copy, Check, Loader2 } from "lucide-react";
 
 import {
@@ -55,10 +55,14 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
     }
   };
 
-  const handleOpen = (isOpen: boolean) => {
-    if (isOpen && !trialKey && !loading) {
+  // Trigger fetch when modal opens
+  useEffect(() => {
+    if (open && !trialKey && !loading) {
       fetchKey();
     }
+  }, [open]);
+
+  const handleOpen = (isOpen: boolean) => {
     if (!isOpen) {
       setTrialKey(null);
       setError(null);
