@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Copy, Check, Loader2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+
 import {
   Dialog,
   DialogContent,
@@ -26,21 +26,27 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: fnError } = await supabase.functions.invoke("get-trial-key");
-      if (fnError) throw fnError;
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      const res = await fetch(`${supabaseUrl}/functions/v1/get-trial-key`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": anonKey,
+          "Authorization": `Bearer ${anonKey}`,
+        },
+      });
+      const data = await res.json();
 
-      // Handle various response formats
-      const parsed = typeof data === "string" ? JSON.parse(data) : data;
-
-      if (parsed?.error) {
-        setError(parsed.message || "Ключи закончились");
+      if (!res.ok || data?.error) {
+        setError(data?.message || "Ключи закончились");
         return;
       }
-      if (!parsed?.key) {
+      if (!data?.key) {
         setError("Не удалось получить ключ. Попробуйте позже.");
         return;
       }
-      setTrialKey(parsed.key);
+      setTrialKey(data.key);
     } catch (e) {
       console.error("Trial key fetch error:", e);
       setError("Не удалось получить ключ. Попробуйте позже.");
