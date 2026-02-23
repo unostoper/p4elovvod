@@ -9,10 +9,20 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 interface TrialModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+}
+
+interface TrialModalContent {
+  title: string;
+  description: string;
+  copy_hint: string;
+  error_no_keys: string;
+  error_generic: string;
+  retry_button: string;
 }
 
 const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
@@ -21,6 +31,16 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
+  const { data: texts } = useSiteContent<TrialModalContent>("trial_modal");
+
+  const t = {
+    title: texts?.title ?? "Ваш пробный ключ",
+    description: texts?.description ?? "Один ключ выдаётся на один IP-адрес.",
+    copy_hint: texts?.copy_hint ?? "Скопируйте ключ и используйте его для подключения.",
+    error_no_keys: texts?.error_no_keys ?? "Свободные ключи закончились",
+    error_generic: texts?.error_generic ?? "Не удалось получить ключ. Попробуйте позже.",
+    retry_button: texts?.retry_button ?? "Попробовать снова",
+  };
 
   const fetchKey = async () => {
     setLoading(true);
@@ -39,23 +59,22 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
       const data = await res.json();
 
       if (!res.ok || data?.error) {
-        setError(data?.message || "Ключи закончились");
+        setError(data?.error === "no_keys" ? t.error_no_keys : (data?.message || t.error_generic));
         return;
       }
       if (!data?.key) {
-        setError("Не удалось получить ключ. Попробуйте позже.");
+        setError(t.error_generic);
         return;
       }
       setTrialKey(data.key);
     } catch (e) {
       console.error("Trial key fetch error:", e);
-      setError("Не удалось получить ключ. Попробуйте позже.");
+      setError(t.error_generic);
     } finally {
       setLoading(false);
     }
   };
 
-  // Trigger fetch when modal opens
   useEffect(() => {
     if (open && !trialKey && !loading) {
       fetchKey();
@@ -83,9 +102,9 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
     <Dialog open={open} onOpenChange={handleOpen}>
       <DialogContent className="bg-surface border-border sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-display text-2xl">Ваш пробный ключ</DialogTitle>
+          <DialogTitle className="font-display text-2xl">{t.title}</DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Один ключ выдаётся на один IP-адрес.
+            {t.description}
           </DialogDescription>
         </DialogHeader>
 
@@ -103,7 +122,7 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
                 onClick={fetchKey}
                 className="px-6 py-2 border border-border rounded-lg text-sm hover:border-gold transition-colors"
               >
-                Попробовать снова
+                {t.retry_button}
               </button>
             </div>
           )}
@@ -127,7 +146,7 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
                 </button>
               </div>
               <p className="text-xs text-muted-foreground text-center">
-                Скопируйте ключ и используйте его для подключения.
+                {t.copy_hint}
               </p>
             </div>
           )}

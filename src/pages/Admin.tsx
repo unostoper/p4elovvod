@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
 import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
+import BlockBackgroundsEditor from "@/components/admin/BlockBackgroundsEditor";
 import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
 import { Switch } from "@/components/ui/switch";
 import { useBlockVisibilityAdmin } from "@/hooks/useBlockVisibility";
@@ -18,6 +19,8 @@ const BLOCK_LABELS: Record<string, string> = {
   reviews: "Отзывы",
   cta: "Призыв к действию",
   news: "Новости",
+  trial_modal: "Окно выдачи ключа",
+  block_backgrounds: "Фоны блоков",
 };
 
 const Admin = () => {
@@ -122,6 +125,16 @@ const Admin = () => {
             >
               Пробные ключи
             </button>
+            <button
+              onClick={() => setActiveBlock("block_backgrounds")}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                activeBlock === "block_backgrounds"
+                  ? "bg-primary/10 text-gold font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              } ${isDirty("block_backgrounds") ? "border-l-2 border-gold" : ""}`}
+            >
+              Фоны блоков
+            </button>
           </div>
           <div className="border-t border-border pt-3">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Редактирование</h3>
@@ -148,6 +161,14 @@ const Admin = () => {
             </div>
           ) : activeBlock === "trial_keys" ? (
             <TrialKeysEditor />
+          ) : activeBlock === "block_backgrounds" ? (
+            <BlockBackgroundsEditor
+              content={getContent("block_backgrounds")}
+              onChange={(c) => setContent("block_backgrounds", c)}
+              onSave={() => handleSave("block_backgrounds")}
+              saving={updateMutation.isPending}
+              dirty={isDirty("block_backgrounds")}
+            />
           ) : activeBlock === "news" ? (
             <NewsBlockEditor
               content={getContent("news")}
