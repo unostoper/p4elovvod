@@ -19,7 +19,7 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-20 px-4" aria-label="Как активировать VPN-ключ">
       <div className="max-w-4xl mx-auto">
         <h2 className="font-display text-3xl sm:text-4xl font-bold text-center mb-12">{title}</h2>
         <div className="grid md:grid-cols-3 gap-8">
