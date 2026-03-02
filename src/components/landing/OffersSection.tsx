@@ -1,4 +1,4 @@
-import { Youtube, Globe, Check } from "lucide-react";
+import { Shield, Globe, Check } from "lucide-react";
 
 const OffersSection = () => {
   return (
@@ -16,9 +16,9 @@ const OffersSection = () => {
           <div className="bg-surface rounded-xl p-8 border border-border hover:border-gold/30 transition-colors group flex flex-col">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Youtube className="w-6 h-6 text-gold" />
+                <Shield className="w-6 h-6 text-gold" />
               </div>
-              <h3 className="font-display text-2xl font-bold">Ключ для YouTube</h3>
+              <h3 className="font-display text-2xl font-bold">Ключ для Outline</h3>
             </div>
             <ul className="space-y-3 mb-8 flex-grow">
               {[
@@ -50,7 +50,7 @@ const OffersSection = () => {
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Globe className="w-6 h-6 text-gold" />
               </div>
-              <h3 className="font-display text-2xl font-bold">VPN‑ключ</h3>
+              <h3 className="font-display text-2xl font-bold">Vless ключ</h3>
             </div>
             <ul className="space-y-3 mb-8 flex-grow">
               {[
