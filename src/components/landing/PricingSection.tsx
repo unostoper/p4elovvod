@@ -1,4 +1,4 @@
-import { Youtube, Globe, Plus } from "lucide-react";
+import { Shield, Globe, Plus } from "lucide-react";
 
 const PricingSection = () => {
   return (
@@ -15,9 +15,9 @@ const PricingSection = () => {
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Youtube className="w-5 h-5 text-gold" />
+              <Shield className="w-5 h-5 text-gold" />
             </div>
-            <h3 className="font-display text-xl font-bold">Ключ для YouTube</h3>
+            <h3 className="font-display text-xl font-bold">Ключ для Outline</h3>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <PriceCard days={30} traffic="400 ГБ" price={250} />
@@ -31,7 +31,7 @@ const PricingSection = () => {
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
               <Globe className="w-5 h-5 text-gold" />
             </div>
-            <h3 className="font-display text-xl font-bold">VPN‑ключ</h3>
+            <h3 className="font-display text-xl font-bold">Vless ключ</h3>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <PriceCard days={30} traffic="300 ГБ" price={250} />
