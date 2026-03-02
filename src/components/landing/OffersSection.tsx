@@ -22,7 +22,7 @@ const OffersSection = () => {
             </div>
             <ul className="space-y-3 mb-8 flex-grow">
               {[
-              "Работает без рекламы",
+              "Youtube без рекламы",
               "Максимальная скорость вашего провайдера",
               "Стабильный доступ без танцев с серверами"].
               map((item) =>
@@ -55,8 +55,8 @@ const OffersSection = () => {
             <ul className="space-y-3 mb-8 flex-grow">
               {[
               "Ограниченный трафик защищает скорость",
-              "Форматы: VLESS и Outline",
-              "Стабильная высокая скорость"].
+              "Неограниченное количество устройств",
+              "Современные протоколы шифрования"].
               map((item) =>
               <li key={item} className="flex items-start gap-3 text-secondary-foreground">
                   <Check className="w-5 h-5 text-gold mt-0.5 shrink-0" />
