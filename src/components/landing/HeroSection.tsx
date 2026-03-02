@@ -23,7 +23,7 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
   const ctaSecondary = data?.cta_secondary ?? "Купить ключ";
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden">
+    <section className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden" aria-label="Главная — VPN-ключи без настроек">
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: 'linear-gradient(hsl(var(--gold)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--gold)) 1px, transparent 1px)',
         backgroundSize: '60px 60px'

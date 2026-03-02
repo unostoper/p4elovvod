@@ -20,7 +20,7 @@ const CtaSection = ({ onTrialClick }: CtaSectionProps) => {
   const ctaSecondary = data?.cta_secondary ?? "Купить ключ";
 
   return (
-    <section id="cta" className="py-20 px-4">
+    <section id="cta" className="py-20 px-4" aria-label="Получить пробный VPN-ключ бесплатно">
       <div className="max-w-2xl mx-auto text-center">
         <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">{title}</h2>
         <p className="text-muted-foreground mb-10 max-w-md mx-auto">{subtitle}</p>

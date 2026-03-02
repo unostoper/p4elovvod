@@ -13,7 +13,7 @@ const ReviewsSection = () => {
   const items = data?.items ?? [];
 
   return (
-    <section className="py-20 px-4 bg-surface-raised">
+    <section className="py-20 px-4 bg-surface-raised" aria-label="Отзывы о VPN-ключах">
       <div className="max-w-4xl mx-auto">
         <h2 className="font-display text-3xl sm:text-4xl font-bold text-center mb-12">{title}</h2>
         <div className="grid md:grid-cols-3 gap-6">

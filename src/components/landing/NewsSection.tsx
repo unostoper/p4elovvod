@@ -30,10 +30,10 @@ const NewsSection = () => {
     .slice(0, 2);
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-20 px-4" aria-label="Новости о VPN">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-3 justify-center mb-12">
-          <Newspaper className="w-7 h-7 text-gold" />
+          <Newspaper className="w-7 h-7 text-gold" aria-hidden="true" />
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-center">{title}</h2>
         </div>
 
@@ -43,13 +43,20 @@ const NewsSection = () => {
               <div className="flex gap-5">
                 {item.image && (
                   <div className="shrink-0 hidden sm:block">
-                    <img src={item.image} alt="" className="w-[200px] h-[133px] object-cover rounded-lg" />
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-[200px] h-[133px] object-cover rounded-lg"
+                      loading="lazy"
+                      width="200"
+                      height="133"
+                    />
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 text-gold/60 text-sm mb-2">
-                    <Calendar className="w-4 h-4" />
-                    <time>{item.date}</time>
+                    <Calendar className="w-4 h-4" aria-hidden="true" />
+                    <time dateTime={parseDate(item.date).toISOString().split('T')[0]}>{item.date}</time>
                   </div>
                   <h3
                     className="font-display font-semibold text-lg mb-2"
@@ -74,7 +81,7 @@ const NewsSection = () => {
             to="/news"
             className="inline-flex items-center gap-2 text-gold hover:opacity-80 transition-opacity font-display font-semibold"
           >
-            Все новости <ArrowRight className="w-4 h-4" />
+            Все новости <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>
         </div>
       </div>
