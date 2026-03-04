@@ -23,6 +23,7 @@ const App = () => (
           <Route path="/news" element={<News />} />
           <Route path="/captain-hook-panel" element={<Admin />} />
           <Route path="/captain-hook-panel/login" element={<AdminLogin />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
