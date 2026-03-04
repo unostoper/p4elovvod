@@ -8,6 +8,7 @@ import News from "./pages/News";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import NotFound from "./pages/NotFound";
+import Shop from "./pages/Shop";
 
 const queryClient = new QueryClient();
 
