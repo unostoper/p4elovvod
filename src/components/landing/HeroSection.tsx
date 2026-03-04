@@ -1,4 +1,5 @@
-import { Ambulance } from "lucide-react";
+import { Ambulance, Send, ShoppingBag } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
 interface HeroSectionProps {
@@ -23,7 +24,30 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
   const ctaSecondary = data?.cta_secondary ?? "Купить ключ";
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden" aria-label="Главная — VPN-ключи без настроек">
+    <section className="relative min-h-[90vh] flex flex-col overflow-hidden" aria-label="Главная — VPN-ключи без настроек">
+      {/* Top nav */}
+      <nav className="relative z-20 w-full border-b border-border/50" aria-label="Основная навигация">
+        <div className="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+          <a href="#offers" className="hover:text-gold transition-colors">Ключи</a>
+          <a href="#pricing" className="hover:text-gold transition-colors">Тарифы</a>
+          <a href="#cta" className="hover:text-gold transition-colors">Пробный ключ</a>
+          <Link to="/shop" className="flex items-center gap-1.5 hover:text-gold transition-colors">
+            <ShoppingBag className="w-4 h-4" />
+            Магазин
+          </Link>
+          <a
+            href="https://t.me/unostoper"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 hover:text-gold transition-colors"
+          >
+            <Send className="w-4 h-4" />
+            Telegram
+          </a>
+        </div>
+      </nav>
+
+      <div className="flex-1 flex items-center justify-center px-4">
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: 'linear-gradient(hsl(var(--gold)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--gold)) 1px, transparent 1px)',
         backgroundSize: '60px 60px'
@@ -53,6 +77,7 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
             {ctaSecondary}
           </a>
         </div>
+      </div>
       </div>
     </section>);
 

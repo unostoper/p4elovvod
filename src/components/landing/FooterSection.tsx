@@ -1,4 +1,5 @@
-import { Send } from "lucide-react";
+import { Send, ShoppingBag } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const FooterSection = () => {
   return (
@@ -14,6 +15,10 @@ const FooterSection = () => {
             <a href="#offers" className="hover:text-gold transition-colors">Ключи</a>
             <a href="#pricing" className="hover:text-gold transition-colors">Тарифы</a>
             <a href="#cta" className="hover:text-gold transition-colors">Пробный ключ</a>
+            <Link to="/shop" className="flex items-center gap-1.5 hover:text-gold transition-colors">
+              <ShoppingBag className="w-4 h-4" />
+              Магазин
+            </Link>
             <a
               href="https://t.me/unostoper"
               target="_blank"
