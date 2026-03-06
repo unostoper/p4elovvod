@@ -37,6 +37,28 @@ const products: Product[] = [
     soldOut: true,
   },
   {
+    id: "mystery-box-steel",
+    title: "Mystery Box «Последний вздох» — Сталь",
+    subtitle: "Загадочный артефакт из нержавеющей стали, 75×75 мм",
+    description:
+      "Стальной куб, запечатанный навсегда. Внутри — послание, артефакт или пустота. Никто не знает, пока не вскроет. Но вскрыть — значит уничтожить. Идеальная метафора доверия, терпения и иррационального любопытства. Нержавеющая сталь, брутальный вес, ручная полировка.",
+    price: "15 000 ₽",
+    detailUrl: "https://geekboutique.ru/",
+    buyUrl: "https://geekboutique.ru/",
+    media: { type: "video", src: "https://geekboutique.ru/img/products/4/111.mp4" },
+  },
+  {
+    id: "mystery-box-aluminium",
+    title: "Mystery Box «Последний вздох» — Алюминий",
+    subtitle: "Лёгкий и элегантный артефакт из авиационного алюминия, 75×75 мм",
+    description:
+      "Тот же запечатанный секрет, но в невесомом корпусе из анодированного алюминия. Холодный на ощупь, тёплый по смыслу. Что внутри? Может быть, ничего. А может — всё. Откроешь — потеряешь тайну. Не откроешь — останешься с ней навсегда.",
+    price: "25 000 ₽",
+    detailUrl: "https://geekboutique.ru/",
+    buyUrl: "https://geekboutique.ru/",
+    media: { type: "video", src: "https://geekboutique.ru/img/products/4/111.mp4" },
+  },
+  {
     id: "ai-free",
     title: "Набор AI FREE",
     subtitle: "Только для людей",
