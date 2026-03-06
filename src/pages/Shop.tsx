@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { ArrowLeft, Anchor } from "lucide-react";
 import { Link } from "react-router-dom";
+import OrderModal from "@/components/shop/OrderModal";
 
 interface Product {
   id: string;
@@ -105,8 +107,25 @@ const products: Product[] = [
 ];
 
 const Shop = () => {
+  const [orderModal, setOrderModal] = useState<{ open: boolean; title: string; price: string }>({
+    open: false,
+    title: "",
+    price: "",
+  });
+
+  const openOrder = (title: string, price: string) => {
+    setOrderModal({ open: true, title, price });
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <OrderModal
+        open={orderModal.open}
+        onOpenChange={(open) => setOrderModal((prev) => ({ ...prev, open }))}
+        productTitle={orderModal.title}
+        productPrice={orderModal.price}
+      />
+
       {/* Back nav */}
       <div className="max-w-[900px] mx-auto px-4 pt-4">
         <Link
@@ -207,14 +226,12 @@ const Shop = () => {
                     Полностью распродан
                   </div>
                 ) : (
-                  <a
-                    href={product.buyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full text-center py-4 bg-gold text-background font-display font-bold text-lg rounded-lg hover:opacity-90 transition-opacity tracking-wide"
+                  <button
+                    onClick={() => openOrder(product.title, product.price)}
+                    className="block w-full text-center py-4 bg-gold text-background font-display font-bold text-lg rounded-lg hover:opacity-90 transition-opacity tracking-wide cursor-pointer"
                   >
                     КУПИТЬ
-                  </a>
+                  </button>
                 )}
               </div>
             </article>
