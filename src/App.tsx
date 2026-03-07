@@ -9,6 +9,7 @@ import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import NotFound from "./pages/NotFound";
 import Shop from "./pages/Shop";
+import ProductDetail from "./pages/ProductDetail";
 import Confidentiality from "./pages/Confidentiality";
 import Oferta from "./pages/Oferta";
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/captain-hook-panel" element={<Admin />} />
           <Route path="/captain-hook-panel/login" element={<AdminLogin />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/:productId" element={<ProductDetail />} />
           <Route path="/confidentiality" element={<Confidentiality />} />
           <Route path="/oferta" element={<Oferta />} />
           <Route path="*" element={<NotFound />} />
