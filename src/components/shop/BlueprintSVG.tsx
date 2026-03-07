@@ -7,7 +7,7 @@ const drawTransition = {
   visible: (i: number) => ({
     pathLength: 1,
     opacity: 1,
-    transition: { pathLength: { delay: i * 0.3, duration: 1.5, ease: "easeInOut" }, opacity: { delay: i * 0.3, duration: 0.3 } },
+    transition: { pathLength: { delay: i * 0.3, duration: 1.5, ease: "easeInOut" as const }, opacity: { delay: i * 0.3, duration: 0.3 } },
   }),
 };
 
