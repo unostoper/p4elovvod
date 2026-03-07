@@ -138,7 +138,7 @@ const Shop = () => {
       </div>
 
       {/* Logo / Header — centered like original */}
-      <header className="pt-10 pb-6 text-center">
+      <header className="pt-10 pb-6 text-center py-[50px]">
         <div className="flex items-center justify-center gap-3 mb-4">
           <RadioTower className="w-8 h-8 text-gold" />
           <span className="font-display text-2xl sm:text-3xl font-bold text-foreground tracking-wide">
