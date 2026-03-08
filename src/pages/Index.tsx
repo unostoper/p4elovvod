@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useBlockVisibility } from "@/hooks/useBlockVisibility";
+import { useTrackVisit } from "@/hooks/useTrackVisit";
 import { useBlockBackgrounds } from "@/hooks/useBlockBackgrounds";
 import HeroSection from "@/components/landing/HeroSection";
 import OffersSection from "@/components/landing/OffersSection";
