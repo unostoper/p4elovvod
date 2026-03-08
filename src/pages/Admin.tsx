@@ -155,6 +155,7 @@ const Admin = () => {
               } ${isDirty("matrix") ? "border-l-2 border-gold" : ""}`}
             >
               🟩 Эффект «Матрица»
+            </button>
             <button
               onClick={() => setActiveBlock("trial_keys")}
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
