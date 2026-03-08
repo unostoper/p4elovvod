@@ -2,7 +2,7 @@ import { Shield, Globe, Plus } from "lucide-react";
 
 const PricingSection = () => {
   return (
-    <section id="pricing" className="py-20 px-4" aria-label="Тарифы VPN-ключей">
+    <section className="py-20 px-4" aria-label="Тарифы VPN-ключей">
       <div className="max-w-5xl mx-auto">
         <h2 className="font-display text-3xl sm:text-4xl font-bold text-center mb-4">
           Тарифы

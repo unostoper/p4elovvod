@@ -44,7 +44,7 @@ const Index = () => {
           <div style={bgStyle("news")}><PirateReveal animation="flag-unfurl"><NewsSection /></PirateReveal></div>
         )}
         {v("cta") && (
-          <div style={bgStyle("cta")}><PirateReveal animation="wave"><CtaSection onTrialClick={() => setTrialOpen(true)} /></PirateReveal></div>
+          <div id="cta" style={bgStyle("cta")}><PirateReveal animation="wave"><CtaSection onTrialClick={() => setTrialOpen(true)} /></PirateReveal></div>
         )}
         {v("seo") && <div style={bgStyle("seo")}><SeoSection /></div>}
         <FooterSection />
