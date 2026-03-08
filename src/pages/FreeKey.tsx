@@ -93,14 +93,15 @@ const FreeKey = () => {
               Следующая попытка будет доступна <strong className="text-foreground">{nextPlayDate}</strong>
             </p>
             {result?.last_won && result?.last_key && (
-              <div className="bg-background border border-gold/30 rounded-lg p-4 mt-4">
+              <div className="bg-background border border-gold/30 rounded-lg p-4 mt-4 overflow-hidden">
                 <p className="text-sm text-muted-foreground mb-2">Твой выигранный ключ:</p>
-                <div className="flex items-center gap-2 justify-center">
-                  <code className="text-gold font-mono text-sm">{result.last_key}</code>
-                  <button onClick={() => copyKey(result.last_key!)} className="text-muted-foreground hover:text-gold">
-                    {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                </div>
+                <code className="text-gold font-mono text-xs break-all block mb-3">{result.last_key}</code>
+                <button
+                  onClick={() => copyKey(result.last_key!)}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 text-gold font-display font-semibold text-sm rounded-lg hover:bg-gold hover:text-primary-foreground transition-colors w-full justify-center"
+                >
+                  {copied ? <><Check className="w-4 h-4" /> Скопировано</> : <><Copy className="w-4 h-4" /> Копировать ключ</>}
+                </button>
               </div>
             )}
           </div>
