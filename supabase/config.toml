@@ -2,3 +2,6 @@ project_id = "mnixswaiifzqjydhxhuk"
 
 [functions.get-trial-key]
 verify_jwt = false
+
+[functions.fetch-telegram-post]
+verify_jwt = false
