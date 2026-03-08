@@ -1,4 +1,4 @@
-import { Send, ShoppingBag } from "lucide-react";
+import { BookOpen, Send, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const FooterSection = () => {
