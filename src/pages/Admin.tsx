@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
 import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
+import BlogEditor from "@/components/admin/BlogEditor";
 import BlockBackgroundsEditor from "@/components/admin/BlockBackgroundsEditor";
 import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
 import { Switch } from "@/components/ui/switch";
@@ -179,6 +180,8 @@ const Admin = () => {
             </div>
           ) : activeBlock === "trial_keys" ? (
             <TrialKeysEditor />
+          ) : activeBlock === "blog" ? (
+            <BlogEditor />
           ) : activeBlock === "block_backgrounds" ? (
             <BlockBackgroundsEditor
               content={getContent("block_backgrounds")}
