@@ -4,15 +4,15 @@ import ScrollLink from "@/components/ScrollLink";
 
 const FooterSection = () => {
   return (
-    <footer className="py-12 px-4 border-t border-border" role="contentinfo">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-center md:text-left">
-            <p className="font-display font-bold text-lg text-gold mb-1">VPN без мучений</p>
-            <p className="text-muted-foreground text-sm">Готовые VPN-ключи VLESS и Outline • Поддержка 24/7</p>
+    <footer className="py-8 px-4 border-t border-border" role="contentinfo">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-0">
+          <div className="shrink-0 flex flex-col lg:flex-row lg:items-baseline gap-1 lg:gap-3 text-center lg:text-left">
+            <p className="font-display font-bold text-base text-gold whitespace-nowrap">VPN без мучений</p>
+            <p className="text-muted-foreground text-xs whitespace-nowrap">Готовые VPN-ключи VLESS и Outline • Поддержка 24/7</p>
           </div>
 
-          <nav aria-label="Навигация по разделам" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+          <nav aria-label="Навигация по разделам" className="flex flex-wrap items-center justify-center lg:justify-end lg:ml-auto gap-x-5 gap-y-2 text-sm text-muted-foreground">
             <ScrollLink to="#offers" className="hover:text-gold transition-colors">Ключи</ScrollLink>
             <ScrollLink to="#pricing" className="hover:text-gold transition-colors">Тарифы</ScrollLink>
             <ScrollLink to="#cta" className="hover:text-gold transition-colors">Пробный ключ</ScrollLink>
@@ -28,7 +28,7 @@ const FooterSection = () => {
               href="https://t.me/unostoper"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-gold transition-colors"
+              className="flex items-center gap-1.5 hover:text-gold transition-colors"
             >
               <Send className="w-4 h-4" />
               Telegram
