@@ -1,45 +1,37 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const CHARS = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFZ<>{}[]|/\\=+*&^%$#@!";
 const FONT_SIZE = 16;
-const FADE_SPEED = 0.05;
 const IDLE_TIMEOUT = 10_000; // 10 seconds (for testing)
 
 const MatrixRain = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [active, setActive] = useState(false);
-  const opacityRef = useRef(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
   const animRef = useRef<number>(0);
   const dropsRef = useRef<number[]>([]);
+  const activeRef = useRef(false);
 
-  const activate = useCallback(() => {
-    setActive(true);
-  }, []);
+  // Keep ref in sync
+  useEffect(() => { activeRef.current = active; }, [active]);
 
-  const deactivate = useCallback(() => {
-    opacityRef.current = 0;
-    setActive(false);
-  }, []);
-
-  // Idle detection
+  // Idle detection — runs once
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-
     const resetTimer = () => {
-      if (active) deactivate();
-      clearTimeout(timer);
-      timer = setTimeout(activate, IDLE_TIMEOUT);
+      if (activeRef.current) setActive(false);
+      clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setActive(true), IDLE_TIMEOUT);
     };
 
     const events = ["scroll", "mousemove", "mousedown", "keydown", "touchstart"];
     events.forEach((e) => window.addEventListener(e, resetTimer, { passive: true }));
-    timer = setTimeout(activate, IDLE_TIMEOUT);
+    timerRef.current = setTimeout(() => setActive(true), IDLE_TIMEOUT);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timerRef.current);
       events.forEach((e) => window.removeEventListener(e, resetTimer));
     };
-  }, [active, activate, deactivate]);
+  }, []);
 
   // Canvas animation
   useEffect(() => {
@@ -65,14 +57,8 @@ const MatrixRain = () => {
     window.addEventListener("resize", resize);
 
     const draw = () => {
-      // Fade in
-      if (opacityRef.current < 1) {
-        opacityRef.current = Math.min(1, opacityRef.current + FADE_SPEED);
-      }
-
-      ctx.fillStyle = `rgba(0, 0, 0, 0.05)`;
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
       ctx.font = `${FONT_SIZE}px monospace`;
 
       const drops = dropsRef.current;
@@ -81,15 +67,13 @@ const MatrixRain = () => {
         const x = i * FONT_SIZE;
         const y = drops[i] * FONT_SIZE;
 
-        // Random green shades
         const brightness = Math.random() * 0.5 + 0.5;
         const g = Math.floor(200 * brightness + 55);
-        ctx.fillStyle = `rgba(0, ${g}, 0, ${opacityRef.current * brightness})`;
+        ctx.fillStyle = `rgba(0, ${g}, 0, ${brightness})`;
         ctx.fillText(char, x, y);
 
-        // Bright head
         if (Math.random() > 0.95) {
-          ctx.fillStyle = `rgba(180, 255, 180, ${opacityRef.current})`;
+          ctx.fillStyle = `rgba(180, 255, 180, 1)`;
           ctx.fillText(char, x, y);
         }
 
@@ -115,8 +99,7 @@ const MatrixRain = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-50 pointer-events-none"
-      style={{ opacity: opacityRef.current }}
+      className="fixed inset-0 z-50 pointer-events-none animate-fade-in"
       aria-hidden="true"
     />
   );
