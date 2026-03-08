@@ -5,8 +5,8 @@ import { products } from "@/data/products";
 import OrderModal from "@/components/shop/OrderModal";
 
 const Shop = () => {
-  const [orderModal, setOrderModal] = useState<{ open: boolean; title: string; price: string }>({
-    open: false, title: "", price: "",
+  const [orderModal, setOrderModal] = useState<{open: boolean;title: string;price: string;}>({
+    open: false, title: "", price: ""
   });
 
   const openOrder = (title: string, price: string) => {
@@ -19,8 +19,8 @@ const Shop = () => {
         open={orderModal.open}
         onOpenChange={(open) => setOrderModal((prev) => ({ ...prev, open }))}
         productTitle={orderModal.title}
-        productPrice={orderModal.price}
-      />
+        productPrice={orderModal.price} />
+      
 
       {/* Back nav */}
       <div className="max-w-[900px] mx-auto px-4 pt-4">
@@ -51,16 +51,16 @@ const Shop = () => {
           return (
             <article
               key={product.id}
-              className="flex flex-col md:flex-row items-center gap-0 md:gap-10 py-12 border-b border-border/40 last:border-b-0"
-            >
+              className="flex flex-col md:flex-row items-center gap-0 md:gap-10 py-12 border-b border-border/40 last:border-b-0">
+              
               {/* Media */}
               <div className={`w-full md:w-1/2 mb-6 md:mb-0 ${reversed ? "md:order-2" : "md:order-1"}`}>
                 <Link to={`/shop/${product.id}`} className="block">
-                  {product.media.type === "video" ? (
-                    <video src={product.media.src} autoPlay loop muted playsInline className="w-full h-auto rounded-lg" />
-                  ) : (
-                    <img src={product.media.src} alt={product.title} loading="lazy" className="w-full h-auto rounded-lg" />
-                  )}
+                  {product.media.type === "video" ?
+                  <video src={product.media.src} autoPlay loop muted playsInline className="w-full h-auto rounded-lg" /> :
+
+                  <img src={product.media.src} alt={product.title} loading="lazy" className="w-full h-auto rounded-lg" />
+                  }
                 </Link>
               </div>
 
@@ -76,21 +76,21 @@ const Shop = () => {
                   <div className="font-display text-3xl font-bold text-foreground mb-5">{product.price}</div>
                 </Link>
 
-                {product.soldOut ? (
-                  <div className="text-center py-3 text-muted-foreground font-display font-semibold text-sm tracking-widest uppercase">
+                {product.soldOut ?
+                <div className="text-center py-3 text-muted-foreground font-display font-semibold text-sm tracking-widest uppercase">
                     Полностью распродан
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => openOrder(product.title, product.price)}
-                    className="block w-full text-center py-4 bg-gold text-background font-display font-bold text-lg rounded-lg hover:opacity-90 transition-opacity tracking-wide cursor-pointer"
-                  >
+                  </div> :
+
+                <button
+                  onClick={() => openOrder(product.title, product.price)}
+                  className="block w-full text-center py-4 bg-gold text-background font-display font-bold text-lg rounded-lg hover:opacity-90 transition-opacity tracking-wide cursor-pointer">
+                  
                     КУПИТЬ
                   </button>
-                )}
+                }
               </div>
-            </article>
-          );
+            </article>);
+
         })}
       </section>
 
@@ -99,12 +99,12 @@ const Shop = () => {
         <p className="text-muted-foreground text-sm font-body">
           Товары предоставлены партнёром{" "}
           <a href="https://geekboutique.ru/" target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">
-            Geek Boutique
+            ​
           </a>
         </p>
       </footer>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Shop;
