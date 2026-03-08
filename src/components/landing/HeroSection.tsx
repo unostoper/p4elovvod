@@ -1,5 +1,6 @@
 import { Ambulance, BookOpen, Send, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
+import ScrollLink from "@/components/ScrollLink";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
 interface HeroSectionProps {
@@ -28,9 +29,9 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
       {/* Top nav */}
       <nav className="relative z-20 w-full border-b border-border/50" aria-label="Основная навигация">
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-          <a href="#offers" className="hover:text-gold transition-colors">Ключи</a>
-          <a href="#pricing" className="hover:text-gold transition-colors">Тарифы</a>
-          <a href="#cta" className="hover:text-gold transition-colors">Пробный ключ</a>
+          <ScrollLink to="#offers" className="hover:text-gold transition-colors">Ключи</ScrollLink>
+          <ScrollLink to="#pricing" className="hover:text-gold transition-colors">Тарифы</ScrollLink>
+          <ScrollLink to="#cta" className="hover:text-gold transition-colors">Пробный ключ</ScrollLink>
           <Link to="/shop" className="flex items-center gap-1.5 hover:text-gold transition-colors">
             <ShoppingBag className="w-4 h-4" />
             Магазин
