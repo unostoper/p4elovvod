@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ScrollLink from "@/components/ScrollLink";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import logoImg from "@/assets/logo.png";
+import RadioPlayer from "@/components/landing/RadioPlayer";
 
 interface HeroSectionProps {
   onTrialClick: () => void;
@@ -30,10 +31,13 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
       {/* Top nav */}
       <nav className="relative z-20 w-full border-b border-border/50 backdrop-blur-sm bg-background/80" aria-label="Основная навигация">
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={logoImg} alt="VPN без мучений" className="w-8 h-8" />
-            <span className="font-display font-bold text-gold text-sm tracking-wide hidden sm:inline">VPN без мучений</span>
-          </Link>
+          <div className="flex items-center gap-3 shrink-0">
+            <Link to="/" className="flex items-center gap-2">
+              <img src={logoImg} alt="VPN без мучений" className="w-8 h-8" />
+              <span className="font-display font-bold text-gold text-sm tracking-wide hidden sm:inline">VPN без мучений</span>
+            </Link>
+            <RadioPlayer />
+          </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
             <ScrollLink to="#offers" className="hover:text-gold transition-colors duration-200">Ключи</ScrollLink>
             <ScrollLink to="#pricing" className="hover:text-gold transition-colors duration-200">Тарифы</ScrollLink>
