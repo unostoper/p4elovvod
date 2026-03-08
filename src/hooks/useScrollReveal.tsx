@@ -20,7 +20,7 @@ export const useScrollReveal = (options: UseScrollRevealOptions = {}) => {
           observer.unobserve(el);
         }
       },
-      { threshold: options.threshold ?? 0.15, rootMargin: options.rootMargin ?? "0px" }
+      { threshold: options.threshold ?? 0.01, rootMargin: options.rootMargin ?? "50px 0px" }
     );
 
     observer.observe(el);
