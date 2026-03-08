@@ -59,6 +59,33 @@ export type Database = {
         }
         Relationships: []
       }
+      game_attempts: {
+        Row: {
+          created_at: string
+          game_type: string
+          id: string
+          ip_address: string
+          key_awarded: string | null
+          won: boolean
+        }
+        Insert: {
+          created_at?: string
+          game_type: string
+          id?: string
+          ip_address: string
+          key_awarded?: string | null
+          won?: boolean
+        }
+        Update: {
+          created_at?: string
+          game_type?: string
+          id?: string
+          ip_address?: string
+          key_awarded?: string | null
+          won?: boolean
+        }
+        Relationships: []
+      }
       site_content: {
         Row: {
           content: Json

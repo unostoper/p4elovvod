@@ -1,4 +1,4 @@
-import { BookOpen, Send, ShoppingBag, Shield, Lock, Zap } from "lucide-react";
+import { BookOpen, Send, ShoppingBag, Shield, Lock, Zap, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ScrollLink from "@/components/ScrollLink";
 import { useSiteContent } from "@/hooks/useSiteContent";
@@ -49,6 +49,10 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
             <Link to="/blog" className="flex items-center gap-1.5 hover:text-gold transition-colors duration-200">
               <BookOpen className="w-4 h-4" />
               Блог
+            </Link>
+            <Link to="/free-key" className="flex items-center gap-1.5 hover:text-gold transition-colors duration-200">
+              <Gamepad2 className="w-4 h-4" />
+              Выиграй ключ
             </Link>
             <a
               href="https://t.me/unostoper"

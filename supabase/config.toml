@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.fetch-telegram-post]
 verify_jwt = false
+
+[functions.play-game]
+verify_jwt = false
