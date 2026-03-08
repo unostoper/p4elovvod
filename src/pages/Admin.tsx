@@ -11,6 +11,7 @@ import BlogEditor from "@/components/admin/BlogEditor";
 import RadioEditor from "@/components/admin/RadioEditor";
 import MatrixEditor from "@/components/admin/MatrixEditor";
 import GamesEditor from "@/components/admin/GamesEditor";
+import AnalyticsEditor from "@/components/admin/AnalyticsEditor";
 import BlockBackgroundsEditor from "@/components/admin/BlockBackgroundsEditor";
 import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
 import { Switch } from "@/components/ui/switch";
@@ -138,6 +139,16 @@ const Admin = () => {
           <div className="border-t border-border pt-3">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Управление</h3>
             <button
+              onClick={() => setActiveBlock("analytics")}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                activeBlock === "analytics"
+                  ? "bg-primary/10 text-gold font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              📊 Аналитика
+            </button>
+            <button
               onClick={() => setActiveBlock("radio")}
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                 activeBlock === "radio"
@@ -211,6 +222,8 @@ const Admin = () => {
             <div className="flex items-center justify-center h-full text-muted-foreground">
               Выбери блок для редактирования ←
             </div>
+          ) : activeBlock === "analytics" ? (
+            <AnalyticsEditor />
           ) : activeBlock === "radio" ? (
             <RadioEditor
               content={getContent("radio")}

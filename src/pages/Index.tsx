@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useBlockVisibility } from "@/hooks/useBlockVisibility";
-import { useTrackVisit } from "@/hooks/useTrackVisit";
 import { useBlockBackgrounds } from "@/hooks/useBlockBackgrounds";
 import HeroSection from "@/components/landing/HeroSection";
 import OffersSection from "@/components/landing/OffersSection";
@@ -19,7 +18,6 @@ import MatrixRain from "@/components/landing/MatrixRain";
 
 const Index = () => {
   const [trialOpen, setTrialOpen] = useState(false);
-  useTrackVisit();
   const { visibility } = useBlockVisibility();
   const bg = useBlockBackgrounds();
   const v = (id: string) => visibility[id] !== false;
