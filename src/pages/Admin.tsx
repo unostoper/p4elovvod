@@ -147,6 +147,15 @@ const Admin = () => {
               📻 Онлайн-радио
             </button>
             <button
+              onClick={() => setActiveBlock("matrix")}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                activeBlock === "matrix"
+                  ? "bg-primary/10 text-gold font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              } ${isDirty("matrix") ? "border-l-2 border-gold" : ""}`}
+            >
+              🟩 Эффект «Матрица»
+            <button
               onClick={() => setActiveBlock("trial_keys")}
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                 activeBlock === "trial_keys"
@@ -198,6 +207,13 @@ const Admin = () => {
               saving={updateMutation.isPending}
               dirty={isDirty("radio")}
             />
+          ) : activeBlock === "matrix" ? (
+            <MatrixEditor
+              content={getContent("matrix")}
+              onChange={(c) => setContent("matrix", c)}
+              onSave={() => handleSave("matrix")}
+              saving={updateMutation.isPending}
+              dirty={isDirty("matrix")}
           ) : activeBlock === "trial_keys" ? (
             <TrialKeysEditor />
           ) : activeBlock === "blog" ? (
