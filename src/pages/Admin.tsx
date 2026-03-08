@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
 import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
+import RadioEditor from "@/components/admin/RadioEditor";
 import BlockBackgroundsEditor from "@/components/admin/BlockBackgroundsEditor";
 import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
 import { Switch } from "@/components/ui/switch";
@@ -135,6 +136,16 @@ const Admin = () => {
           <div className="border-t border-border pt-3">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Управление</h3>
             <button
+              onClick={() => setActiveBlock("radio")}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                activeBlock === "radio"
+                  ? "bg-primary/10 text-gold font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              } ${isDirty("radio") ? "border-l-2 border-gold" : ""}`}
+            >
+              📻 Онлайн-радио
+            </button>
+            <button
               onClick={() => setActiveBlock("trial_keys")}
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                 activeBlock === "trial_keys"
@@ -178,6 +189,14 @@ const Admin = () => {
             <div className="flex items-center justify-center h-full text-muted-foreground">
               Выбери блок для редактирования ←
             </div>
+          ) : activeBlock === "radio" ? (
+            <RadioEditor
+              content={getContent("radio")}
+              onChange={(c) => setContent("radio", c)}
+              onSave={() => handleSave("radio")}
+              saving={updateMutation.isPending}
+              dirty={isDirty("radio")}
+            />
           ) : activeBlock === "trial_keys" ? (
             <TrialKeysEditor />
           ) : activeBlock === "blog" ? (
