@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Copy, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
+import { playSpinStart, playLeverPull, playReelStop, playTick, playWinJingle, playLoseSound } from "@/lib/slotSounds";
 import { toast } from "sonner";
 
 type GameStatus = "idle" | "checking" | "blocked" | "playing" | "won" | "lost";
@@ -74,14 +75,21 @@ const FreeKey = () => {
 
     setSpinning(true);
     setStatus("playing");
+    playLeverPull();
+    setTimeout(() => playSpinStart(), 150);
+
+    // Tick sounds during spin
+    const tickInterval = setInterval(() => playTick(), 80);
 
     // Stop reels sequentially
-    setTimeout(() => setReelStopped((p) => [true, p[1], p[2]]), 1500);
-    setTimeout(() => setReelStopped((p) => [p[0], true, p[2]]), 2200);
+    setTimeout(() => { setReelStopped((p) => [true, p[1], p[2]]); playReelStop(); clearInterval(tickInterval); }, 1500);
+    setTimeout(() => { setReelStopped((p) => [p[0], true, p[2]]); playReelStop(); }, 2200);
     setTimeout(() => {
       setReelStopped([true, true, true]);
+      playReelStop();
       setSpinning(false);
       setTimeout(() => {
+        if (data.won) playWinJingle(); else playLoseSound();
         setStatus(data.won ? "won" : "lost");
       }, 600);
     }, 2900);
