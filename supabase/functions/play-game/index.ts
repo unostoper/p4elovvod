@@ -13,16 +13,15 @@ Deno.serve(async (req) => {
   try {
     const { game_type } = await req.json();
 
-    if (!game_type || !['slots', 'coinflip', 'scratch'].includes(game_type)) {
+    if (!game_type || !['slots'].includes(game_type)) {
       return new Response(JSON.stringify({ error: 'Invalid game type' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    // Get IP from headers
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() 
-      || req.headers.get('cf-connecting-ip') 
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+      || req.headers.get('cf-connecting-ip')
       || 'unknown';
 
     const supabase = createClient(
@@ -30,50 +29,65 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 
-    // Check if this IP played any game in the last 30 days
+    // Check if this IP won in the last 30 days
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    const { data: recentAttempts } = await supabase
+    const { data: recentWins } = await supabase
       .from('game_attempts')
       .select('*')
       .eq('ip_address', ip)
+      .eq('won', true)
       .gte('created_at', thirtyDaysAgo.toISOString())
       .limit(1);
 
-    if (recentAttempts && recentAttempts.length > 0) {
-      const lastAttempt = recentAttempts[0];
-      const nextPlayDate = new Date(lastAttempt.created_at);
-      nextPlayDate.setDate(nextPlayDate.getDate() + 30);
+    if (recentWins && recentWins.length > 0) {
+      const lastWin = recentWins[0];
+      const nextWinDate = new Date(lastWin.created_at);
+      nextWinDate.setDate(nextWinDate.getDate() + 30);
 
       return new Response(JSON.stringify({
         allowed: false,
-        message: 'Вы уже играли в этом месяце',
-        next_play_date: nextPlayDate.toISOString(),
-        last_won: lastAttempt.won,
-        last_key: lastAttempt.key_awarded,
+        message: 'Ты уже выигрывал в этом месяце',
+        next_play_date: nextWinDate.toISOString(),
+        last_won: true,
+        last_key: lastWin.key_awarded,
       }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    // Get win chance from site_content
-    let winChance = 0.2;
-    const { data: gamesConfig } = await supabase
-      .from('site_content')
-      .select('content')
-      .eq('id', 'games')
-      .single();
+    // Check daily attempts (5 per day)
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
 
-    if (gamesConfig?.content && typeof gamesConfig.content === 'object' && 'win_chance' in (gamesConfig.content as Record<string, unknown>)) {
-      winChance = ((gamesConfig.content as Record<string, number>).win_chance || 20) / 100;
+    const { data: todayAttempts, count } = await supabase
+      .from('game_attempts')
+      .select('*', { count: 'exact' })
+      .eq('ip_address', ip)
+      .gte('created_at', todayStart.toISOString());
+
+    const attemptsToday = count ?? (todayAttempts?.length ?? 0);
+
+    if (attemptsToday >= 5) {
+      const tomorrow = new Date(todayStart);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      return new Response(JSON.stringify({
+        allowed: false,
+        message: 'Все попытки на сегодня использованы',
+        attempts_left: 0,
+        next_play_date: tomorrow.toISOString(),
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
-    const won = Math.random() < winChance;
+    // Win chance: 1/10000
+    const won = Math.random() < 0.0001;
     let keyAwarded: string | null = null;
 
     if (won) {
-      // Try to get an available trial key
       const { data: availableKey } = await supabase
         .from('trial_keys')
         .select('*')
@@ -83,8 +97,6 @@ Deno.serve(async (req) => {
 
       if (availableKey) {
         keyAwarded = availableKey.key;
-        
-        // Mark key as assigned
         await supabase
           .from('trial_keys')
           .update({ assigned_ip: ip, assigned_at: new Date().toISOString() })
@@ -92,7 +104,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Record the attempt
+    // Record attempt
     await supabase.from('game_attempts').insert({
       ip_address: ip,
       game_type,
@@ -100,10 +112,13 @@ Deno.serve(async (req) => {
       key_awarded: keyAwarded,
     });
 
+    const attemptsLeft = 4 - attemptsToday; // already used attemptsToday, this is the new one
+
     return new Response(JSON.stringify({
       allowed: true,
       won: won && !!keyAwarded,
       key: keyAwarded,
+      attempts_left: Math.max(0, attemptsLeft),
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
