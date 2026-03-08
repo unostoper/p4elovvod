@@ -136,7 +136,7 @@ const FreeKey = () => {
         )}
 
         {/* Game selection */}
-        {(status === "idle" || status === "checking" || status === "playing") && status !== "blocked" && (
+        {(status === "idle" || status === "checking" || status === "playing") && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <SlotMachine
               onPlay={playGame}
