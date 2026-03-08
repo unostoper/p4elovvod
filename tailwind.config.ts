@@ -17,6 +17,11 @@ export default {
         display: ['"Space Grotesk"', 'sans-serif'],
         body: ['"Inter"', 'sans-serif'],
       },
+      fontSize: {
+        '5xl': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        '6xl': ['3.75rem', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+        '7xl': ['4.5rem', { lineHeight: '1.05', letterSpacing: '-0.03em' }],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
