@@ -14,6 +14,7 @@ import FaqSection from "@/components/landing/FaqSection";
 import FooterSection from "@/components/landing/FooterSection";
 import TrialModal from "@/components/landing/TrialModal";
 import PirateReveal from "@/components/landing/PirateReveal";
+import MatrixRain from "@/components/landing/MatrixRain";
 
 const Index = () => {
   const [trialOpen, setTrialOpen] = useState(false);
@@ -52,6 +53,7 @@ const Index = () => {
         <FooterSection />
       </main>
       <TrialModal open={trialOpen} onOpenChange={setTrialOpen} />
+      <MatrixRain />
     </>
   );
 };
