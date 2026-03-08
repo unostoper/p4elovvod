@@ -12,6 +12,10 @@ const DEFAULT_VISIBILITY: BlockVisibility = {
   news: true,
   cta: true,
   seo: true,
+  // Pages
+  page_shop: true,
+  page_blog: true,
+  page_news: true,
 };
 
 export function useBlockVisibility() {

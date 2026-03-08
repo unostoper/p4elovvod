@@ -13,6 +13,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Confidentiality from "./pages/Confidentiality";
 import Oferta from "./pages/Oferta";
 import Blog from "./pages/Blog";
+import PageGuard from "./components/PageGuard";
 
 const queryClient = new QueryClient();
 
@@ -24,15 +25,15 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/news" element={<News />} />
+          <Route path="/news" element={<PageGuard pageKey="page_news"><News /></PageGuard>} />
           <Route path="/captain-hook-panel" element={<Admin />} />
           <Route path="/captain-hook-panel/login" element={<AdminLogin />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/shop/:productId" element={<ProductDetail />} />
+          <Route path="/shop" element={<PageGuard pageKey="page_shop"><Shop /></PageGuard>} />
+          <Route path="/shop/:productId" element={<PageGuard pageKey="page_shop"><ProductDetail /></PageGuard>} />
           <Route path="/confidentiality" element={<Confidentiality />} />
           <Route path="/oferta" element={<Oferta />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:postId" element={<Blog />} />
+          <Route path="/blog" element={<PageGuard pageKey="page_blog"><Blog /></PageGuard>} />
+          <Route path="/blog/:postId" element={<PageGuard pageKey="page_blog"><Blog /></PageGuard>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -21,6 +21,9 @@ const BLOCK_LABELS: Record<string, string> = {
   news: "Новости",
   trial_modal: "Окно выдачи ключа",
   block_backgrounds: "Фоны блоков",
+  page_shop: "Магазин",
+  page_blog: "Блог",
+  page_news: "Новости (страница)",
 };
 
 const Admin = () => {
@@ -32,6 +35,7 @@ const Admin = () => {
   const { visibility, toggle: toggleVisibility, saving: visibilitySaving } = useBlockVisibilityAdmin();
 
   const VISIBILITY_BLOCKS = ["hero", "offers", "pricing", "advantages", "how_it_works", "reviews", "news", "cta", "seo"];
+  const VISIBILITY_PAGES = ["page_shop", "page_blog", "page_news"];
 
   useEffect(() => {
     if (!sessionStorage.getItem("admin_token")) {
@@ -102,6 +106,20 @@ const Admin = () => {
           <div className="mb-4">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Видимость блоков</h3>
             {VISIBILITY_BLOCKS.map((id) => (
+              <div key={id} className="flex items-center justify-between px-3 py-1.5">
+                <span className="text-sm text-muted-foreground">{BLOCK_LABELS[id] || id}</span>
+                <Switch
+                  checked={visibility[id] !== false}
+                  onCheckedChange={() => toggleVisibility(id)}
+                  disabled={visibilitySaving}
+                  className="scale-75"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="mb-4">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Видимость страниц</h3>
+            {VISIBILITY_PAGES.map((id) => (
               <div key={id} className="flex items-center justify-between px-3 py-1.5">
                 <span className="text-sm text-muted-foreground">{BLOCK_LABELS[id] || id}</span>
                 <Switch
