@@ -17,7 +17,6 @@ Deno.serve(async (req) => {
 
   try {
     if (req.method === 'POST') {
-      // Track a visit
       const { path, referrer } = await req.json().catch(() => ({ path: '/', referrer: null }));
 
       const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
@@ -33,30 +32,103 @@ Deno.serve(async (req) => {
         referrer: referrer || null,
       });
 
-      // Return unique visitor count
-      const { count } = await supabase
-        .from('site_visits')
-        .select('ip_address', { count: 'exact', head: false })
-        .then(res => {
-          // Count distinct IPs manually
-          const uniqueIps = new Set(res.data?.map(r => r.ip_address));
-          return { count: uniqueIps.size };
-        });
-
-      return new Response(JSON.stringify({ ok: true, unique_visitors: count }), {
+      return new Response(JSON.stringify({ ok: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
     if (req.method === 'GET') {
-      // Just return visitor count
-      const { data } = await supabase
-        .from('site_visits')
-        .select('ip_address');
+      const url = new URL(req.url);
+      const mode = url.searchParams.get('mode');
 
-      const uniqueIps = new Set(data?.map(r => r.ip_address));
+      // Simple count for footer
+      if (!mode || mode === 'count') {
+        const { data } = await supabase.from('site_visits').select('ip_address');
+        const uniqueIps = new Set(data?.map(r => r.ip_address));
+        return new Response(JSON.stringify({ unique_visitors: uniqueIps.size }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
 
-      return new Response(JSON.stringify({ unique_visitors: uniqueIps.size }), {
+      // Full analytics for admin
+      if (mode === 'analytics') {
+        const { data: allVisits } = await supabase
+          .from('site_visits')
+          .select('ip_address, path, referrer, created_at')
+          .order('created_at', { ascending: false })
+          .limit(10000);
+
+        const visits = allVisits || [];
+
+        // Visits by day (last 30 days)
+        const byDay: Record<string, { total: number; unique: Set<string> }> = {};
+        const now = new Date();
+        for (let i = 29; i >= 0; i--) {
+          const d = new Date(now);
+          d.setDate(d.getDate() - i);
+          const key = d.toISOString().slice(0, 10);
+          byDay[key] = { total: 0, unique: new Set() };
+        }
+
+        visits.forEach(v => {
+          const day = v.created_at.slice(0, 10);
+          if (byDay[day]) {
+            byDay[day].total++;
+            byDay[day].unique.add(v.ip_address);
+          }
+        });
+
+        const visitsByDay = Object.entries(byDay).map(([date, d]) => ({
+          date,
+          total: d.total,
+          unique: d.unique.size,
+        }));
+
+        // Popular pages
+        const pageCounts: Record<string, number> = {};
+        visits.forEach(v => {
+          pageCounts[v.path] = (pageCounts[v.path] || 0) + 1;
+        });
+        const popularPages = Object.entries(pageCounts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10)
+          .map(([path, count]) => ({ path, count }));
+
+        // Referrers
+        const refCounts: Record<string, number> = {};
+        visits.forEach(v => {
+          if (v.referrer) {
+            try {
+              const host = new URL(v.referrer).hostname || v.referrer;
+              refCounts[host] = (refCounts[host] || 0) + 1;
+            } catch {
+              refCounts[v.referrer] = (refCounts[v.referrer] || 0) + 1;
+            }
+          } else {
+            refCounts['Прямой заход'] = (refCounts['Прямой заход'] || 0) + 1;
+          }
+        });
+        const referrers = Object.entries(refCounts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10)
+          .map(([source, count]) => ({ source, count }));
+
+        // Totals
+        const uniqueIps = new Set(visits.map(v => v.ip_address));
+
+        return new Response(JSON.stringify({
+          total_visits: visits.length,
+          unique_visitors: uniqueIps.size,
+          visits_by_day: visitsByDay,
+          popular_pages: popularPages,
+          referrers,
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+
+      return new Response(JSON.stringify({ error: 'Unknown mode' }), {
+        status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
