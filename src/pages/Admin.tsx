@@ -227,6 +227,14 @@ const Admin = () => {
               saving={updateMutation.isPending}
               dirty={isDirty("matrix")}
             />
+          ) : activeBlock === "games" ? (
+            <GamesEditor
+              content={getContent("games")}
+              onChange={(c) => setContent("games", c)}
+              onSave={() => handleSave("games")}
+              saving={updateMutation.isPending}
+              dirty={isDirty("games")}
+            />
           ) : activeBlock === "trial_keys" ? (
             <TrialKeysEditor />
           ) : activeBlock === "blog" ? (
