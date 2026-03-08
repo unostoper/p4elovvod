@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 const CHARS = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFZ<>{}[]|/\\=+*&^%$#@!";
 const FONT_SIZE = 16;
-const IDLE_TIMEOUT = 10_000; // 10 seconds (for testing)
+const IDLE_TIMEOUT = 60_000; // 1 minute
 
 const MatrixRain = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
