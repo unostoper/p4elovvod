@@ -34,8 +34,9 @@ const Shop = () => {
       <header className="pt-10 pb-6 text-center py-[50px]">
         <div className="flex items-center justify-center gap-3 mb-4">
           <RadioTower className="w-8 h-8 text-gold" />
-          <span className="font-display text-2xl sm:text-3xl font-bold text-foreground tracking-wide">
-            ПЧЕЛОВВОД FM
+          <span className="font-display font-bold text-foreground tracking-wide">
+            <span className="text-2xl sm:text-3xl">ПЧЕЛОВВОД</span>{" "}
+            <span className="text-base sm:text-lg">FM</span>
           </span>
         </div>
         <p className="text-muted-foreground text-lg font-body tracking-wide">
