@@ -215,6 +215,7 @@ const Admin = () => {
               onSave={() => handleSave("matrix")}
               saving={updateMutation.isPending}
               dirty={isDirty("matrix")}
+            />
           ) : activeBlock === "trial_keys" ? (
             <TrialKeysEditor />
           ) : activeBlock === "blog" ? (
