@@ -10,6 +10,7 @@ import NewsSection from "@/components/landing/NewsSection";
 import PricingSection from "@/components/landing/PricingSection";
 import CtaSection from "@/components/landing/CtaSection";
 import SeoSection from "@/components/landing/SeoSection";
+import FaqSection from "@/components/landing/FaqSection";
 import FooterSection from "@/components/landing/FooterSection";
 import TrialModal from "@/components/landing/TrialModal";
 import PirateReveal from "@/components/landing/PirateReveal";
