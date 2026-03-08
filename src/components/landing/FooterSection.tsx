@@ -19,6 +19,10 @@ const FooterSection = () => {
               <ShoppingBag className="w-4 h-4" />
               Магазин
             </Link>
+            <Link to="/blog" className="flex items-center gap-1.5 hover:text-gold transition-colors">
+              <BookOpen className="w-4 h-4" />
+              Блог
+            </Link>
             <a
               href="https://t.me/unostoper"
               target="_blank"
