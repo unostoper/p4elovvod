@@ -13,6 +13,13 @@ export const useScrollReveal = (options: UseScrollRevealOptions = {}) => {
     const el = ref.current;
     if (!el) return;
 
+    // Check if already in viewport on mount (e.g. after anchor scroll)
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setIsVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
