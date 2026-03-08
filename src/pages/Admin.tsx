@@ -10,6 +10,7 @@ import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
 import RadioEditor from "@/components/admin/RadioEditor";
 import MatrixEditor from "@/components/admin/MatrixEditor";
+import GamesEditor from "@/components/admin/GamesEditor";
 import BlockBackgroundsEditor from "@/components/admin/BlockBackgroundsEditor";
 import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
 import { Switch } from "@/components/ui/switch";
@@ -155,6 +156,16 @@ const Admin = () => {
               } ${isDirty("matrix") ? "border-l-2 border-gold" : ""}`}
             >
               🟩 Эффект «Матрица»
+            </button>
+            <button
+              onClick={() => setActiveBlock("games")}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                activeBlock === "games"
+                  ? "bg-primary/10 text-gold font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              } ${isDirty("games") ? "border-l-2 border-gold" : ""}`}
+            >
+              🎰 Игры
             </button>
             <button
               onClick={() => setActiveBlock("trial_keys")}
