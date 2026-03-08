@@ -10,6 +10,7 @@ import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
 import RadioEditor from "@/components/admin/RadioEditor";
 import MatrixEditor from "@/components/admin/MatrixEditor";
+import GamesEditor from "@/components/admin/GamesEditor";
 import BlockBackgroundsEditor from "@/components/admin/BlockBackgroundsEditor";
 import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
 import { Switch } from "@/components/ui/switch";
@@ -157,6 +158,16 @@ const Admin = () => {
               🟩 Эффект «Матрица»
             </button>
             <button
+              onClick={() => setActiveBlock("games")}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                activeBlock === "games"
+                  ? "bg-primary/10 text-gold font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              } ${isDirty("games") ? "border-l-2 border-gold" : ""}`}
+            >
+              🎰 Игры
+            </button>
+            <button
               onClick={() => setActiveBlock("trial_keys")}
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                 activeBlock === "trial_keys"
@@ -215,6 +226,14 @@ const Admin = () => {
               onSave={() => handleSave("matrix")}
               saving={updateMutation.isPending}
               dirty={isDirty("matrix")}
+            />
+          ) : activeBlock === "games" ? (
+            <GamesEditor
+              content={getContent("games")}
+              onChange={(c) => setContent("games", c)}
+              onSave={() => handleSave("games")}
+              saving={updateMutation.isPending}
+              dirty={isDirty("games")}
             />
           ) : activeBlock === "trial_keys" ? (
             <TrialKeysEditor />

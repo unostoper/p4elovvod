@@ -57,8 +57,19 @@ Deno.serve(async (req) => {
       });
     }
 
-    // 20% chance to win
-    const won = Math.random() < 0.2;
+    // Get win chance from site_content
+    let winChance = 0.2;
+    const { data: gamesConfig } = await supabase
+      .from('site_content')
+      .select('content')
+      .eq('id', 'games')
+      .single();
+
+    if (gamesConfig?.content && typeof gamesConfig.content === 'object' && 'win_chance' in (gamesConfig.content as Record<string, unknown>)) {
+      winChance = ((gamesConfig.content as Record<string, number>).win_chance || 20) / 100;
+    }
+
+    const won = Math.random() < winChance;
     let keyAwarded: string | null = null;
 
     if (won) {
