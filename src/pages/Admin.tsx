@@ -9,6 +9,7 @@ import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
 import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
 import BlogEditor from "@/components/admin/BlogEditor";
 import RadioEditor from "@/components/admin/RadioEditor";
+import MatrixEditor from "@/components/admin/MatrixEditor";
 import BlockBackgroundsEditor from "@/components/admin/BlockBackgroundsEditor";
 import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
 import { Switch } from "@/components/ui/switch";
