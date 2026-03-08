@@ -44,8 +44,7 @@ const FooterSection = () => {
           {visitorCount !== null && (
             <span className="flex items-center gap-1.5 text-muted-foreground/70">
               <Users className="w-3.5 h-3.5" />
-              <span>{visitorCount.toLocaleString("ru-RU")}</span>
-              <span>уникальных посетителей</span>
+              {visitorCount.toLocaleString("ru-RU")}
             </span>
           )}
         </div>
