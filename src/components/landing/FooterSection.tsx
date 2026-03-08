@@ -1,8 +1,11 @@
-import { BookOpen, Send, ShoppingBag } from "lucide-react";
+import { BookOpen, Send, ShoppingBag, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import ScrollLink from "@/components/ScrollLink";
+import { useVisitorCount } from "@/hooks/useTrackVisit";
 
 const FooterSection = () => {
+  const visitorCount = useVisitorCount();
+
   return (
     <footer className="py-8 px-4 border-t border-border" role="contentinfo">
       <div className="max-w-6xl mx-auto">
@@ -36,8 +39,15 @@ const FooterSection = () => {
           </nav>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border text-center text-muted-foreground text-xs">
-          © {new Date().getFullYear()} VPN без мучений — купить VPN-ключ VLESS и Outline. Все права защищены.
+        <div className="mt-8 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-muted-foreground text-xs">
+          <span>© {new Date().getFullYear()} VPN без мучений — купить VPN-ключ VLESS и Outline. Все права защищены.</span>
+          {visitorCount !== null && (
+            <span className="flex items-center gap-1.5 text-muted-foreground/70">
+              <Users className="w-3.5 h-3.5" />
+              <span>{visitorCount.toLocaleString("ru-RU")}</span>
+              <span>уникальных посетителей</span>
+            </span>
+          )}
         </div>
       </div>
     </footer>
