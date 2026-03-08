@@ -46,6 +46,8 @@ const MatrixRain = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    let frameCount = 0;
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -57,9 +59,17 @@ const MatrixRain = () => {
     window.addEventListener("resize", resize);
 
     const draw = () => {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      frameCount++;
+
+      // Gradually darken the background — starts fully transparent, slowly builds up
+      const bgAlpha = Math.min(0.03, frameCount * 0.00005);
+      ctx.fillStyle = `rgba(0, 0, 0, ${bgAlpha})`;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       ctx.font = `${FONT_SIZE}px monospace`;
+
+      // Symbol opacity fades in over time
+      const symbolAlpha = Math.min(1, frameCount / 120);
 
       const drops = dropsRef.current;
       for (let i = 0; i < drops.length; i++) {
@@ -69,11 +79,11 @@ const MatrixRain = () => {
 
         const brightness = Math.random() * 0.5 + 0.5;
         const g = Math.floor(200 * brightness + 55);
-        ctx.fillStyle = `rgba(0, ${g}, 0, ${brightness})`;
+        ctx.fillStyle = `rgba(0, ${g}, 0, ${symbolAlpha * brightness})`;
         ctx.fillText(char, x, y);
 
         if (Math.random() > 0.95) {
-          ctx.fillStyle = `rgba(180, 255, 180, 1)`;
+          ctx.fillStyle = `rgba(180, 255, 180, ${symbolAlpha})`;
           ctx.fillText(char, x, y);
         }
 
