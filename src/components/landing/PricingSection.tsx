@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Gift } from "lucide-react";
 import { motion } from "framer-motion";
 
 const container = {
@@ -48,6 +48,36 @@ const PricingSection = () => {
             <PriceCard days={30} traffic="300 ГБ" price={250} label="VPN" index={0} />
             <PriceCard days={90} traffic="1 ТБ" price={650} popular label="VPN" index={1} />
           </div>
+        </motion.div>
+
+        {/* Promo: 4+1 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          whileHover={{ y: -2 }}
+          className="bg-gradient-to-r from-gold/5 to-gold/10 border-2 border-gold/30 rounded-xl p-6 flex items-center justify-between flex-wrap gap-4 mb-4 relative overflow-hidden"
+        >
+          <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-[10px] font-display font-bold px-2.5 py-0.5 rounded-full">
+            АКЦИЯ
+          </div>
+          <div className="flex items-center gap-3">
+            <Gift className="w-6 h-6 text-gold" aria-hidden="true" />
+            <div>
+              <span className="font-display font-bold text-lg">4 + 1 = бесплатно</span>
+              <p className="text-muted-foreground text-sm">Купи 4 ключа — 5-й в подарок</p>
+            </div>
+          </div>
+          <a
+            href="https://t.me/unostoper"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Купить 4 ключа и получить 5-й бесплатно"
+            className="px-6 py-3 bg-primary text-primary-foreground font-display font-bold rounded-lg hover:opacity-90 transition-opacity text-sm btn-shine gold-glow"
+          >
+            Забрать 5 ключей
+          </a>
         </motion.div>
 
         {/* Extra traffic */}
