@@ -29,7 +29,7 @@ const Index = () => {
           <div style={bgStyle("offers")}><PirateReveal animation="sail-in"><OffersSection /></PirateReveal></div>
         )}
         {v("pricing") && (
-          <div style={bgStyle("pricing")}><PirateReveal animation="anchor-drop"><PricingSection /></PirateReveal></div>
+          <div id="pricing-anchor" style={bgStyle("pricing")}><PirateReveal animation="anchor-drop"><PricingSection /></PirateReveal></div>
         )}
         {v("advantages") && (
           <div style={bgStyle("advantages")}><PirateReveal animation="wave"><AdvantagesSection /></PirateReveal></div>
