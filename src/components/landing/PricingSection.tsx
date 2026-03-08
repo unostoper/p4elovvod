@@ -11,31 +11,11 @@ const PricingSection = () => {
           Прозрачные цены. Без скрытых платежей.
         </p>
 
-        {/* Outline tariffs */}
-        <div className="mb-10" role="region" aria-label="Тарифы Outline">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Shield className="w-5 h-5 text-gold" aria-hidden="true" />
-            </div>
-            <h3 className="font-display text-xl font-bold">Ключ для Outline</h3>
-          </div>
+        {/* Tariffs */}
+        <div className="mb-10" role="region" aria-label="Тарифы VPN">
           <div className="grid sm:grid-cols-2 gap-4">
-            <PriceCard days={30} traffic="400 ГБ" price={250} label="Outline" />
-            <PriceCard days={90} traffic="1200 ГБ" price={650} popular label="Outline" />
-          </div>
-        </div>
-
-        {/* VLESS tariffs */}
-        <div className="mb-10" role="region" aria-label="Тарифы VLESS">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Globe className="w-5 h-5 text-gold" aria-hidden="true" />
-            </div>
-            <h3 className="font-display text-xl font-bold">Vless ключ</h3>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <PriceCard days={30} traffic="300 ГБ" price={250} label="VLESS" />
-            <PriceCard days={90} traffic="900 ГБ" price={650} popular label="VLESS" />
+            <PriceCard days={30} traffic="300 ГБ" price={250} label="VPN" />
+            <PriceCard days={90} traffic="1 ТБ" price={650} popular label="VPN" />
           </div>
         </div>
 
