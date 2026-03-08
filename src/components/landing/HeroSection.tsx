@@ -1,4 +1,4 @@
-import { Ambulance, Send, ShoppingBag } from "lucide-react";
+import { Ambulance, BookOpen, Send, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
