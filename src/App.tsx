@@ -13,6 +13,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Confidentiality from "./pages/Confidentiality";
 import Oferta from "./pages/Oferta";
 import Blog from "./pages/Blog";
+import FreeKey from "./pages/FreeKey";
 import PageGuard from "./components/PageGuard";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/oferta" element={<Oferta />} />
           <Route path="/blog" element={<PageGuard pageKey="page_blog"><Blog /></PageGuard>} />
           <Route path="/blog/:postId" element={<PageGuard pageKey="page_blog"><Blog /></PageGuard>} />
+          <Route path="/free-key" element={<FreeKey />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
