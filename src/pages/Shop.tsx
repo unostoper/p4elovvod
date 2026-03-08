@@ -97,10 +97,7 @@ const Shop = () => {
       {/* Footer */}
       <footer className="border-t border-border py-8 text-center">
         <p className="text-muted-foreground text-sm font-body">
-          Товары предоставлены партнёром{" "}
-          <a href="https://geekboutique.ru/" target="_blank" rel="noopener noreferrer" className="text-gold hover:underline">
-            ​
-          </a>
+          Все товары являются эксклюзивными продуктами ограниченной серии
         </p>
       </footer>
     </div>);
