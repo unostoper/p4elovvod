@@ -207,9 +207,8 @@ const BlogList = () => {
       <header className="max-w-[700px] mx-auto px-4 pt-16 pb-8">
         <div className="flex items-center gap-3 mb-6">
           <RadioTower className="w-7 h-7 text-primary" />
-          <span className="font-display font-bold text-foreground tracking-wide uppercase flex items-baseline gap-1.5">
-            <span className="text-xl">ПЧЕЛОВВОД</span>
-            <span className="text-xs tracking-widest">FM</span>
+          <span className="font-display text-xl font-bold text-foreground tracking-wide uppercase">
+            ПЧЕЛОВВОД FM
           </span>
         </div>
         <h1 className="font-display text-4xl sm:text-5xl font-bold leading-tight mb-6 tracking-tight">
