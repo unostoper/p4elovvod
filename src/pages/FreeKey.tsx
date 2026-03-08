@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { playSpinStart, playLeverPull, playReelStop, playTick, playWinJingle, playLoseSound } from "@/lib/slotSounds";
 import { toast } from "sonner";
 
-type GameStatus = "idle" | "checking" | "blocked" | "playing" | "won" | "lost";
+type GameStatus = "idle" | "checking" | "blocked" | "daily_limit" | "playing" | "won" | "lost";
 
 interface GameResult {
   allowed: boolean;
@@ -16,14 +16,16 @@ interface GameResult {
   next_play_date?: string;
   last_won?: boolean;
   last_key?: string;
+  attempts_left?: number;
 }
 
 const SYMBOLS = ["🍒", "🔑", "💎", "⚡", "🏴‍☠️", "🍋", "7️⃣", "💰", "🎯"];
-const REEL_SIZE = 20; // symbols per reel strip
+const REEL_SIZE = 20;
 
 const FreeKey = () => {
   const [status, setStatus] = useState<GameStatus>("idle");
   const [result, setResult] = useState<GameResult | null>(null);
+  const [attemptsLeft, setAttemptsLeft] = useState<number>(5);
   const [copied, setCopied] = useState(false);
   const [spinning, setSpinning] = useState(false);
   const [reelStrips, setReelStrips] = useState<string[][]>([[], [], []]);
@@ -31,7 +33,6 @@ const FreeKey = () => {
   const [reelStopped, setReelStopped] = useState([false, false, false]);
   const resultRef = useRef<GameResult | null>(null);
 
-  // Generate random reel strip
   const generateStrip = () =>
     Array.from({ length: REEL_SIZE }, () => SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]);
 
@@ -53,11 +54,18 @@ const FreeKey = () => {
     resultRef.current = data;
 
     if (!data.allowed) {
-      setStatus("blocked");
+      if (data.last_won || data.last_key) {
+        setStatus("blocked");
+      } else {
+        setStatus("daily_limit");
+      }
       return;
     }
 
-    // Generate strips with final symbols at end
+    if (data.attempts_left !== undefined) {
+      setAttemptsLeft(data.attempts_left);
+    }
+
     const final = data.won
       ? ["🔑", "🔑", "🔑"]
       : [
@@ -78,10 +86,8 @@ const FreeKey = () => {
     playLeverPull();
     setTimeout(() => playSpinStart(), 150);
 
-    // Tick sounds during spin
     const tickInterval = setInterval(() => playTick(), 80);
 
-    // Stop reels sequentially
     setTimeout(() => { setReelStopped((p) => [true, p[1], p[2]]); playReelStop(); clearInterval(tickInterval); }, 1500);
     setTimeout(() => { setReelStopped((p) => [p[0], true, p[2]]); playReelStop(); }, 2200);
     setTimeout(() => {
@@ -105,9 +111,13 @@ const FreeKey = () => {
     ? new Date(result.next_play_date).toLocaleDateString("ru-RU", { day: "numeric", month: "long" })
     : null;
 
+  const playAgain = () => {
+    setStatus("idle");
+    setResult(null);
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-sm bg-background/80 sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-3">
           <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -119,7 +129,7 @@ const FreeKey = () => {
 
       <main className="flex flex-col items-center justify-center min-h-[calc(100vh-65px)] px-4 py-12">
         <AnimatePresence mode="wait">
-          {/* BLOCKED */}
+          {/* BLOCKED — won this month */}
           {status === "blocked" && (
             <motion.div
               key="blocked"
@@ -135,13 +145,13 @@ const FreeKey = () => {
                   transition={{ duration: 0.5 }}
                   className="text-6xl mb-6"
                 >
-                  ⏳
+                  🏆
                 </motion.div>
-                <h2 className="font-display text-2xl font-bold mb-3">Ты уже играл</h2>
+                <h2 className="font-display text-2xl font-bold mb-3">Ты уже выигрывал</h2>
                 <p className="text-muted-foreground mb-6">
-                  Следующая попытка: <strong className="text-foreground">{nextPlayDate}</strong>
+                  Следующий шанс: <strong className="text-foreground">{nextPlayDate}</strong>
                 </p>
-                {result?.last_won && result?.last_key && (
+                {result?.last_key && (
                   <div className="bg-background border border-gold/30 rounded-xl p-5 overflow-hidden">
                     <p className="text-sm text-muted-foreground mb-2">Твой ключ:</p>
                     <code className="text-gold font-mono text-xs break-all block mb-4">{result.last_key}</code>
@@ -157,6 +167,31 @@ const FreeKey = () => {
             </motion.div>
           )}
 
+          {/* DAILY LIMIT */}
+          {status === "daily_limit" && (
+            <motion.div
+              key="daily_limit"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="text-center max-w-md w-full"
+            >
+              <div className="bg-surface border border-border rounded-3xl p-10 shadow-2xl">
+                <motion.div className="text-6xl mb-6">⏳</motion.div>
+                <h2 className="font-display text-2xl font-bold mb-3">Попытки закончились</h2>
+                <p className="text-muted-foreground mb-6">
+                  Возвращайся завтра — у тебя снова будет 5 попыток!
+                </p>
+                <Link
+                  to="/#pricing"
+                  className="inline-flex px-6 py-3 border border-gold/40 text-gold font-display font-bold rounded-xl hover:bg-gold hover:text-primary-foreground transition-all"
+                >
+                  Купить ключ →
+                </Link>
+              </div>
+            </motion.div>
+          )}
+
           {/* WON */}
           {status === "won" && result?.key && (
             <motion.div
@@ -167,7 +202,6 @@ const FreeKey = () => {
               className="text-center max-w-md w-full"
             >
               <div className="bg-surface border-2 border-gold/40 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
-                {/* Glow effect */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--gold)/0.08),transparent_70%)]" />
                 <div className="relative z-10">
                   <motion.div
@@ -232,13 +266,27 @@ const FreeKey = () => {
                   😔
                 </motion.div>
                 <h2 className="font-display text-2xl font-bold mb-3">Не повезло</h2>
-                <p className="text-muted-foreground mb-6">Попробуй снова через месяц!</p>
-                <Link
-                  to="/#pricing"
-                  className="inline-flex px-6 py-3 border border-gold/40 text-gold font-display font-bold rounded-xl hover:bg-gold hover:text-primary-foreground transition-all"
-                >
-                  Купить ключ со скидкой →
-                </Link>
+                <p className="text-muted-foreground mb-4">
+                  {attemptsLeft > 0
+                    ? `Осталось попыток сегодня: ${attemptsLeft}`
+                    : "Попытки на сегодня закончились"}
+                </p>
+                <div className="flex flex-col gap-3">
+                  {attemptsLeft > 0 && (
+                    <button
+                      onClick={playAgain}
+                      className="inline-flex px-6 py-3 bg-primary text-primary-foreground font-display font-bold rounded-xl hover:opacity-90 transition-all justify-center"
+                    >
+                      🎰 Крутить ещё
+                    </button>
+                  )}
+                  <Link
+                    to="/#pricing"
+                    className="inline-flex px-6 py-3 border border-gold/40 text-gold font-display font-bold rounded-xl hover:bg-gold hover:text-primary-foreground transition-all justify-center"
+                  >
+                    Купить ключ со скидкой →
+                  </Link>
+                </div>
               </div>
             </motion.div>
           )}
@@ -253,7 +301,6 @@ const FreeKey = () => {
               transition={{ duration: 0.5 }}
               className="max-w-lg w-full"
             >
-              {/* Title */}
               <div className="text-center mb-8">
                 <motion.div
                   animate={{ rotate: spinning ? [0, -5, 5, 0] : 0 }}
@@ -268,12 +315,9 @@ const FreeKey = () => {
                 </p>
               </div>
 
-              {/* Machine body */}
               <div className="bg-surface border-2 border-border rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-                {/* Decorative top bar */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
 
-                {/* Reels */}
                 <div className="flex justify-center gap-3 sm:gap-4 mb-8">
                   {[0, 1, 2].map((reelIndex) => (
                     <Reel
@@ -286,7 +330,6 @@ const FreeKey = () => {
                   ))}
                 </div>
 
-                {/* Spin button */}
                 <motion.button
                   onClick={spin}
                   disabled={status !== "idle"}
@@ -302,9 +345,8 @@ const FreeKey = () => {
                   )}
                 </motion.button>
 
-                {/* Info */}
                 <div className="mt-6 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-                  <span>🎯 Одна попытка в месяц</span>
+                  <span>🎯 5 попыток в день</span>
                   <span className="w-1 h-1 rounded-full bg-border" />
                   <span>🔑 Три ключа = победа</span>
                 </div>
@@ -370,16 +412,11 @@ const Reel = ({
 
   return (
     <div className="w-20 h-24 sm:w-24 sm:h-28 bg-background border-2 border-border rounded-2xl overflow-hidden relative">
-      {/* Shine overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-white/5 z-10 pointer-events-none" />
-      {/* Shadow edges */}
       <div className="absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none" />
 
-      <div
-        ref={containerRef}
-        className="flex flex-col items-center"
-      >
+      <div ref={containerRef} className="flex flex-col items-center">
         {displaySymbols.map((s, i) => (
           <div
             key={i}
@@ -390,7 +427,6 @@ const Reel = ({
         ))}
       </div>
 
-      {/* Win highlight */}
       {stopped && symbol === "🔑" && (
         <motion.div
           initial={{ opacity: 0 }}
