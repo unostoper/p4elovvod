@@ -19,6 +19,7 @@ import MatrixRain from "@/components/landing/MatrixRain";
 
 const Index = () => {
   const [trialOpen, setTrialOpen] = useState(false);
+  useTrackVisit();
   const { visibility } = useBlockVisibility();
   const bg = useBlockBackgrounds();
   const v = (id: string) => visibility[id] !== false;
