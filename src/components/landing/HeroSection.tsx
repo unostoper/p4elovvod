@@ -1,4 +1,4 @@
-import { Ambulance, Send, ShoppingBag } from "lucide-react";
+import { Ambulance, BookOpen, Send, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
@@ -34,6 +34,10 @@ const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
           <Link to="/shop" className="flex items-center gap-1.5 hover:text-gold transition-colors">
             <ShoppingBag className="w-4 h-4" />
             Магазин
+          </Link>
+          <Link to="/blog" className="flex items-center gap-1.5 hover:text-gold transition-colors">
+            <BookOpen className="w-4 h-4" />
+            Блог
           </Link>
           <a
             href="https://t.me/unostoper"
