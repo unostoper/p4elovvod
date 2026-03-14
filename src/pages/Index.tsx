@@ -13,25 +13,33 @@ import SeoSection from "@/components/landing/SeoSection";
 import FaqSection from "@/components/landing/FaqSection";
 import FooterSection from "@/components/landing/FooterSection";
 import TrialModal from "@/components/landing/TrialModal";
+import BuyKeyModal from "@/components/landing/BuyKeyModal";
 import PirateReveal from "@/components/landing/PirateReveal";
 import MatrixRain from "@/components/landing/MatrixRain";
 
 const Index = () => {
   const [trialOpen, setTrialOpen] = useState(false);
+  const [buyKeyOpen, setBuyKeyOpen] = useState(false);
+  const [buyKeyLabel, setBuyKeyLabel] = useState<string | undefined>();
   const { visibility } = useBlockVisibility();
   const bg = useBlockBackgrounds();
   const v = (id: string) => visibility[id] !== false;
   const bgStyle = (id: string) => bg[id] ? { background: bg[id] } : undefined;
 
+  const openBuyKey = (label?: string) => {
+    setBuyKeyLabel(label);
+    setBuyKeyOpen(true);
+  };
+
   return (
     <>
       <main className="min-h-screen bg-background">
-        {v("hero") && <div style={bgStyle("hero")}><HeroSection onTrialClick={() => setTrialOpen(true)} /></div>}
+        {v("hero") && <div style={bgStyle("hero")}><HeroSection onTrialClick={() => setTrialOpen(true)} onBuyClick={() => openBuyKey()} /></div>}
         {v("offers") && (
-          <div id="offers" style={bgStyle("offers")}><PirateReveal animation="sail-in"><OffersSection /></PirateReveal></div>
+          <div id="offers" style={bgStyle("offers")}><PirateReveal animation="sail-in"><OffersSection onBuyClick={openBuyKey} /></PirateReveal></div>
         )}
         {v("pricing") && (
-          <div id="pricing" style={bgStyle("pricing")}><PirateReveal animation="anchor-drop"><PricingSection /></PirateReveal></div>
+          <div id="pricing" style={bgStyle("pricing")}><PirateReveal animation="anchor-drop"><PricingSection onBuyClick={openBuyKey} /></PirateReveal></div>
         )}
         {v("advantages") && (
           <div style={bgStyle("advantages")}><PirateReveal animation="wave"><AdvantagesSection /></PirateReveal></div>
@@ -46,13 +54,14 @@ const Index = () => {
           <div style={bgStyle("news")}><PirateReveal animation="flag-unfurl"><NewsSection /></PirateReveal></div>
         )}
         {v("cta") && (
-          <div id="cta" style={bgStyle("cta")}><PirateReveal animation="wave"><CtaSection onTrialClick={() => setTrialOpen(true)} /></PirateReveal></div>
+          <div id="cta" style={bgStyle("cta")}><PirateReveal animation="wave"><CtaSection onTrialClick={() => setTrialOpen(true)} onBuyClick={() => openBuyKey()} /></PirateReveal></div>
         )}
         <FaqSection />
         {v("seo") && <div style={bgStyle("seo")}><SeoSection /></div>}
         <FooterSection />
       </main>
       <TrialModal open={trialOpen} onOpenChange={setTrialOpen} />
+      <BuyKeyModal open={buyKeyOpen} onOpenChange={setBuyKeyOpen} productLabel={buyKeyLabel} />
       <MatrixRain />
     </>
   );

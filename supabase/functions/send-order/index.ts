@@ -12,9 +12,11 @@ serve(async (req) => {
   }
 
   try {
-    const { firstName, lastName, telegram, phone, email, productTitle, productPrice } = await req.json();
+    const { firstName, lastName, telegram, phone, email, productTitle, productPrice, type } = await req.json();
 
-    if (!firstName || !email || !phone) {
+    const isKeyRequest = type === "key";
+
+    if (!firstName || (!isKeyRequest && (!email || !phone))) {
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -37,18 +39,27 @@ serve(async (req) => {
       );
     }
 
-    const lines = [
-      `🛒 <b>Новый заказ!</b>`,
-      ``,
-      `<b>Товар:</b> ${productTitle}`,
-      `<b>Цена:</b> ${productPrice}`,
-      ``,
-      `<b>Имя:</b> ${firstName}`,
-      lastName ? `<b>Фамилия:</b> ${lastName}` : null,
-      telegram ? `<b>Telegram:</b> @${telegram.replace(/^@/, "")}` : null,
-      `<b>Тел:</b> ${phone}`,
-      `<b>Email:</b> ${email}`,
-    ].filter(Boolean).join("\n");
+    const lines = isKeyRequest
+      ? [
+          `🔑 <b>Заявка на ключ!</b>`,
+          ``,
+          `<b>Товар:</b> ${productTitle}`,
+          ``,
+          `<b>Имя:</b> ${firstName}`,
+          telegram ? `<b>Telegram:</b> @${telegram.replace(/^@/, "")}` : null,
+        ].filter(Boolean).join("\n")
+      : [
+          `🛒 <b>Новый заказ!</b>`,
+          ``,
+          `<b>Товар:</b> ${productTitle}`,
+          `<b>Цена:</b> ${productPrice}`,
+          ``,
+          `<b>Имя:</b> ${firstName}`,
+          lastName ? `<b>Фамилия:</b> ${lastName}` : null,
+          telegram ? `<b>Telegram:</b> @${telegram.replace(/^@/, "")}` : null,
+          `<b>Тел:</b> ${phone}`,
+          `<b>Email:</b> ${email}`,
+        ].filter(Boolean).join("\n");
 
     const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: "POST",

@@ -21,7 +21,7 @@ const listItem = {
   visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
 };
 
-const OffersSection = () => {
+const OffersSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void }) => {
   return (
     <section className="py-20 px-4" aria-label="Выбор VPN-ключа">
       <div className="max-w-5xl mx-auto">
@@ -77,15 +77,12 @@ const OffersSection = () => {
                 </motion.li>
               ))}
             </motion.ul>
-            <a
-              href="https://t.me/unostoper"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Купить ключ для Outline в Telegram"
+            <button
+              onClick={() => onBuyClick?.("Ключ для Outline")}
               className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors btn-shine"
             >
               Выбрать
-            </a>
+            </button>
           </motion.article>
 
           {/* VLESS Key */}
@@ -117,15 +114,12 @@ const OffersSection = () => {
                 </motion.li>
               ))}
             </motion.ul>
-            <a
-              href="https://t.me/unostoper"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Купить Vless ключ в Telegram"
+            <button
+              onClick={() => onBuyClick?.("Vless ключ")}
               className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors btn-shine"
             >
               Выбрать
-            </a>
+            </button>
           </motion.article>
         </motion.div>
       </div>

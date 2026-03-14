@@ -11,7 +11,7 @@ const card = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
-const PricingSection = () => {
+const PricingSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void }) => {
   return (
     <section className="py-20 px-4" aria-label="Тарифы VPN-ключей">
       <div className="max-w-5xl mx-auto">
@@ -45,8 +45,8 @@ const PricingSection = () => {
           aria-label="Тарифы VPN"
         >
           <div className="grid sm:grid-cols-2 gap-4">
-            <PriceCard days={30} traffic="300 ГБ" price={250} label="VPN" index={0} />
-            <PriceCard days={90} traffic="1 ТБ" price={650} popular label="VPN" index={1} />
+            <PriceCard days={30} traffic="300 ГБ" price={250} label="VPN" index={0} onBuyClick={onBuyClick} />
+            <PriceCard days={90} traffic="1 ТБ" price={650} popular label="VPN" index={1} onBuyClick={onBuyClick} />
           </div>
         </motion.div>
 
@@ -69,15 +69,12 @@ const PricingSection = () => {
               <p className="text-muted-foreground text-sm">Купи 4 ключа — 5-й в подарок</p>
             </div>
           </div>
-          <a
-            href="https://t.me/unostoper"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Купить 4 ключа и получить 5-й бесплатно"
+          <button
+            onClick={() => onBuyClick?.("4+1 ключей")}
             className="px-6 py-3 bg-primary text-primary-foreground font-display font-bold rounded-lg hover:opacity-90 transition-opacity text-sm btn-shine gold-glow"
           >
             Забрать 5 ключей
-          </a>
+          </button>
         </motion.div>
 
         {/* Extra traffic */}
@@ -97,15 +94,12 @@ const PricingSection = () => {
             <span className="font-display text-2xl font-bold text-gold">250 ₽</span>
             <span className="text-muted-foreground text-sm">/ 1 ТБ</span>
           </div>
-          <a
-            href="https://t.me/unostoper"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Купить дополнительный трафик"
+          <button
+            onClick={() => onBuyClick?.("Дополнительный трафик — 1 ТБ")}
             className="px-6 py-2 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors text-sm btn-shine"
           >
             Купить
-          </a>
+          </button>
         </motion.div>
       </div>
     </section>
@@ -119,6 +113,7 @@ const PriceCard = ({
   popular,
   label,
   index,
+  onBuyClick,
 }: {
   days: number;
   traffic: string;
@@ -126,6 +121,7 @@ const PriceCard = ({
   popular?: boolean;
   label: string;
   index: number;
+  onBuyClick?: (label?: string) => void;
 }) => (
   <motion.div
     variants={card}
@@ -149,15 +145,12 @@ const PriceCard = ({
     <div className="flex items-baseline gap-1 mb-5">
       <span className="font-display text-3xl font-bold text-gold">{price} ₽</span>
     </div>
-    <a
-      href="https://t.me/unostoper"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Купить ${label} ключ на ${days} дней за ${price} рублей`}
+    <button
+      onClick={() => onBuyClick?.(`${label} ключ — ${days} дней, ${traffic}`)}
       className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors btn-shine"
     >
       Выбрать
-    </a>
+    </button>
   </motion.div>
 );
 
