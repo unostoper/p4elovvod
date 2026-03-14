@@ -2,6 +2,7 @@ import { useSiteContent } from "@/hooks/useSiteContent";
 
 interface CtaSectionProps {
   onTrialClick: () => void;
+  onBuyClick: () => void;
 }
 
 interface CtaContent {
