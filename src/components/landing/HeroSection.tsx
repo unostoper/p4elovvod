@@ -7,6 +7,7 @@ import RadioPlayer from "@/components/landing/RadioPlayer";
 
 interface HeroSectionProps {
   onTrialClick: () => void;
+  onBuyClick: () => void;
 }
 
 interface HeroContent {
