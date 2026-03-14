@@ -18,7 +18,7 @@ interface HeroContent {
   cta_secondary: string;
 }
 
-const HeroSection = ({ onTrialClick }: HeroSectionProps) => {
+const HeroSection = ({ onTrialClick, onBuyClick }: HeroSectionProps) => {
   const { data } = useSiteContent<HeroContent>("hero");
 
   const badge = data?.badge ?? "VPN без мучений";
