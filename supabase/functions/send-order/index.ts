@@ -39,18 +39,27 @@ serve(async (req) => {
       );
     }
 
-    const lines = [
-      `🛒 <b>Новый заказ!</b>`,
-      ``,
-      `<b>Товар:</b> ${productTitle}`,
-      `<b>Цена:</b> ${productPrice}`,
-      ``,
-      `<b>Имя:</b> ${firstName}`,
-      lastName ? `<b>Фамилия:</b> ${lastName}` : null,
-      telegram ? `<b>Telegram:</b> @${telegram.replace(/^@/, "")}` : null,
-      `<b>Тел:</b> ${phone}`,
-      `<b>Email:</b> ${email}`,
-    ].filter(Boolean).join("\n");
+    const lines = isKeyRequest
+      ? [
+          `🔑 <b>Заявка на ключ!</b>`,
+          ``,
+          `<b>Товар:</b> ${productTitle}`,
+          ``,
+          `<b>Имя:</b> ${firstName}`,
+          telegram ? `<b>Telegram:</b> @${telegram.replace(/^@/, "")}` : null,
+        ].filter(Boolean).join("\n")
+      : [
+          `🛒 <b>Новый заказ!</b>`,
+          ``,
+          `<b>Товар:</b> ${productTitle}`,
+          `<b>Цена:</b> ${productPrice}`,
+          ``,
+          `<b>Имя:</b> ${firstName}`,
+          lastName ? `<b>Фамилия:</b> ${lastName}` : null,
+          telegram ? `<b>Telegram:</b> @${telegram.replace(/^@/, "")}` : null,
+          `<b>Тел:</b> ${phone}`,
+          `<b>Email:</b> ${email}`,
+        ].filter(Boolean).join("\n");
 
     const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: "POST",
