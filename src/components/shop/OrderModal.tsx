@@ -134,6 +134,12 @@ const OrderModal = ({ open, onOpenChange, productTitle, productPrice }: OrderMod
             className="bg-background border-border"
           />
           <Input
+            placeholder="@username в Telegram"
+            value={telegram}
+            onChange={(e) => setTelegram(e.target.value.replace(/\s/g, ""))}
+            className="bg-background border-border"
+          />
+          <Input
             placeholder="+7 (___) ___-__-__"
             value={phone}
             onChange={handlePhoneChange}
