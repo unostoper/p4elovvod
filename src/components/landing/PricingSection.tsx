@@ -94,15 +94,12 @@ const PricingSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void 
             <span className="font-display text-2xl font-bold text-gold">250 ₽</span>
             <span className="text-muted-foreground text-sm">/ 1 ТБ</span>
           </div>
-          <a
-            href="https://t.me/unostoper"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Купить дополнительный трафик"
+          <button
+            onClick={() => onBuyClick?.("Дополнительный трафик — 1 ТБ")}
             className="px-6 py-2 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors text-sm btn-shine"
           >
             Купить
-          </a>
+          </button>
         </motion.div>
       </div>
     </section>
