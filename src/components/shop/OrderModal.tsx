@@ -15,6 +15,7 @@ interface OrderModalProps {
 const OrderModal = ({ open, onOpenChange, productTitle, productPrice }: OrderModalProps) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [telegram, setTelegram] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [agreed, setAgreed] = useState(false);
