@@ -12,7 +12,7 @@ interface CtaContent {
   cta_secondary: string;
 }
 
-const CtaSection = ({ onTrialClick }: CtaSectionProps) => {
+const CtaSection = ({ onTrialClick, onBuyClick }: CtaSectionProps) => {
   const { data } = useSiteContent<CtaContent>("cta");
 
   const title = data?.title ?? "Попробуй и забудь о проблемах";
