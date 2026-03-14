@@ -113,6 +113,7 @@ const PriceCard = ({
   popular,
   label,
   index,
+  onBuyClick,
 }: {
   days: number;
   traffic: string;
@@ -120,6 +121,7 @@ const PriceCard = ({
   popular?: boolean;
   label: string;
   index: number;
+  onBuyClick?: (label?: string) => void;
 }) => (
   <motion.div
     variants={card}
