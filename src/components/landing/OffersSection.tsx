@@ -77,15 +77,12 @@ const OffersSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void }
                 </motion.li>
               ))}
             </motion.ul>
-            <a
-              href="https://t.me/unostoper"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Купить ключ для Outline в Telegram"
+            <button
+              onClick={() => onBuyClick?.("Ключ для Outline")}
               className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors btn-shine"
             >
               Выбрать
-            </a>
+            </button>
           </motion.article>
 
           {/* VLESS Key */}
