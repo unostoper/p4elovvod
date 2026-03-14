@@ -69,15 +69,12 @@ const PricingSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void 
               <p className="text-muted-foreground text-sm">Купи 4 ключа — 5-й в подарок</p>
             </div>
           </div>
-          <a
-            href="https://t.me/unostoper"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Купить 4 ключа и получить 5-й бесплатно"
+          <button
+            onClick={() => onBuyClick?.("4+1 ключей")}
             className="px-6 py-3 bg-primary text-primary-foreground font-display font-bold rounded-lg hover:opacity-90 transition-opacity text-sm btn-shine gold-glow"
           >
             Забрать 5 ключей
-          </a>
+          </button>
         </motion.div>
 
         {/* Extra traffic */}
