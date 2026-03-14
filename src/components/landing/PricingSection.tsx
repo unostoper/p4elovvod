@@ -145,15 +145,12 @@ const PriceCard = ({
     <div className="flex items-baseline gap-1 mb-5">
       <span className="font-display text-3xl font-bold text-gold">{price} ₽</span>
     </div>
-    <a
-      href="https://t.me/unostoper"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Купить ${label} ключ на ${days} дней за ${price} рублей`}
+    <button
+      onClick={() => onBuyClick?.(`${label} ключ — ${days} дней, ${traffic}`)}
       className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors btn-shine"
     >
       Выбрать
-    </a>
+    </button>
   </motion.div>
 );
 
