@@ -12,9 +12,11 @@ serve(async (req) => {
   }
 
   try {
-    const { firstName, lastName, telegram, phone, email, productTitle, productPrice } = await req.json();
+    const { firstName, lastName, telegram, phone, email, productTitle, productPrice, type } = await req.json();
 
-    if (!firstName || !email || !phone) {
+    const isKeyRequest = type === "key";
+
+    if (!firstName || (!isKeyRequest && (!email || !phone))) {
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
