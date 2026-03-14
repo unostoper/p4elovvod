@@ -15,6 +15,7 @@ interface OrderModalProps {
 const OrderModal = ({ open, onOpenChange, productTitle, productPrice }: OrderModalProps) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [telegram, setTelegram] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [agreed, setAgreed] = useState(false);
@@ -53,18 +54,34 @@ const OrderModal = ({ open, onOpenChange, productTitle, productPrice }: OrderMod
     }
     setSubmitting(true);
 
-    // Send order to Telegram or just show success for now
-    const phoneDigits = phone.replace(/\D/g, "");
-    const message = `🛒 Новый заказ!\n\nТовар: ${productTitle}\nЦена: ${productPrice}\n\nИмя: ${firstName}\nФамилия: ${lastName}\nТел: +${phoneDigits}\nEmail: ${email}`;
-
     try {
-      // For now, just simulate success
-      await new Promise((r) => setTimeout(r, 800));
-      console.log("Order:", message);
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      const res = await fetch(`${supabaseUrl}/functions/v1/send-order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": anonKey,
+          "Authorization": `Bearer ${anonKey}`,
+        },
+        body: JSON.stringify({
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          telegram: telegram.trim(),
+          phone: phone.replace(/\D/g, ""),
+          email: email.trim(),
+          productTitle,
+          productPrice,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Send failed");
+
       toast.success("Заказ оформлен! Мы свяжемся с вами в ближайшее время.");
       onOpenChange(false);
       setFirstName("");
       setLastName("");
+      setTelegram("");
       setPhone("");
       setEmail("");
       setAgreed(false);
@@ -114,6 +131,12 @@ const OrderModal = ({ open, onOpenChange, productTitle, productPrice }: OrderMod
             placeholder="Фамилия"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            className="bg-background border-border"
+          />
+          <Input
+            placeholder="@username в Telegram"
+            value={telegram}
+            onChange={(e) => setTelegram(e.target.value.replace(/\s/g, ""))}
             className="bg-background border-border"
           />
           <Input
