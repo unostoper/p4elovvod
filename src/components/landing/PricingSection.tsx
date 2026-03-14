@@ -45,8 +45,8 @@ const PricingSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void 
           aria-label="Тарифы VPN"
         >
           <div className="grid sm:grid-cols-2 gap-4">
-            <PriceCard days={30} traffic="300 ГБ" price={250} label="VPN" index={0} />
-            <PriceCard days={90} traffic="1 ТБ" price={650} popular label="VPN" index={1} />
+            <PriceCard days={30} traffic="300 ГБ" price={250} label="VPN" index={0} onBuyClick={onBuyClick} />
+            <PriceCard days={90} traffic="1 ТБ" price={650} popular label="VPN" index={1} onBuyClick={onBuyClick} />
           </div>
         </motion.div>
 
