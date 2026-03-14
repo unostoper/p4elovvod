@@ -32,10 +32,10 @@ const CtaSection = ({ onTrialClick, onBuyClick }: CtaSectionProps) => {
             className="btn-shine btn-lift px-8 py-4 bg-primary text-primary-foreground font-display font-bold text-lg rounded-lg gold-glow">
             {ctaPrimary}
           </button>
-          <a href="https://t.me/unostoper" target="_blank" rel="noopener noreferrer"
+          <button onClick={onBuyClick}
             className="btn-lift px-8 py-4 border-2 border-gold/40 text-gold font-display font-bold text-lg rounded-lg hover:bg-gold hover:text-primary-foreground transition-all duration-300">
             {ctaSecondary}
-          </a>
+          </button>
         </div>
       </div>
     </section>
