@@ -56,7 +56,7 @@ const Index = () => {
         {v("cta") && (
           <div id="cta" style={bgStyle("cta")}><PirateReveal animation="wave"><CtaSection onTrialClick={() => setTrialOpen(true)} onBuyClick={() => openBuyKey()} /></PirateReveal></div>
         )}
-        <FaqSection />
+        {v("faq") && <FaqSection />}
         {v("seo") && <div style={bgStyle("seo")}><SeoSection /></div>}
         <FooterSection />
       </main>
