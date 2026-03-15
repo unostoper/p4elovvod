@@ -2,7 +2,7 @@ import { BookOpen, Send, ShoppingBag, Shield, Lock, Zap, Gamepad2 } from "lucide
 import { Link } from "react-router-dom";
 import ScrollLink from "@/components/ScrollLink";
 import { useSiteContent } from "@/hooks/useSiteContent";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/pirate-flag.png";
 import RadioPlayer from "@/components/landing/RadioPlayer";
 
 interface HeroSectionProps {
