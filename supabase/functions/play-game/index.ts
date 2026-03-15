@@ -83,8 +83,19 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Win chance: 1/10000
-    const won = Math.random() < 0.0001;
+    // Read win chance from site_content
+    let winChancePct = 0.01; // default 0.01%
+    try {
+      const { data: gamesConfig } = await supabase
+        .from('site_content')
+        .select('content')
+        .eq('id', 'games')
+        .maybeSingle();
+      if (gamesConfig?.content?.win_chance !== undefined) {
+        winChancePct = Number(gamesConfig.content.win_chance);
+      }
+    } catch {}
+    const won = Math.random() * 100 < winChancePct;
     let keyAwarded: string | null = null;
 
     if (won) {

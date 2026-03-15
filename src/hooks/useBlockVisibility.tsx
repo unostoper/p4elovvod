@@ -12,6 +12,7 @@ const DEFAULT_VISIBILITY: BlockVisibility = {
   news: true,
   cta: true,
   seo: true,
+  faq: true,
   // Pages
   page_shop: true,
   page_blog: true,

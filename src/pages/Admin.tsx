@@ -19,13 +19,20 @@ import { useBlockVisibilityAdmin } from "@/hooks/useBlockVisibility";
 
 const BLOCK_LABELS: Record<string, string> = {
   hero: "Главный экран",
+  offers: "Спецпредложения",
+  pricing: "Тарифы",
   advantages: "Преимущества",
   how_it_works: "Как это работает",
   reviews: "Отзывы",
   cta: "Призыв к действию",
   news: "Новости",
+  seo: "SEO-блок",
+  faq: "FAQ",
   trial_modal: "Окно выдачи ключа",
   block_backgrounds: "Фоны блоков",
+  games: "Игры",
+  radio: "Онлайн-радио",
+  matrix: "Эффект «Матрица»",
   page_shop: "Магазин",
   page_blog: "Блог",
   page_news: "Новости (страница)",
@@ -39,7 +46,7 @@ const Admin = () => {
   const [activeBlock, setActiveBlock] = useState<string | null>(null);
   const { visibility, toggle: toggleVisibility, saving: visibilitySaving } = useBlockVisibilityAdmin();
 
-  const VISIBILITY_BLOCKS = ["hero", "offers", "pricing", "advantages", "how_it_works", "reviews", "news", "cta", "seo"];
+  const VISIBILITY_BLOCKS = ["hero", "offers", "pricing", "advantages", "how_it_works", "reviews", "news", "cta", "seo", "faq"];
   const VISIBILITY_PAGES = ["page_shop", "page_blog", "page_news"];
 
   useEffect(() => {
