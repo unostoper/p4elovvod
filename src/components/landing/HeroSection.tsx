@@ -34,7 +34,7 @@ const HeroSection = ({ onTrialClick, onBuyClick }: HeroSectionProps) => {
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between">
           <div className="flex items-center gap-3 shrink-0">
             <Link to="/" className="flex items-center gap-2">
-              <img src={logoImg} alt="VPN без мучений" className="w-8 h-8" />
+              <img src={logoImg} alt="VPN без мучений" className="w-12 h-12" />
               <span className="font-display font-bold text-gold text-sm tracking-wide hidden sm:inline">VPN без мучений</span>
             </Link>
             <RadioPlayer />
