@@ -90,6 +90,7 @@ const PricingSection = ({ onBuyClick, showTelegramProxy = true }: { onBuyClick?:
             </div>
           </motion.div>
         </motion.div>
+        </>}
 
         {/* Promo: 4+1 */}
         <motion.div
