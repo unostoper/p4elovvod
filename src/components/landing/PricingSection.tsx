@@ -11,7 +11,7 @@ const card = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
-const PricingSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void }) => {
+const PricingSection = ({ onBuyClick, showTelegramProxy = true }: { onBuyClick?: (label?: string) => void; showTelegramProxy?: boolean }) => {
   return (
     <section className="py-20 px-4" aria-label="Тарифы VPN-ключей">
       <div className="max-w-5xl mx-auto">
