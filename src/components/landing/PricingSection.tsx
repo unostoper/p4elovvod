@@ -1,4 +1,4 @@
-import { Plus, Gift } from "lucide-react";
+import { Plus, Gift, Send } from "lucide-react";
 import { motion } from "framer-motion";
 
 const container = {
@@ -11,7 +11,7 @@ const card = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
-const PricingSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void }) => {
+const PricingSection = ({ onBuyClick, showTelegramProxy = true }: { onBuyClick?: (label?: string) => void; showTelegramProxy?: boolean }) => {
   return (
     <section className="py-20 px-4" aria-label="Тарифы VPN-ключей">
       <div className="max-w-5xl mx-auto">
@@ -49,6 +49,48 @@ const PricingSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void 
             <PriceCard days={90} traffic="1 ТБ" price={650} popular label="VPN" index={1} onBuyClick={onBuyClick} />
           </div>
         </motion.div>
+
+        {showTelegramProxy && <>
+        {/* Telegram Proxy */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-10"
+        >
+          <motion.h3
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="font-display text-xl sm:text-2xl font-bold text-center mb-2 flex items-center justify-center gap-2"
+          >
+            <Send className="w-5 h-5 text-gold" />
+            Персональный прокси для Telegram
+          </motion.h3>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-muted-foreground text-center mb-6 max-w-md mx-auto text-sm"
+          >
+            Стабильный доступ к Telegram без VPN. Личный прокси — только для тебя.
+          </motion.p>
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <div className="grid sm:grid-cols-2 gap-4">
+              <PriceCard days={30} traffic="" price={100} label="Telegram-прокси" index={2} onBuyClick={onBuyClick} icon="telegram" />
+              <PriceCard days={90} traffic="" price={300} popular label="Telegram-прокси" index={3} onBuyClick={onBuyClick} icon="telegram" />
+            </div>
+          </motion.div>
+        </motion.div>
+        </>}
 
         {/* Promo: 4+1 */}
         <motion.div
@@ -114,6 +156,7 @@ const PriceCard = ({
   label,
   index,
   onBuyClick,
+  icon,
 }: {
   days: number;
   traffic: string;
@@ -122,6 +165,7 @@ const PriceCard = ({
   label: string;
   index: number;
   onBuyClick?: (label?: string) => void;
+  icon?: string;
 }) => (
   <motion.div
     variants={card}
@@ -140,13 +184,20 @@ const PriceCard = ({
         Выгодно
       </motion.div>
     )}
-    <div className="font-display text-lg font-bold mb-1">{days} дней</div>
-    <div className="text-muted-foreground text-sm mb-4">{traffic}</div>
+    <div className="flex items-center gap-2 font-display text-lg font-bold mb-1">
+      {icon === "telegram" && <Send className="w-4 h-4 text-gold" />}
+      {days} дней
+    </div>
+    {traffic ? (
+      <div className="text-muted-foreground text-sm mb-4">{traffic}</div>
+    ) : (
+      <div className="text-muted-foreground text-sm mb-4">Персональный прокси</div>
+    )}
     <div className="flex items-baseline gap-1 mb-5">
       <span className="font-display text-3xl font-bold text-gold">{price} ₽</span>
     </div>
     <button
-      onClick={() => onBuyClick?.(`${label} ключ — ${days} дней, ${traffic}`)}
+      onClick={() => onBuyClick?.(`${label} — ${days} дней${traffic ? `, ${traffic}` : ""}`)}
       className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors btn-shine"
     >
       Выбрать

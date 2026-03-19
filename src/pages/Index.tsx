@@ -39,7 +39,7 @@ const Index = () => {
           <div id="offers" style={bgStyle("offers")}><PirateReveal animation="sail-in"><OffersSection onBuyClick={openBuyKey} /></PirateReveal></div>
         )}
         {v("pricing") && (
-          <div id="pricing" style={bgStyle("pricing")}><PirateReveal animation="anchor-drop"><PricingSection onBuyClick={openBuyKey} /></PirateReveal></div>
+          <div id="pricing" style={bgStyle("pricing")}><PirateReveal animation="anchor-drop"><PricingSection onBuyClick={openBuyKey} showTelegramProxy={v("telegram_proxy")} /></PirateReveal></div>
         )}
         {v("advantages") && (
           <div style={bgStyle("advantages")}><PirateReveal animation="wave"><AdvantagesSection /></PirateReveal></div>

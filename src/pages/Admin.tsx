@@ -21,6 +21,7 @@ const BLOCK_LABELS: Record<string, string> = {
   hero: "Главный экран",
   offers: "Спецпредложения",
   pricing: "Тарифы",
+  telegram_proxy: "Telegram-прокси",
   advantages: "Преимущества",
   how_it_works: "Как это работает",
   reviews: "Отзывы",
@@ -46,7 +47,7 @@ const Admin = () => {
   const [activeBlock, setActiveBlock] = useState<string | null>(null);
   const { visibility, toggle: toggleVisibility, saving: visibilitySaving } = useBlockVisibilityAdmin();
 
-  const VISIBILITY_BLOCKS = ["hero", "offers", "pricing", "advantages", "how_it_works", "reviews", "news", "cta", "seo", "faq"];
+  const VISIBILITY_BLOCKS = ["hero", "offers", "pricing", "telegram_proxy", "advantages", "how_it_works", "reviews", "news", "cta", "seo", "faq"];
   const VISIBILITY_PAGES = ["page_shop", "page_blog", "page_news"];
 
   useEffect(() => {
