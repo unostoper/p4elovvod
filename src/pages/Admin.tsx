@@ -21,6 +21,7 @@ const BLOCK_LABELS: Record<string, string> = {
   hero: "Главный экран",
   offers: "Спецпредложения",
   pricing: "Тарифы",
+  telegram_proxy: "Telegram-прокси",
   advantages: "Преимущества",
   how_it_works: "Как это работает",
   reviews: "Отзывы",
