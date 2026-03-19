@@ -50,6 +50,46 @@ const PricingSection = ({ onBuyClick }: { onBuyClick?: (label?: string) => void 
           </div>
         </motion.div>
 
+        {/* Telegram Proxy */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-10"
+        >
+          <motion.h3
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="font-display text-xl sm:text-2xl font-bold text-center mb-2 flex items-center justify-center gap-2"
+          >
+            <Send className="w-5 h-5 text-gold" />
+            Персональный прокси для Telegram
+          </motion.h3>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-muted-foreground text-center mb-6 max-w-md mx-auto text-sm"
+          >
+            Стабильный доступ к Telegram без VPN. Личный прокси — только для тебя.
+          </motion.p>
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <div className="grid sm:grid-cols-2 gap-4">
+              <PriceCard days={30} traffic="" price={100} label="Telegram-прокси" index={2} onBuyClick={onBuyClick} icon="telegram" />
+              <PriceCard days={90} traffic="" price={300} popular label="Telegram-прокси" index={3} onBuyClick={onBuyClick} icon="telegram" />
+            </div>
+          </motion.div>
+        </motion.div>
+
         {/* Promo: 4+1 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
