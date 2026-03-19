@@ -50,6 +50,7 @@ const PricingSection = ({ onBuyClick, showTelegramProxy = true }: { onBuyClick?:
           </div>
         </motion.div>
 
+        {showTelegramProxy && <>
         {/* Telegram Proxy */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
