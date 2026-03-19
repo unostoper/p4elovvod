@@ -154,6 +154,7 @@ const PriceCard = ({
   label,
   index,
   onBuyClick,
+  icon,
 }: {
   days: number;
   traffic: string;
@@ -162,6 +163,7 @@ const PriceCard = ({
   label: string;
   index: number;
   onBuyClick?: (label?: string) => void;
+  icon?: string;
 }) => (
   <motion.div
     variants={card}
@@ -180,13 +182,20 @@ const PriceCard = ({
         Выгодно
       </motion.div>
     )}
-    <div className="font-display text-lg font-bold mb-1">{days} дней</div>
-    <div className="text-muted-foreground text-sm mb-4">{traffic}</div>
+    <div className="flex items-center gap-2 font-display text-lg font-bold mb-1">
+      {icon === "telegram" && <Send className="w-4 h-4 text-gold" />}
+      {days} дней
+    </div>
+    {traffic ? (
+      <div className="text-muted-foreground text-sm mb-4">{traffic}</div>
+    ) : (
+      <div className="text-muted-foreground text-sm mb-4">Персональный прокси</div>
+    )}
     <div className="flex items-baseline gap-1 mb-5">
       <span className="font-display text-3xl font-bold text-gold">{price} ₽</span>
     </div>
     <button
-      onClick={() => onBuyClick?.(`${label} ключ — ${days} дней, ${traffic}`)}
+      onClick={() => onBuyClick?.(`${label} — ${days} дней${traffic ? `, ${traffic}` : ""}`)}
       className="inline-block w-full text-center px-6 py-3 border border-gold text-gold font-display font-semibold rounded-lg hover:bg-gold hover:text-background transition-colors btn-shine"
     >
       Выбрать
