@@ -6,6 +6,7 @@ const DEFAULT_VISIBILITY: BlockVisibility = {
   hero: true,
   offers: true,
   pricing: true,
+  telegram_proxy: true,
   advantages: true,
   how_it_works: true,
   reviews: true,
