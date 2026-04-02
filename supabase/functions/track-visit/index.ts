@@ -41,9 +41,14 @@ Deno.serve(async (req) => {
       const url = new URL(req.url);
       const mode = url.searchParams.get('mode');
 
-      // Simple count for footer
+      // Simple count for footer — today's unique visitors
       if (!mode || mode === 'count') {
-        const { data } = await supabase.from('site_visits').select('ip_address');
+        const todayStart = new Date();
+        todayStart.setUTCHours(0, 0, 0, 0);
+        const { data } = await supabase
+          .from('site_visits')
+          .select('ip_address')
+          .gte('created_at', todayStart.toISOString());
         const uniqueIps = new Set(data?.map(r => r.ip_address));
         return new Response(JSON.stringify({ unique_visitors: uniqueIps.size }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
