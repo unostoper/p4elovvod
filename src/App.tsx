@@ -15,6 +15,7 @@ import Confidentiality from "./pages/Confidentiality";
 import Oferta from "./pages/Oferta";
 import Blog from "./pages/Blog";
 import FreeKey from "./pages/FreeKey";
+import PirateRadio from "./pages/pirate-radio/PirateRadio";
 import PageGuard from "./components/PageGuard";
 
 const queryClient = new QueryClient();
