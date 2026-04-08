@@ -36,6 +36,7 @@ const AppRoutes = () => {
       <Route path="/blog" element={<PageGuard pageKey="page_blog"><Blog /></PageGuard>} />
       <Route path="/blog/:postId" element={<PageGuard pageKey="page_blog"><Blog /></PageGuard>} />
       <Route path="/free-key" element={<FreeKey />} />
+      <Route path="/pirate-radio/*" element={<PirateRadio />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
