@@ -15,6 +15,7 @@ import Confidentiality from "./pages/Confidentiality";
 import Oferta from "./pages/Oferta";
 import Blog from "./pages/Blog";
 import FreeKey from "./pages/FreeKey";
+import PirateRadio from "./pages/pirate-radio/PirateRadio";
 import PageGuard from "./components/PageGuard";
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const AppRoutes = () => {
       <Route path="/blog" element={<PageGuard pageKey="page_blog"><Blog /></PageGuard>} />
       <Route path="/blog/:postId" element={<PageGuard pageKey="page_blog"><Blog /></PageGuard>} />
       <Route path="/free-key" element={<FreeKey />} />
+      <Route path="/pirate-radio/*" element={<PirateRadio />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

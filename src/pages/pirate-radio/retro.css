@@ -1,0 +1,414 @@
+/* ===== GEOCITIES / ANGELFIRE RETRO CSS ===== */
+
+.retro-site {
+  font-family: 'Comic Sans MS', 'Arial Black', Impact, cursive, sans-serif;
+  background-color: #000;
+  color: #00ff00;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.retro-site * {
+  box-sizing: border-box;
+}
+
+/* Tiling background */
+.retro-bg-tile {
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Marquee */
+.retro-marquee {
+  background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+  color: #000;
+  font-family: Impact, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 6px 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.retro-marquee-inner {
+  display: inline-block;
+  animation: marquee-scroll 20s linear infinite;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Bevel border */
+.retro-bevel {
+  border: 3px outset #888;
+  background: #1a1a2e;
+}
+
+.retro-bevel-inset {
+  border: 3px inset #888;
+  background: #0a0a1a;
+}
+
+/* Neon text */
+.neon-green { color: #00ff00; text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00; }
+.neon-pink { color: #ff00ff; text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
+.neon-blue { color: #00ccff; text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #00ccff; }
+.neon-yellow { color: #ffff00; text-shadow: 0 0 5px #ffff00, 0 0 10px #ffff00; }
+.neon-red { color: #ff0000; text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000; }
+
+/* Blink */
+.retro-blink {
+  animation: retro-blink-anim 1s step-end infinite;
+}
+
+@keyframes retro-blink-anim {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Glow pulse */
+.retro-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000; }
+  50% { text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000; }
+}
+
+/* Table layout like old HTML */
+.retro-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 8px;
+}
+
+.retro-table td {
+  vertical-align: top;
+  padding: 8px;
+}
+
+/* Navigation */
+.retro-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  background: linear-gradient(180deg, #1a0033, #000033);
+  border-top: 2px solid #ff00ff;
+  border-bottom: 2px solid #00ffff;
+}
+
+.retro-nav a, .retro-nav button {
+  font-family: 'Arial Black', Impact, sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #00ff00;
+  background: linear-gradient(180deg, #222, #000);
+  border: 2px outset #666;
+  padding: 6px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: none;
+  white-space: nowrap;
+}
+
+.retro-nav a:hover, .retro-nav button:hover {
+  background: linear-gradient(180deg, #003300, #001100);
+  color: #ffff00;
+  border-style: inset;
+}
+
+.retro-nav a.active {
+  background: #003300;
+  color: #ffff00;
+  border-style: inset;
+}
+
+/* Hit counter */
+.retro-counter {
+  font-family: 'Courier New', monospace;
+  background: #000;
+  color: #00ff00;
+  border: 2px inset #555;
+  padding: 4px 12px;
+  font-size: 20px;
+  letter-spacing: 4px;
+  display: inline-block;
+}
+
+/* HR */
+.retro-hr {
+  border: none;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #ff00ff, #00ffff, #ffff00, #ff00ff, transparent);
+  margin: 16px 0;
+}
+
+/* Retro button */
+.retro-btn {
+  font-family: 'Arial Black', Impact, sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border: 3px outset #888;
+  cursor: pointer;
+  color: #000;
+  font-weight: bold;
+}
+
+.retro-btn:active {
+  border-style: inset;
+}
+
+.retro-btn-green {
+  background: linear-gradient(180deg, #00ff00, #009900);
+  color: #000;
+}
+
+.retro-btn-red {
+  background: linear-gradient(180deg, #ff4444, #990000);
+  color: #fff;
+}
+
+.retro-btn-yellow {
+  background: linear-gradient(180deg, #ffff00, #cc9900);
+  color: #000;
+}
+
+.retro-btn-blue {
+  background: linear-gradient(180deg, #00ccff, #006699);
+  color: #000;
+}
+
+/* Player skin */
+.retro-player {
+  background: linear-gradient(180deg, #2a2a2a, #1a1a1a, #0a0a0a);
+  border: 4px outset #666;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.retro-player-screen {
+  background: #001100;
+  border: 3px inset #444;
+  padding: 12px;
+  font-family: 'Courier New', monospace;
+  color: #00ff00;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+.retro-player-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+/* Volume slider retro */
+.retro-volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 12px;
+  background: linear-gradient(180deg, #333, #111);
+  border: 2px inset #555;
+  outline: none;
+}
+
+.retro-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 24px;
+  background: linear-gradient(180deg, #00ff00, #009900);
+  border: 2px outset #00cc00;
+  cursor: pointer;
+}
+
+/* Waveform bars */
+.retro-waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 40px;
+  padding: 4px;
+  background: #000;
+  border: 2px inset #333;
+}
+
+.retro-waveform-bar {
+  width: 6px;
+  background: linear-gradient(180deg, #ff0000, #ffff00, #00ff00);
+  transition: height 0.15s ease;
+}
+
+/* Guestbook */
+.retro-guestbook-entry {
+  border: 2px solid #333;
+  background: #0a0a2a;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.retro-guestbook-entry .author {
+  color: #ff00ff;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.retro-guestbook-entry .date {
+  color: #888;
+  font-size: 11px;
+}
+
+.retro-guestbook-entry .message {
+  color: #00ff00;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Retro input */
+.retro-input {
+  font-family: 'Courier New', monospace;
+  background: #000;
+  color: #00ff00;
+  border: 2px inset #555;
+  padding: 6px 10px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.retro-input:focus {
+  outline: 1px solid #00ff00;
+}
+
+.retro-textarea {
+  font-family: 'Courier New', monospace;
+  background: #000;
+  color: #00ff00;
+  border: 2px inset #555;
+  padding: 6px 10px;
+  font-size: 14px;
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Sidebar links */
+.retro-sidebar-link {
+  display: block;
+  color: #00ccff;
+  text-decoration: underline;
+  font-size: 13px;
+  padding: 3px 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.retro-sidebar-link:hover {
+  color: #ffff00;
+  background: #003300;
+}
+
+/* Stars / decorations */
+.retro-star {
+  display: inline-block;
+  animation: retro-spin 3s linear infinite;
+}
+
+@keyframes retro-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive: on mobile make it slightly less chaotic */
+@media (max-width: 768px) {
+  .retro-nav {
+    gap: 2px;
+  }
+  .retro-nav a, .retro-nav button {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  .retro-player {
+    padding: 12px;
+  }
+  .retro-table {
+    display: block;
+  }
+  .retro-table td {
+    display: block;
+    width: 100% !important;
+  }
+}
+
+/* Scrollbar retro */
+.retro-site::-webkit-scrollbar {
+  width: 14px;
+}
+.retro-site::-webkit-scrollbar-track {
+  background: #111;
+}
+.retro-site::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00ff00, #009900);
+  border: 2px outset #00cc00;
+}
+
+/* Fire text */
+.fire-text {
+  background: linear-gradient(180deg, #ff0000, #ff6600, #ffff00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: Impact, sans-serif;
+  font-weight: bold;
+}
+
+/* Playlist table */
+.retro-playlist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.retro-playlist-table th {
+  background: #1a0033;
+  color: #ff00ff;
+  border: 1px solid #ff00ff;
+  padding: 6px 10px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.retro-playlist-table td {
+  border: 1px solid #333;
+  padding: 5px 10px;
+  color: #00ff00;
+}
+
+.retro-playlist-table tr:hover td {
+  background: #001a00;
+  cursor: pointer;
+}
+
+/* Download link style */
+.retro-dl-link {
+  color: #00ccff;
+  text-decoration: underline;
+  font-family: 'Arial', sans-serif;
+}
+
+.retro-dl-link:hover {
+  color: #ffff00;
+}
+
+.retro-dl-link::before {
+  content: '📥 ';
+}
