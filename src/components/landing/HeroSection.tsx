@@ -1,9 +1,6 @@
-import { BookOpen, Send, ShoppingBag, Shield, Lock, Zap, Gamepad2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import ScrollLink from "@/components/ScrollLink";
+import { Shield, Lock, Zap } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import logoImg from "@/assets/pirate-flag.png";
-import RadioPlayer from "@/components/landing/RadioPlayer";
 
 interface HeroSectionProps {
   onTrialClick: () => void;
@@ -28,46 +25,7 @@ const HeroSection = ({ onTrialClick, onBuyClick }: HeroSectionProps) => {
   const ctaSecondary = data?.cta_secondary ?? "Купить ключ";
 
   return (
-    <section className="relative min-h-[90vh] flex flex-col overflow-hidden" aria-label="Главная — VPN-ключи без настроек">
-      {/* Top nav */}
-      <nav className="sticky top-0 z-50 w-full border-b border-border/50 backdrop-blur-sm bg-background/80" aria-label="Основная навигация">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between">
-          <div className="flex items-center gap-3 shrink-0">
-            <Link to="/" className="flex items-center gap-2">
-              <img src={logoImg} alt="VPN без мучений" className="w-12 h-12" />
-              <span className="font-display font-bold text-gold text-sm tracking-wide hidden sm:inline">VPN без мучений</span>
-            </Link>
-            <RadioPlayer />
-          </div>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-            <ScrollLink to="#offers" className="hover:text-gold transition-colors duration-200">Ключи</ScrollLink>
-            <ScrollLink to="#pricing" className="hover:text-gold transition-colors duration-200">Тарифы</ScrollLink>
-            <ScrollLink to="#cta" className="hover:text-gold transition-colors duration-200">Пробный ключ</ScrollLink>
-            <Link to="/shop" className="flex items-center gap-1.5 hover:text-gold transition-colors duration-200">
-              <ShoppingBag className="w-4 h-4" />
-              Магазин
-            </Link>
-            <Link to="/blog" className="flex items-center gap-1.5 hover:text-gold transition-colors duration-200">
-              <BookOpen className="w-4 h-4" />
-              Блог
-            </Link>
-            <Link to="/free-key" className="flex items-center gap-1.5 hover:text-gold transition-colors duration-200">
-              <Gamepad2 className="w-4 h-4" />
-              Выиграй ключ
-            </Link>
-            <a
-              href="https://t.me/unostoper"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-gold transition-colors duration-200"
-            >
-              <Send className="w-4 h-4" />
-              Telegram
-            </a>
-          </div>
-        </div>
-      </nav>
-
+    <section className="relative min-h-[85vh] flex flex-col overflow-hidden" aria-label="Главная — VPN-ключи без настроек">
       <div className="flex-1 flex items-center justify-center px-4">
         {/* Grid background */}
         <div className="absolute inset-0 bg-grid" />

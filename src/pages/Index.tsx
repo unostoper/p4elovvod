@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useBlockVisibility } from "@/hooks/useBlockVisibility";
 import { useBlockBackgrounds } from "@/hooks/useBlockBackgrounds";
 import HeroSection from "@/components/landing/HeroSection";
+import StickyNav from "@/components/landing/StickyNav";
 
 import AdvantagesSection from "@/components/landing/AdvantagesSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
@@ -33,6 +34,7 @@ const Index = () => {
 
   return (
     <>
+      <StickyNav />
       <main className="min-h-screen bg-background">
         {v("hero") && <div style={bgStyle("hero")}><HeroSection onTrialClick={() => setTrialOpen(true)} onBuyClick={() => openBuyKey()} /></div>}
 
