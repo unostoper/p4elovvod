@@ -30,6 +30,8 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
   const [trialKey, setTrialKey] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
   const { toast } = useToast();
   const { data: texts } = useSiteContent<TrialModalContent>("trial_modal");
 
@@ -75,17 +77,23 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
     }
   };
 
-  useEffect(() => {
-    if (open && !trialKey && !loading) {
-      fetchKey();
+  const handleEmailSubmit = () => {
+    if (!email || !email.includes("@")) {
+      toast({ title: "Введите корректный email", variant: "destructive" });
+      return;
     }
-  }, [open]);
+    setEmailSubmitted(true);
+    fetchKey();
+  };
+
 
   const handleOpen = (isOpen: boolean) => {
     if (!isOpen) {
       setTrialKey(null);
       setError(null);
       setCopied(false);
+      setEmail("");
+      setEmailSubmitted(false);
     }
     onOpenChange(isOpen);
   };
@@ -109,6 +117,31 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
         </DialogHeader>
 
         <div className="mt-4">
+          {!emailSubmitted && !trialKey && !loading && (
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="trial-email" className="text-sm text-muted-foreground mb-1 block">
+                  Email
+                </label>
+                <input
+                  id="trial-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleEmailSubmit()}
+                  placeholder="your@email.com"
+                  className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors"
+                />
+              </div>
+              <button
+                onClick={handleEmailSubmit}
+                className="w-full px-6 py-3 bg-primary text-primary-foreground font-display font-bold rounded-lg hover:opacity-90 transition-opacity btn-shine"
+              >
+                Получить ключ
+              </button>
+            </div>
+          )}
+
           {loading && (
             <div className="flex items-center justify-center py-8">
               <Loader2 className="w-6 h-6 animate-spin text-gold" />

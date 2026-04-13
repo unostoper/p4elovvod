@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useBlockVisibility } from "@/hooks/useBlockVisibility";
 import { useBlockBackgrounds } from "@/hooks/useBlockBackgrounds";
 import HeroSection from "@/components/landing/HeroSection";
-import OffersSection from "@/components/landing/OffersSection";
+
 import AdvantagesSection from "@/components/landing/AdvantagesSection";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import ReviewsSection from "@/components/landing/ReviewsSection";
@@ -35,9 +35,8 @@ const Index = () => {
     <>
       <main className="min-h-screen bg-background">
         {v("hero") && <div style={bgStyle("hero")}><HeroSection onTrialClick={() => setTrialOpen(true)} onBuyClick={() => openBuyKey()} /></div>}
-        {v("offers") && (
-          <div id="offers" style={bgStyle("offers")}><PirateReveal animation="sail-in"><OffersSection onBuyClick={openBuyKey} /></PirateReveal></div>
-        )}
+
+
         {v("pricing") && (
           <div id="pricing" style={bgStyle("pricing")}><PirateReveal animation="anchor-drop"><PricingSection onBuyClick={openBuyKey} showTelegramProxy={v("telegram_proxy")} /></PirateReveal></div>
         )}
