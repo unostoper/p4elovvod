@@ -31,7 +31,8 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState("");
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [telegram, setTelegram] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const { toast } = useToast();
   const { data: texts } = useSiteContent<TrialModalContent>("trial_modal");
 
@@ -77,12 +78,16 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
     }
   };
 
-  const handleEmailSubmit = () => {
+  const handleFormSubmit = () => {
     if (!email || !email.includes("@")) {
       toast({ title: "Введите корректный email", variant: "destructive" });
       return;
     }
-    setEmailSubmitted(true);
+    if (!telegram.trim()) {
+      toast({ title: "Введите ник в Telegram", variant: "destructive" });
+      return;
+    }
+    setFormSubmitted(true);
     fetchKey();
   };
 
@@ -93,7 +98,8 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
       setError(null);
       setCopied(false);
       setEmail("");
-      setEmailSubmitted(false);
+      setTelegram("");
+      setFormSubmitted(false);
     }
     onOpenChange(isOpen);
   };
@@ -117,8 +123,21 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
         </DialogHeader>
 
         <div className="mt-4">
-          {!emailSubmitted && !trialKey && !loading && (
+          {!formSubmitted && !trialKey && !loading && (
             <div className="space-y-4">
+              <div>
+                <label htmlFor="trial-telegram" className="text-sm text-muted-foreground mb-1 block">
+                  Telegram
+                </label>
+                <input
+                  id="trial-telegram"
+                  type="text"
+                  value={telegram}
+                  onChange={(e) => setTelegram(e.target.value)}
+                  placeholder="@username"
+                  className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors"
+                />
+              </div>
               <div>
                 <label htmlFor="trial-email" className="text-sm text-muted-foreground mb-1 block">
                   Email
@@ -128,13 +147,12 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleEmailSubmit()}
                   placeholder="your@email.com"
                   className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-gold transition-colors"
                 />
               </div>
               <button
-                onClick={handleEmailSubmit}
+                onClick={handleFormSubmit}
                 className="w-full px-6 py-3 bg-primary text-primary-foreground font-display font-bold rounded-lg hover:opacity-90 transition-opacity btn-shine"
               >
                 Получить ключ
