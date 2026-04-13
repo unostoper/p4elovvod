@@ -31,7 +31,8 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState("");
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [telegram, setTelegram] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const { toast } = useToast();
   const { data: texts } = useSiteContent<TrialModalContent>("trial_modal");
 
