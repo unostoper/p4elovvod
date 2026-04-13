@@ -78,12 +78,16 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
     }
   };
 
-  const handleEmailSubmit = () => {
+  const handleFormSubmit = () => {
     if (!email || !email.includes("@")) {
       toast({ title: "Введите корректный email", variant: "destructive" });
       return;
     }
-    setEmailSubmitted(true);
+    if (!telegram.trim()) {
+      toast({ title: "Введите ник в Telegram", variant: "destructive" });
+      return;
+    }
+    setFormSubmitted(true);
     fetchKey();
   };
 
