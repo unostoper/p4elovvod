@@ -30,7 +30,7 @@ const HeroSection = ({ onTrialClick, onBuyClick }: HeroSectionProps) => {
   return (
     <section className="relative min-h-[90vh] flex flex-col overflow-hidden" aria-label="Главная — VPN-ключи без настроек">
       {/* Top nav */}
-      <nav className="relative z-20 w-full border-b border-border/50 backdrop-blur-sm bg-background/80" aria-label="Основная навигация">
+      <nav className="sticky top-0 z-50 w-full border-b border-border/50 backdrop-blur-sm bg-background/80" aria-label="Основная навигация">
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between">
           <div className="flex items-center gap-3 shrink-0">
             <Link to="/" className="flex items-center gap-2">
