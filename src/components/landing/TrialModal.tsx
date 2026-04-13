@@ -98,7 +98,8 @@ const TrialModal = ({ open, onOpenChange }: TrialModalProps) => {
       setError(null);
       setCopied(false);
       setEmail("");
-      setEmailSubmitted(false);
+      setTelegram("");
+      setFormSubmitted(false);
     }
     onOpenChange(isOpen);
   };
