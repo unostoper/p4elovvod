@@ -11,6 +11,8 @@ interface HeroContent {
   badge: string;
   title: string;
   subtitle: string;
+  subtitle1: string;
+  subtitle2: string;
   cta_primary: string;
   cta_secondary: string;
 }
