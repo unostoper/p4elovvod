@@ -20,7 +20,8 @@ const HeroSection = ({ onTrialClick, onBuyClick }: HeroSectionProps) => {
 
   const badge = data?.badge ?? "VPN без мучений";
   const title = data?.title ?? "Интернет должен работать, а\u00a0не\u00a0бороться с\u00a0вами";
-  const subtitle = data?.subtitle ?? "Готовые VPN‑ключи без настроек и переключений. Подключил\u00a0— и всё работает.";
+  const subtitle1 = data?.subtitle1 ?? "Готовые VPN‑ключи. Без настроек и переключений.";
+  const subtitle2 = data?.subtitle2 ?? "Подключил\u00a0— и всё работает.";
   const ctaPrimary = data?.cta_primary ?? "Получить пробный ключ";
   const ctaSecondary = data?.cta_secondary ?? "Купить ключ";
 
@@ -42,8 +43,8 @@ const HeroSection = ({ onTrialClick, onBuyClick }: HeroSectionProps) => {
             {title}
           </h1>
 
-          <p className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-xl mx-auto text-balance leading-relaxed">
-            {subtitle}
+          <p className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-xl mx-auto leading-relaxed">
+            {subtitle1}<br />{subtitle2}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
