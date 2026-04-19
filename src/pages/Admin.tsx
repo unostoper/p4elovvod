@@ -1,445 +1,317 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAllSiteContent, useUpdateSiteContent } from "@/hooks/useSiteContent";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { clearAdminToken, getAdminToken, isAdmin } from "@/lib/admin";
 import { toast } from "sonner";
-import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
-import NewsBlockEditor from "@/components/admin/NewsBlockEditor";
-import BlogEditor from "@/components/admin/BlogEditor";
-import RadioEditor from "@/components/admin/RadioEditor";
-import MatrixEditor from "@/components/admin/MatrixEditor";
-import GamesEditor from "@/components/admin/GamesEditor";
-import AnalyticsEditor from "@/components/admin/AnalyticsEditor";
-import BlockBackgroundsEditor from "@/components/admin/BlockBackgroundsEditor";
-import TrialKeysEditor from "@/components/admin/TrialKeysEditor";
-import { Switch } from "@/components/ui/switch";
-import { useBlockVisibilityAdmin } from "@/hooks/useBlockVisibility";
-
-const BLOCK_LABELS: Record<string, string> = {
-  hero: "Главный экран",
-  offers: "Спецпредложения",
-  pricing: "Тарифы",
-  telegram_proxy: "Telegram-прокси",
-  advantages: "Преимущества",
-  how_it_works: "Как это работает",
-  reviews: "Отзывы",
-  cta: "Призыв к действию",
-  news: "Новости",
-  seo: "SEO-блок",
-  faq: "FAQ",
-  trial_modal: "Окно выдачи ключа",
-  block_backgrounds: "Фоны блоков",
-  games: "Игры",
-  radio: "Онлайн-радио",
-  matrix: "Эффект «Матрица»",
-  page_shop: "Магазин",
-  page_blog: "Блог",
-  page_news: "Новости (страница)",
-};
+import { Button } from "@/components/ui/button";
 
 const Admin = () => {
-  const navigate = useNavigate();
-  const { data: blocks, isLoading } = useAllSiteContent();
-  const updateMutation = useUpdateSiteContent();
-  const [editState, setEditState] = useState<Record<string, any>>({});
-  const [activeBlock, setActiveBlock] = useState<string | null>(null);
-  const { visibility, toggle: toggleVisibility, saving: visibilitySaving } = useBlockVisibilityAdmin();
+  const qc = useQueryClient();
+  const [tab, setTab] = useState<"posts" | "settings" | "telegram">("posts");
 
-  const VISIBILITY_BLOCKS = ["hero", "offers", "pricing", "telegram_proxy", "advantages", "how_it_works", "reviews", "news", "cta", "seo", "faq"];
-  const VISIBILITY_PAGES = ["page_shop", "page_blog", "page_news"];
-
-  useEffect(() => {
-    if (!sessionStorage.getItem("admin_token")) {
-      navigate("/captain-hook-panel/login", { replace: true });
-    }
-  }, [navigate]);
-
-  const handleLogout = () => {
-    sessionStorage.removeItem("admin_token");
-    navigate("/captain-hook-panel/login");
-  };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">Загрузка…</p>
-      </div>
-    );
-  }
-
-  const getContent = (id: string) => {
-    if (editState[id] !== undefined) return editState[id];
-    const block = blocks?.find((b) => b.id === id);
-    return block?.content ?? {};
-  };
-
-  const setContent = (id: string, content: any) => {
-    setEditState((prev) => ({ ...prev, [id]: content }));
-  };
-
-  const handleSave = (id: string) => {
-    const content = getContent(id);
-    updateMutation.mutate(
-      { id, content },
-      {
-        onSuccess: () => {
-          toast.success(`Блок «${BLOCK_LABELS[id] || id}» сохранён`);
-          setEditState((prev) => {
-            const next = { ...prev };
-            delete next[id];
-            return next;
-          });
-        },
-        onError: () => toast.error("Ошибка сохранения"),
-      }
-    );
-  };
-
-  const isDirty = (id: string) => editState[id] !== undefined;
+  if (!isAdmin()) return <Navigate to="/admin/login" replace />;
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border px-6 py-4 flex items-center justify-between sticky top-0 bg-background z-10">
-        <div className="flex items-center gap-3">
-          <a href="/" className="text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-          </a>
-          <h1 className="font-display text-xl font-bold">Админ-панель</h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-muted-foreground text-xs">Редактирование контента сайта</span>
-          <Button variant="outline" size="sm" onClick={handleLogout}>Выйти</Button>
-        </div>
-      </header>
-
-      <div className="flex min-h-[calc(100vh-65px)]">
-        <nav className="w-56 border-r border-border p-4 space-y-1 shrink-0">
-          <div className="mb-4">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Видимость блоков</h3>
-            {VISIBILITY_BLOCKS.map((id) => (
-              <div key={id} className="flex items-center justify-between px-3 py-1.5">
-                <span className="text-sm text-muted-foreground">{BLOCK_LABELS[id] || id}</span>
-                <Switch
-                  checked={visibility[id] !== false}
-                  onCheckedChange={() => toggleVisibility(id)}
-                  disabled={visibilitySaving}
-                  className="scale-75"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="mb-4">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Видимость страниц</h3>
-            {VISIBILITY_PAGES.map((id) => (
-              <div key={id} className="flex items-center justify-between px-3 py-1.5">
-                <span className="text-sm text-muted-foreground">{BLOCK_LABELS[id] || id}</span>
-                <Switch
-                  checked={visibility[id] !== false}
-                  onCheckedChange={() => toggleVisibility(id)}
-                  disabled={visibilitySaving}
-                  className="scale-75"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="border-t border-border pt-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Управление</h3>
+    <div className="container py-4 max-w-5xl space-y-4">
+      <div className="bevel bg-black/85 p-3 flex flex-wrap items-center justify-between gap-2">
+        <h1 className="font-impact text-3xl text-rainbow">⚙ ZeroBlog Admin</h1>
+        <div className="flex gap-2">
+          {(["posts", "settings", "telegram"] as const).map((t) => (
             <button
-              onClick={() => setActiveBlock("analytics")}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeBlock === "analytics"
-                  ? "bg-primary/10 text-gold font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              key={t}
+              onClick={() => setTab(t)}
+              className={`bevel px-3 py-1 font-impact uppercase ${
+                tab === t ? "bg-neon-yellow text-black" : "bg-neon-purple text-white"
               }`}
             >
-              📊 Аналитика
+              {t}
             </button>
-            <button
-              onClick={() => setActiveBlock("radio")}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeBlock === "radio"
-                  ? "bg-primary/10 text-gold font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              } ${isDirty("radio") ? "border-l-2 border-gold" : ""}`}
-            >
-              📻 Онлайн-радио
-            </button>
-            <button
-              onClick={() => setActiveBlock("matrix")}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeBlock === "matrix"
-                  ? "bg-primary/10 text-gold font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              } ${isDirty("matrix") ? "border-l-2 border-gold" : ""}`}
-            >
-              🟩 Эффект «Матрица»
-            </button>
-            <button
-              onClick={() => setActiveBlock("games")}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeBlock === "games"
-                  ? "bg-primary/10 text-gold font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              } ${isDirty("games") ? "border-l-2 border-gold" : ""}`}
-            >
-              🎰 Игры
-            </button>
-            <button
-              onClick={() => setActiveBlock("trial_keys")}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeBlock === "trial_keys"
-                  ? "bg-primary/10 text-gold font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              }`}
-            >
-              Пробные ключи
-            </button>
-            <button
-              onClick={() => setActiveBlock("block_backgrounds")}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeBlock === "block_backgrounds"
-                  ? "bg-primary/10 text-gold font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              } ${isDirty("block_backgrounds") ? "border-l-2 border-gold" : ""}`}
-            >
-              Фоны блоков
-            </button>
-          </div>
-          <div className="border-t border-border pt-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3">Редактирование</h3>
-            {blocks?.filter(b => b.id !== "block_visibility").map((block) => (
-              <button
-                key={block.id}
-                onClick={() => setActiveBlock(block.id)}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                  activeBlock === block.id
-                    ? "bg-primary/10 text-gold font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                } ${isDirty(block.id) ? "border-l-2 border-gold" : ""}`}
-              >
-                {BLOCK_LABELS[block.id] || block.id}
-              </button>
-            ))}
-          </div>
-        </nav>
+          ))}
+          <button
+            onClick={() => {
+              clearAdminToken();
+              window.location.href = "/admin/login";
+            }}
+            className="bevel bg-destructive text-white px-3 py-1 font-impact uppercase"
+          >
+            logout
+          </button>
+        </div>
+      </div>
 
-        <main className="flex-1 p-6 overflow-auto">
-          {!activeBlock ? (
-            <div className="flex items-center justify-center h-full text-muted-foreground">
-              Выбери блок для редактирования ←
+      {tab === "posts" && <PostsTab qc={qc} />}
+      {tab === "settings" && <SettingsTab qc={qc} />}
+      {tab === "telegram" && <TelegramTab qc={qc} />}
+    </div>
+  );
+};
+
+const PostsTab = ({ qc }: { qc: any }) => {
+  const { data: posts } = useQuery({
+    queryKey: ["admin_posts"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("zeroblog_posts")
+        .select("*")
+        .order("published_at", { ascending: false });
+      if (error) throw error;
+      return data || [];
+    },
+  });
+
+  const [edit, setEdit] = useState<any | null>(null);
+
+  const save = useMutation({
+    mutationFn: async (p: any) => {
+      const { error } = await supabase.functions.invoke("zeroblog-admin", {
+        body: { action: "save_post", token: getAdminToken(), post: p },
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Сохранено");
+      setEdit(null);
+      qc.invalidateQueries({ queryKey: ["admin_posts"] });
+      qc.invalidateQueries({ queryKey: ["zeroblog_posts_list"] });
+    },
+    onError: (e: any) => toast.error(e.message || "Ошибка"),
+  });
+
+  const del = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.functions.invoke("zeroblog-admin", {
+        body: { action: "delete_post", token: getAdminToken(), id },
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Удалено");
+      qc.invalidateQueries({ queryKey: ["admin_posts"] });
+      qc.invalidateQueries({ queryKey: ["zeroblog_posts_list"] });
+    },
+  });
+
+  return (
+    <div className="space-y-3">
+      <Button
+        onClick={() =>
+          setEdit({
+            id: null,
+            title: "",
+            content: "",
+            emoji: "✨",
+            media: [],
+            published: true,
+          })
+        }
+        className="bevel bg-neon-lime text-black font-impact uppercase"
+      >
+        + New post
+      </Button>
+
+      {edit && (
+        <div className="bevel bg-black/85 p-4 space-y-3">
+          <input
+            className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-xl text-white"
+            placeholder="title"
+            value={edit.title}
+            onChange={(e) => setEdit({ ...edit, title: e.target.value })}
+          />
+          <input
+            className="bevel-in w-32 bg-neon-purple/30 px-3 py-2 font-vt text-xl text-white"
+            placeholder="emoji"
+            value={edit.emoji || ""}
+            onChange={(e) => setEdit({ ...edit, emoji: e.target.value })}
+          />
+          <textarea
+            className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-lg text-white min-h-[200px]"
+            placeholder="content"
+            value={edit.content}
+            onChange={(e) => setEdit({ ...edit, content: e.target.value })}
+          />
+          <input
+            className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-base text-white"
+            placeholder='media JSON, например: [{"url":"https://...","type":"photo"}]'
+            value={JSON.stringify(edit.media || [])}
+            onChange={(e) => {
+              try {
+                setEdit({ ...edit, media: JSON.parse(e.target.value) });
+              } catch {
+                /* ignore */
+              }
+            }}
+          />
+          <label className="flex items-center gap-2 font-vt text-xl text-neon-yellow">
+            <input
+              type="checkbox"
+              checked={edit.published}
+              onChange={(e) => setEdit({ ...edit, published: e.target.checked })}
+            />
+            Опубликован
+          </label>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => save.mutate(edit)}
+              disabled={save.isPending}
+              className="bevel bg-neon-pink text-white font-impact uppercase"
+            >
+              save
+            </Button>
+            <Button
+              onClick={() => setEdit(null)}
+              className="bevel bg-muted text-white font-impact uppercase"
+            >
+              cancel
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-2">
+        {posts?.map((p: any) => (
+          <div key={p.id} className="bevel bg-black/70 p-3 flex items-center justify-between gap-2">
+            <div className="font-vt text-xl text-white truncate">
+              <span className={p.published ? "text-neon-lime" : "text-muted-foreground"}>
+                {p.published ? "●" : "○"}
+              </span>{" "}
+              {p.emoji} {p.title || "(без названия)"}
+              <span className="text-neon-cyan text-sm ml-2">
+                {new Date(p.published_at).toLocaleDateString("ru-RU")}
+              </span>
             </div>
-          ) : activeBlock === "analytics" ? (
-            <AnalyticsEditor />
-          ) : activeBlock === "radio" ? (
-            <RadioEditor
-              content={getContent("radio")}
-              onChange={(c) => setContent("radio", c)}
-              onSave={() => handleSave("radio")}
-              saving={updateMutation.isPending}
-              dirty={isDirty("radio")}
-            />
-          ) : activeBlock === "matrix" ? (
-            <MatrixEditor
-              content={getContent("matrix")}
-              onChange={(c) => setContent("matrix", c)}
-              onSave={() => handleSave("matrix")}
-              saving={updateMutation.isPending}
-              dirty={isDirty("matrix")}
-            />
-          ) : activeBlock === "games" ? (
-            <GamesEditor
-              content={getContent("games")}
-              onChange={(c) => setContent("games", c)}
-              onSave={() => handleSave("games")}
-              saving={updateMutation.isPending}
-              dirty={isDirty("games")}
-            />
-          ) : activeBlock === "trial_keys" ? (
-            <TrialKeysEditor />
-          ) : activeBlock === "blog" ? (
-            <BlogEditor />
-          ) : activeBlock === "block_backgrounds" ? (
-            <BlockBackgroundsEditor
-              content={getContent("block_backgrounds")}
-              onChange={(c) => setContent("block_backgrounds", c)}
-              onSave={() => handleSave("block_backgrounds")}
-              saving={updateMutation.isPending}
-              dirty={isDirty("block_backgrounds")}
-            />
-          ) : activeBlock === "news" ? (
-            <NewsBlockEditor
-              content={getContent("news")}
-              onChange={(c) => setContent("news", c)}
-              onSave={() => handleSave("news")}
-              saving={updateMutation.isPending}
-              dirty={isDirty("news")}
-            />
-          ) : (
-            <BlockEditor
-              id={activeBlock}
-              content={getContent(activeBlock)}
-              onChange={(c) => setContent(activeBlock, c)}
-              onSave={() => handleSave(activeBlock)}
-              saving={updateMutation.isPending}
-              dirty={isDirty(activeBlock)}
-            />
-          )}
-        </main>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setEdit(p)}
+                className="bevel bg-neon-yellow text-black font-impact text-sm px-2 py-1"
+              >
+                edit
+              </button>
+              <button
+                onClick={() => {
+                  if (confirm("Удалить пост?")) del.mutate(p.id);
+                }}
+                className="bevel bg-destructive text-white font-impact text-sm px-2 py-1"
+              >
+                del
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-interface BlockEditorProps {
-  id: string;
-  content: any;
-  onChange: (c: any) => void;
-  onSave: () => void;
-  saving: boolean;
-  dirty: boolean;
-}
+const SettingsTab = ({ qc }: { qc: any }) => {
+  const { data } = useQuery({
+    queryKey: ["zeroblog_settings_admin"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("zeroblog_settings")
+        .select("*")
+        .eq("id", 1)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+  const [s, setS] = useState<any>(null);
+  useEffect(() => {
+    if (data) setS(data);
+  }, [data]);
 
-const BlockEditor = ({ id, content, onChange, onSave, saving, dirty }: BlockEditorProps) => {
-  const updateField = (key: string, value: string) => {
-    onChange({ ...content, [key]: value });
-  };
+  const save = useMutation({
+    mutationFn: async (settings: any) => {
+      const { error } = await supabase.functions.invoke("zeroblog-admin", {
+        body: { action: "save_settings", token: getAdminToken(), settings },
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Настройки сохранены");
+      qc.invalidateQueries({ queryKey: ["zeroblog_settings"] });
+      qc.invalidateQueries({ queryKey: ["zeroblog_settings_admin"] });
+    },
+    onError: (e: any) => toast.error(e.message),
+  });
 
-  const updateArrayItem = (arrKey: string, index: number, field: string, value: string) => {
-    const arr = [...(content[arrKey] || [])];
-    arr[index] = { ...arr[index], [field]: value };
-    onChange({ ...content, [arrKey]: arr });
-  };
+  if (!s) return null;
+  return (
+    <div className="bevel bg-black/85 p-4 space-y-3">
+      {[
+        ["site_title", "Название сайта"],
+        ["site_description", "Описание"],
+        ["author_name", "Имя автора"],
+        ["accent_color", "Акцентный цвет (hex)"],
+        ["tg_channel", "Telegram канал (@name или ссылка)"],
+      ].map(([k, label]) => (
+        <label key={k} className="block font-vt text-xl text-neon-yellow">
+          {label}
+          <input
+            className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-xl text-white"
+            value={s[k] || ""}
+            onChange={(e) => setS({ ...s, [k]: e.target.value })}
+          />
+        </label>
+      ))}
+      <Button
+        onClick={() => save.mutate(s)}
+        disabled={save.isPending}
+        className="bevel bg-neon-pink text-white font-impact uppercase"
+      >
+        save settings
+      </Button>
+    </div>
+  );
+};
 
-  const addArrayItem = (arrKey: string, template: any) => {
-    const arr = [...(content[arrKey] || []), template];
-    onChange({ ...content, [arrKey]: arr });
-  };
+const TelegramTab = ({ qc }: { qc: any }) => {
+  const [log, setLog] = useState<string>("");
 
-  const removeArrayItem = (arrKey: string, index: number) => {
-    const arr = [...(content[arrKey] || [])];
-    arr.splice(index, 1);
-    onChange({ ...content, [arrKey]: arr });
-  };
-
-  const arrayKey = content.items ? "items" : content.steps ? "steps" : null;
-  const arrayData: any[] = arrayKey ? content[arrayKey] || [] : [];
-
-  const simpleFields = Object.entries(content).filter(
-    ([k, v]) => typeof v === "string"
-  ) as [string, string][];
-
-  const FIELD_LABELS: Record<string, string> = {
-    title: "Заголовок",
-    subtitle: "Подзаголовок",
-    badge: "Бейдж",
-    cta_primary: "Кнопка (основная)",
-    cta_secondary: "Кнопка (вторичная)",
-    desc: "Описание",
-    name: "Имя",
-    text: "Текст",
-    date: "Дата",
-    num: "Номер",
-  };
+  const importNow = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase.functions.invoke("zeroblog-import-telegram", {
+        body: { token: getAdminToken() },
+      });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (data) => {
+      setLog(JSON.stringify(data, null, 2));
+      toast.success(`Импортировано постов: ${data?.imported ?? 0}`);
+      qc.invalidateQueries({ queryKey: ["admin_posts"] });
+      qc.invalidateQueries({ queryKey: ["zeroblog_posts_list"] });
+    },
+    onError: (e: any) => {
+      setLog(String(e.message || e));
+      toast.error("Ошибка импорта");
+    },
+  });
 
   return (
-    <div className="max-w-2xl">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="font-display text-2xl font-bold">
-          {BLOCK_LABELS[id] || id}
-        </h2>
-        <Button onClick={onSave} disabled={!dirty || saving} className="gap-2">
-          <Save className="w-4 h-4" />
-          {saving ? "Сохраняю…" : "Сохранить"}
+    <div className="space-y-3">
+      <div className="bevel bg-black/85 p-4 space-y-3">
+        <h2 className="font-impact text-2xl text-neon-cyan">📡 Импорт из Telegram</h2>
+        <p className="font-vt text-lg text-white">
+          1. Создай бота через <a className="underline-link" href="https://t.me/BotFather" target="_blank" rel="noreferrer">@BotFather</a> и добавь его как администратора в свой канал.
+          <br />
+          2. Бот получает только НОВЫЕ посты канала через getUpdates (история недоступна Bot API).
+          <br />
+          3. Жми кнопку — функция заберёт все накопившиеся posts и сохранит их.
+        </p>
+        <Button
+          onClick={() => importNow.mutate()}
+          disabled={importNow.isPending}
+          className="bevel bg-neon-lime text-black font-impact uppercase text-lg px-4 py-2"
+        >
+          {importNow.isPending ? "⏳ импортирую…" : "📥 Загрузить посты из Telegram"}
         </Button>
       </div>
-
-      <div className="space-y-4 mb-8">
-        {simpleFields.map(([key, val]) => (
-          <div key={key}>
-            <label className="block text-sm text-muted-foreground mb-1">
-              {FIELD_LABELS[key] || key}
-            </label>
-            {val.length > 60 ? (
-              <Textarea
-                value={val}
-                onChange={(e) => updateField(key, e.target.value)}
-                rows={3}
-              />
-            ) : (
-              <Input
-                value={val}
-                onChange={(e) => updateField(key, e.target.value)}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-
-      {arrayKey && (
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-display font-semibold text-lg">
-              Элементы ({arrayData.length})
-            </h3>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                const template = arrayData[0]
-                  ? Object.fromEntries(Object.keys(arrayData[0]).map((k) => [k, ""]))
-                  : { title: "", desc: "" };
-                addArrayItem(arrayKey, template);
-              }}
-              className="gap-1"
-            >
-              <Plus className="w-4 h-4" /> Добавить
-            </Button>
-          </div>
-
-          <div className="space-y-4">
-            {arrayData.map((item: any, i: number) => (
-              <div
-                key={i}
-                className="bg-surface border border-border rounded-lg p-4 space-y-3 relative"
-              >
-                <button
-                  onClick={() => removeArrayItem(arrayKey, i)}
-                  className="absolute top-3 right-3 text-muted-foreground hover:text-destructive transition-colors"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-
-                {Object.entries(item)
-                  .filter(([, v]) => typeof v === "string")
-                  .map(([field, val]) => (
-                    <div key={field}>
-                      <label className="block text-xs text-muted-foreground mb-1">
-                        {FIELD_LABELS[field] || field}
-                      </label>
-                      {(val as string).length > 50 ? (
-                        <Textarea
-                          value={val as string}
-                          onChange={(e) =>
-                            updateArrayItem(arrayKey, i, field, e.target.value)
-                          }
-                          rows={2}
-                        />
-                      ) : (
-                        <Input
-                          value={val as string}
-                          onChange={(e) =>
-                            updateArrayItem(arrayKey, i, field, e.target.value)
-                          }
-                        />
-                      )}
-                    </div>
-                  ))}
-              </div>
-            ))}
-          </div>
-        </div>
+      {log && (
+        <pre className="bevel-in bg-black/80 p-3 font-mono text-sm text-neon-lime whitespace-pre-wrap break-all">
+          {log}
+        </pre>
       )}
     </div>
   );

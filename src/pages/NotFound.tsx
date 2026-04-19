@@ -1,24 +1,22 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import SiteHeader from "@/components/zeroblog/SiteHeader";
+import SiteFooter from "@/components/zeroblog/SiteFooter";
+import { Link } from "react-router-dom";
 
-const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
-      </div>
+const NotFound = () => (
+  <div className="container py-4 max-w-5xl">
+    <SiteHeader />
+    <div className="bevel bg-black/85 p-8 mt-4 text-center space-y-3">
+      <h1 className="font-impact text-7xl text-rainbow blink">404</h1>
+      <p className="font-vt text-2xl text-neon-yellow">
+        Page not found · возможно, эта страница ещё{" "}
+        <span className="text-neon-pink">UNDER CONSTRUCTION 🚧</span>
+      </p>
+      <Link to="/" className="underline-link font-vt text-xl">
+        ← back to homepage
+      </Link>
     </div>
-  );
-};
+    <SiteFooter />
+  </div>
+);
 
 export default NotFound;
