@@ -182,6 +182,99 @@ export type Database = {
         }
         Relationships: []
       }
+      zeroblog_posts: {
+        Row: {
+          content: string
+          created_at: string
+          emoji: string | null
+          id: string
+          media: Json
+          published: boolean
+          published_at: string
+          tg_chat_id: number | null
+          tg_message_id: number | null
+          title: string
+          updated_at: string
+          views: number
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          media?: Json
+          published?: boolean
+          published_at?: string
+          tg_chat_id?: number | null
+          tg_message_id?: number | null
+          title?: string
+          updated_at?: string
+          views?: number
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          media?: Json
+          published?: boolean
+          published_at?: string
+          tg_chat_id?: number | null
+          tg_message_id?: number | null
+          title?: string
+          updated_at?: string
+          views?: number
+        }
+        Relationships: []
+      }
+      zeroblog_settings: {
+        Row: {
+          accent_color: string
+          author_name: string
+          id: number
+          site_description: string
+          site_title: string
+          tg_channel: string | null
+          updated_at: string
+        }
+        Insert: {
+          accent_color?: string
+          author_name?: string
+          id: number
+          site_description?: string
+          site_title?: string
+          tg_channel?: string | null
+          updated_at?: string
+        }
+        Update: {
+          accent_color?: string
+          author_name?: string
+          id?: number
+          site_description?: string
+          site_title?: string
+          tg_channel?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      zeroblog_tg_state: {
+        Row: {
+          id: number
+          update_offset: number
+          updated_at: string
+        }
+        Insert: {
+          id: number
+          update_offset?: number
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          update_offset?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
