@@ -1,13 +1,10 @@
 project_id = "mnixswaiifzqjydhxhuk"
 
-[functions.get-trial-key]
+[functions.zeroblog-admin]
 verify_jwt = false
 
-[functions.fetch-telegram-post]
+[functions.zeroblog-import-telegram]
 verify_jwt = false
 
-[functions.play-game]
-verify_jwt = false
-
-[functions.track-visit]
+[functions.admin-login]
 verify_jwt = false
