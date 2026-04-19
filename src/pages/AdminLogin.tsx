@@ -1,33 +1,30 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Navigate, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { isAdmin, setAdminToken } from "@/lib/admin";
 import { toast } from "sonner";
-import { Lock } from "lucide-react";
 
 const AdminLogin = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [u, setU] = useState("");
+  const [p, setP] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const nav = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  if (isAdmin()) return <Navigate to="/admin" replace />;
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const { data, error } = await supabase.functions.invoke("admin-login", {
-        body: { username, password },
+        body: { username: u, password: p },
       });
-
       if (error || !data?.success) {
         toast.error(data?.error || "Неверный логин или пароль");
         return;
       }
-
-      sessionStorage.setItem("admin_token", data.token);
-      navigate("/captain-hook-panel");
+      setAdminToken(data.token);
+      nav("/admin");
     } catch {
       toast.error("Ошибка подключения");
     } finally {
@@ -36,34 +33,39 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <form onSubmit={handleLogin} className="w-full max-w-sm space-y-6">
-        <div className="flex flex-col items-center gap-2 mb-4">
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-            <Lock className="w-6 h-6 text-gold" />
-          </div>
-          <h1 className="font-display text-xl font-bold">Вход в панель</h1>
-        </div>
-
-        <div className="space-y-3">
-          <Input
-            placeholder="Логин"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            autoComplete="username"
-          />
-          <Input
-            type="password"
-            placeholder="Пароль"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
-        </div>
-
-        <Button type="submit" className="w-full" disabled={loading || !username || !password}>
-          {loading ? "Вхожу…" : "Войти"}
-        </Button>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <form
+        onSubmit={submit}
+        className="bevel bg-black/85 p-6 w-full max-w-md space-y-4"
+      >
+        <h1 className="font-impact text-3xl text-rainbow text-center">
+          🔐 ADMIN LOGIN
+        </h1>
+        <p className="font-pixel text-[10px] text-neon-yellow text-center blink">
+          AUTHORIZED PERSONNEL ONLY
+        </p>
+        <input
+          className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-xl text-white outline-none"
+          placeholder="username"
+          value={u}
+          onChange={(e) => setU(e.target.value)}
+          autoComplete="username"
+        />
+        <input
+          type="password"
+          className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-xl text-white outline-none"
+          placeholder="password"
+          value={p}
+          onChange={(e) => setP(e.target.value)}
+          autoComplete="current-password"
+        />
+        <button
+          type="submit"
+          disabled={loading || !u || !p}
+          className="bevel bg-neon-pink text-white font-impact text-xl uppercase w-full py-2 hover:bg-neon-yellow hover:text-black disabled:opacity-50"
+        >
+          {loading ? "Logging in…" : "Enter ★"}
+        </button>
       </form>
     </div>
   );
