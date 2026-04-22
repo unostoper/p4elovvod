@@ -132,7 +132,8 @@
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><text x='2' y='12' font-size='10' fill='%23ffff00'>★</text><text x='14' y='22' font-size='8' fill='%23ff00ff'>✦</text></svg>");
   }
 
-  .blink { animation: blink 1s steps(2) infinite; }
+  .blink { animation: none; }
+  .blink-cursor { animation: blink 1s steps(2) infinite; }
 
   .marquee {
     overflow: hidden;
