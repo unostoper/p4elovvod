@@ -7,6 +7,7 @@ import SiteHeader from "@/components/zeroblog/SiteHeader";
 import SiteSidebar from "@/components/zeroblog/SiteSidebar";
 import SiteFooter from "@/components/zeroblog/SiteFooter";
 import PostMedia from "@/components/zeroblog/PostMedia";
+import MarkdownView from "@/components/zeroblog/MarkdownView";
 
 const Post = () => {
   const { id } = useParams();
@@ -40,10 +41,7 @@ const Post = () => {
 
   return (
     <div className="container py-4 max-w-5xl">
-      <SiteHeader
-        title={settings?.site_title || "ZeroBlog"}
-        description={settings?.site_description || "Личный дневник из 2005-го"}
-      />
+      <SiteHeader />
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 mt-4">
         <main>
           {isLoading && (
@@ -72,9 +70,7 @@ const Post = () => {
               <h1 className="font-impact text-4xl md:text-5xl text-rainbow">
                 {post.emoji} {post.title}
               </h1>
-              <p className="font-vt text-2xl text-white whitespace-pre-wrap leading-snug">
-                {post.content}
-              </p>
+              <MarkdownView className="text-2xl">{post.content}</MarkdownView>
               <PostMedia media={(post.media as any[]) || []} />
 
               <section className="mt-6 bevel-in bg-black/60 p-3">

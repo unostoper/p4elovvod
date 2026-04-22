@@ -30,10 +30,7 @@ const Archive = () => {
 
   return (
     <div className="container py-4 max-w-5xl">
-      <SiteHeader
-        title={settings?.site_title || "ZeroBlog"}
-        description={settings?.site_description || "Личный дневник из 2005-го"}
-      />
+      <SiteHeader />
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 mt-4">
         <main className="bevel bg-black/80 p-5 space-y-4">
           <h1 className="font-impact text-4xl text-rainbow">📁 Архив записей</h1>

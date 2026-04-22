@@ -68,10 +68,13 @@
   body {
     background-color: hsl(var(--background));
     background-image:
-      radial-gradient(circle at 25% 20%, hsl(var(--neon-pink) / 0.25), transparent 40%),
-      radial-gradient(circle at 75% 80%, hsl(var(--neon-cyan) / 0.25), transparent 40%),
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><rect width='40' height='40' fill='%23000814' fill-opacity='0'/><text x='4' y='14' font-family='monospace' font-size='10' fill='%23ff00ff' fill-opacity='0.18'>★</text><text x='22' y='30' font-family='monospace' font-size='8' fill='%2300ffff' fill-opacity='0.18'>✦</text></svg>");
+      radial-gradient(circle at 20% 10%, hsl(var(--neon-pink) / 0.45), transparent 45%),
+      radial-gradient(circle at 80% 30%, hsl(var(--neon-cyan) / 0.4), transparent 45%),
+      radial-gradient(circle at 50% 90%, hsl(var(--neon-lime) / 0.35), transparent 50%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'><text x='4' y='14' font-family='monospace' font-size='12' fill='%23ff00ff' fill-opacity='0.22'>★</text><text x='24' y='30' font-family='monospace' font-size='10' fill='%2300ffff' fill-opacity='0.22'>✦</text><text x='10' y='40' font-family='monospace' font-size='9' fill='%23ffff00' fill-opacity='0.18'>♥</text></svg>");
     background-attachment: fixed;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 88px 88px;
+    animation: bg-shift 18s ease-in-out infinite alternate;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -149,6 +152,34 @@
     font-family: monospace;
     letter-spacing: 0.3em;
   }
+  .wiggle { animation: wiggle 0.6s ease-in-out infinite; }
+}
+
+@keyframes bg-shift {
+  0%   { background-position: 0% 0%, 100% 0%, 50% 100%, 0 0; }
+  100% { background-position: 100% 50%, 0% 50%, 50% 0%, 88px 88px; }
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes marquee-x {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+/* Markdown styling for posts */
+.md-y2k p { margin: 0.5rem 0; }
+.md-y2k strong { color: hsl(var(--neon-yellow)); text-shadow: 0 0 6px hsl(var(--neon-yellow) / 0.5); }
+.md-y2k em { color: hsl(var(--neon-cyan)); }
+.md-y2k hr {
+  border: none;
+  border-top: 2px dashed hsl(var(--neon-pink));
+  margin: 1rem 0;
 }
 
 ::-webkit-scrollbar { width: 14px; }

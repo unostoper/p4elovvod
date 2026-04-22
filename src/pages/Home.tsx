@@ -6,6 +6,7 @@ import SiteHeader from "@/components/zeroblog/SiteHeader";
 import SiteSidebar from "@/components/zeroblog/SiteSidebar";
 import SiteFooter from "@/components/zeroblog/SiteFooter";
 import PostMedia from "@/components/zeroblog/PostMedia";
+import MarkdownView from "@/components/zeroblog/MarkdownView";
 
 const formatDate = (s: string) =>
   new Date(s).toLocaleString("ru-RU", {
@@ -34,10 +35,7 @@ const Home = () => {
 
   return (
     <div className="container py-4 max-w-6xl">
-      <SiteHeader
-        title={settings?.site_title || "ZeroBlog"}
-        description={settings?.site_description || "Личный дневник из 2005-го"}
-      />
+      <SiteHeader />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 mt-4">
         <main className="space-y-4">
@@ -73,9 +71,7 @@ const Home = () => {
                 {p.emoji} {p.title || "(без названия)"}
               </h2>
 
-              <p className="font-vt text-xl text-white whitespace-pre-wrap leading-snug">
-                {p.content}
-              </p>
+              <MarkdownView>{p.content}</MarkdownView>
 
               <PostMedia media={p.media || []} />
 
