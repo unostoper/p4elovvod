@@ -5,7 +5,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Simple admin token check: token exists and is a valid uuid string from admin-login
 const isValidToken = (t: unknown) => typeof t === "string" && t.length >= 16;
 
 Deno.serve(async (req) => {
@@ -75,6 +74,27 @@ Deno.serve(async (req) => {
       const { error } = await supabase.from("zeroblog_settings").update(row).eq("id", 1);
       if (error) throw error;
       return new Response(JSON.stringify({ ok: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (action === "save_block") {
+      const key = String(body.key || "").slice(0, 64);
+      const data = body.data ?? {};
+      if (!key) throw new Error("Missing key");
+      const { error } = await supabase
+        .from("site_blocks")
+        .upsert({ key, data, updated_at: new Date().toISOString() }, { onConflict: "key" });
+      if (error) throw error;
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (action === "list_blocks") {
+      const { data, error } = await supabase.from("site_blocks").select("key, data, updated_at");
+      if (error) throw error;
+      return new Response(JSON.stringify({ ok: true, blocks: data || [] }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
