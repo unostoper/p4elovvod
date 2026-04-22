@@ -133,6 +133,7 @@
   }
 
   .blink { animation: none; }
+  .blink-cursor { animation: blink 1s steps(2) infinite; }
 
   .marquee {
     overflow: hidden;

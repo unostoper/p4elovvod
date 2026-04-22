@@ -26,7 +26,7 @@ const SiteHeader = ({ title, description }: { title?: string; description?: stri
         <div className="absolute inset-0 tile-stars opacity-30 pointer-events-none" />
         <h1 className="font-impact text-5xl md:text-7xl text-white text-glow-pink relative">
           <span className="text-rainbow">{finalTitle}</span>
-          <span className="text-white blink">_</span>
+          <span className="text-white blink-cursor">_</span>
         </h1>
         <p className="font-vt text-2xl text-neon-yellow mt-1 text-glow-cyan relative">{finalDesc}</p>
         {hero.footnote && (
