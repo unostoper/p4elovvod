@@ -5,19 +5,24 @@ import { supabase } from "@/integrations/supabase/client";
 import { clearAdminToken, getAdminToken, isAdmin } from "@/lib/admin";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import MarkdownView from "@/components/zeroblog/MarkdownView";
+import BlocksEditor from "@/components/admin/BlocksEditor";
+
+type Tab = "posts" | "blocks" | "settings" | "telegram";
 
 const Admin = () => {
   const qc = useQueryClient();
-  const [tab, setTab] = useState<"posts" | "settings" | "telegram">("posts");
+  const [tab, setTab] = useState<Tab>("posts");
 
   if (!isAdmin()) return <Navigate to="/admin/login" replace />;
 
   return (
-    <div className="container py-4 max-w-5xl space-y-4">
+    <div className="container py-4 max-w-6xl space-y-4">
       <div className="bevel bg-black/85 p-3 flex flex-wrap items-center justify-between gap-2">
         <h1 className="font-impact text-3xl text-rainbow">⚙ ZeroBlog Admin</h1>
-        <div className="flex gap-2">
-          {(["posts", "settings", "telegram"] as const).map((t) => (
+        <div className="flex gap-2 flex-wrap">
+          {(["posts", "blocks", "settings", "telegram"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -41,6 +46,7 @@ const Admin = () => {
       </div>
 
       {tab === "posts" && <PostsTab qc={qc} />}
+      {tab === "blocks" && <BlocksEditor />}
       {tab === "settings" && <SettingsTab qc={qc} />}
       {tab === "telegram" && <TelegramTab qc={qc} />}
     </div>
@@ -124,12 +130,18 @@ const PostsTab = ({ qc }: { qc: any }) => {
             value={edit.emoji || ""}
             onChange={(e) => setEdit({ ...edit, emoji: e.target.value })}
           />
-          <textarea
-            className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-lg text-white min-h-[200px]"
-            placeholder="content"
+          <Textarea
+            className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-lg text-white min-h-[220px]"
+            placeholder="content (Markdown поддерживается: **жирный**, *курсив*, [текст](url), ![alt](image-url), ## заголовок, - список)"
             value={edit.content}
             onChange={(e) => setEdit({ ...edit, content: e.target.value })}
           />
+          {edit.content && (
+            <div className="bevel bg-black/60 p-3">
+              <div className="font-pixel text-[10px] text-neon-cyan mb-1">PREVIEW</div>
+              <MarkdownView>{edit.content}</MarkdownView>
+            </div>
+          )}
           <input
             className="bevel-in w-full bg-neon-purple/30 px-3 py-2 font-vt text-base text-white"
             placeholder='media JSON, например: [{"url":"https://...","type":"photo"}]'
@@ -294,7 +306,11 @@ const TelegramTab = ({ qc }: { qc: any }) => {
       <div className="bevel bg-black/85 p-4 space-y-3">
         <h2 className="font-impact text-2xl text-neon-cyan">📡 Импорт из Telegram</h2>
         <p className="font-vt text-lg text-white">
-          1. Создай бота через <a className="underline-link" href="https://t.me/BotFather" target="_blank" rel="noreferrer">@BotFather</a> и добавь его как администратора в свой канал.
+          1. Создай бота через{" "}
+          <a className="underline-link" href="https://t.me/BotFather" target="_blank" rel="noreferrer">
+            @BotFather
+          </a>{" "}
+          и добавь его как администратора в свой канал.
           <br />
           2. Бот получает только НОВЫЕ посты канала через getUpdates (история недоступна Bot API).
           <br />
