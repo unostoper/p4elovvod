@@ -22,11 +22,11 @@ const SiteHeader = ({ title, description }: { title?: string; description?: stri
 
   return (
     <header className="space-y-2">
-      <div className="bevel bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan p-4 text-center relative overflow-hidden">
-        <div className="absolute inset-0 tile-stars opacity-30 pointer-events-none" />
-        <h1 className="font-impact text-5xl md:text-7xl text-white text-glow-pink relative">
-          <span className="text-rainbow">{finalTitle}</span>
-          <span className="text-white blink-cursor">_</span>
+      <div className="bevel hero-classic p-4 text-center relative overflow-hidden">
+        <div className="absolute inset-0 tile-stars opacity-20 pointer-events-none" />
+        <h1 className="hero-title text-5xl md:text-7xl relative">
+          <span>{finalTitle}</span>
+          <span className="hero-cursor blink-cursor">_</span>
         </h1>
         <p className="font-vt text-2xl text-neon-yellow mt-1 text-glow-cyan relative">{finalDesc}</p>
         {hero.footnote && (
