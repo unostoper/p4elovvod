@@ -154,6 +154,25 @@
     letter-spacing: 0.3em;
   }
   .wiggle { animation: none; }
+
+  /* Classic 2000s hero */
+  .hero-classic {
+    background:
+      repeating-linear-gradient(0deg, hsl(220 80% 22% / 0.55) 0 2px, transparent 2px 4px),
+      linear-gradient(180deg, hsl(220 90% 35%) 0%, hsl(230 85% 18%) 100%);
+    border: 3px ridge hsl(var(--neon-yellow));
+  }
+  .hero-title {
+    font-family: 'Comic Sans MS', 'Trebuchet MS', 'Arial Black', sans-serif;
+    font-weight: 900;
+    color: hsl(var(--neon-yellow));
+    letter-spacing: 0.04em;
+    text-shadow:
+      -2px -2px 0 #000, 2px -2px 0 #000,
+      -2px  2px 0 #000, 2px  2px 0 #000,
+       0 0 12px hsl(var(--neon-yellow) / 0.8);
+  }
+  .hero-cursor { color: #fff; text-shadow: 0 0 6px #fff; }
 }
 
 @keyframes bg-shift {
